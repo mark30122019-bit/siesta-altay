@@ -39,7 +39,7 @@ export function HeroSection() {
 
         <Button
           variant="ghost"
-          href="#catalog"
+          href={UI_CONFIG.home.catalogHref}
           className="rounded-full border border-white bg-transparent px-8 py-3 text-sm font-normal tracking-wide text-white hover:bg-white hover:text-[#1A241C]"
         >
           {UI_CONFIG.home.chooseLocation}

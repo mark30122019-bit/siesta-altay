@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Typography } from "@/components/ui/typography";
 import { CatalogCard } from "@/components/home/catalog-card";
 import { GLOBAL_CONFIG } from "@/config/global";
@@ -24,12 +26,14 @@ export function CatalogSection() {
 
   return (
     <div id="catalog" className="scroll-mt-8">
-      <Typography
-        variant="h2"
-        className="mb-4 text-xl font-bold text-[#1A241C] md:text-2xl"
-      >
-        {UI_CONFIG.home.catalogTitle}
-      </Typography>
+      <Link href={UI_CONFIG.home.catalogHref} className="mb-4 inline-block">
+        <Typography
+          variant="h2"
+          className="text-xl font-bold text-[#1A241C] transition-colors hover:text-[#BC5434] md:text-2xl"
+        >
+          {UI_CONFIG.home.catalogTitle}
+        </Typography>
+      </Link>
 
       <div className="grid grid-cols-2 gap-3">
         {featured.map((object) => (

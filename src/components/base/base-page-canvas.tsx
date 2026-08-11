@@ -48,7 +48,7 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
 
   return (
     <main className="min-h-screen bg-[#FBFBFA]">
-      <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-5 md:px-6">
+      <header className="mx-auto flex w-full max-w-[80vw] items-center justify-between px-4 py-5 md:px-6">
         <Typography variant="caption" className="text-[#1A241C]">
           {GLOBAL_CONFIG.companyName}
         </Typography>
@@ -60,7 +60,7 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
         </Typography>
       </header>
 
-      <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 pb-16 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] md:px-6">
+      <div className="mx-auto grid w-full max-w-[80vw] gap-8 px-4 pb-16 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] md:px-6">
         <div className="space-y-6">
           <Card className="overflow-hidden p-0">
             <div className="relative aspect-[16/10] bg-stone-200">

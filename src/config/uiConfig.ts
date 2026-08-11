@@ -1,8 +1,9 @@
 export const UI_CONFIG = {
   home: {
     heroTitle: "Алтай изнутри",
-    chooseLocation: "Выбрать локацию",
+    chooseLocation: "В каталог",
     catalogTitle: "Каталог баз отдыха",
+    catalogHref: "/catalog",
     bookCta: "Забронировать",
     tourBadge: "3D-тур",
     cultureTitle: "Что ждёт вас на базах отдыха?",

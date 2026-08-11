@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Typography } from "@/components/ui/typography";
 import { UI_CONFIG } from "@/config/uiConfig";
@@ -78,45 +77,46 @@ function CatalogCard({
   }
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col overflow-hidden rounded-xl border border-stone-200/90 bg-white p-0 shadow-sm",
-        className
-      )}
+    <Link
+      href={`/base/${object.slug}`}
+      className={cn("group block", className)}
     >
-      <div className="relative h-[120px] overflow-hidden bg-stone-200 md:h-[132px]">
-        <CoverImage object={object} src={src} />
-        {hasTour ? (
-          <Badge
-            variant="tour"
-            text={UI_CONFIG.home.tourBadge}
-            className="absolute bottom-2 right-2 z-10 scale-90"
-          />
-        ) : null}
-      </div>
+      <Card
+        className={cn(
+          "flex flex-col overflow-hidden rounded-xl border border-stone-200/90 bg-white p-0 shadow-sm",
+          "transition-opacity duration-300 group-hover:opacity-90"
+        )}
+      >
+        <div className="relative h-[120px] overflow-hidden bg-stone-200 md:h-[132px]">
+          <CoverImage object={object} src={src} />
+          {hasTour ? (
+            <Badge
+              variant="tour"
+              text={UI_CONFIG.home.tourBadge}
+              className="absolute bottom-2 right-2 z-10 scale-90"
+            />
+          ) : null}
+        </div>
 
-      <div className="flex flex-col px-3 pb-3 pt-2.5">
-        <Typography
-          variant="h3"
-          className="text-sm font-semibold leading-snug text-[#1A241C] md:text-[15px]"
-        >
-          {object.name}
-        </Typography>
-        <Typography
-          variant="caption"
-          className="mt-1 block text-xs font-semibold text-[#1A241C]"
-        >
-          {formatPrice(object)}
-        </Typography>
-        <Button
-          variant="outline"
-          href={`/base/${object.slug}`}
-          className="mt-2.5 h-8 w-fit rounded-md border-[#BC5434] bg-[#BC5434] px-4 py-4 text-[11px] leading-none text-white hover:bg-[#a0482c] hover:text-white md:text-xs"
-        >
-          {UI_CONFIG.home.bookCta}
-        </Button>
-      </div>
-    </Card>
+        <div className="flex flex-col px-3 pb-3 pt-2.5">
+          <Typography
+            variant="h3"
+            className="text-sm font-semibold leading-snug text-[#1A241C] md:text-[15px]"
+          >
+            {object.name}
+          </Typography>
+          <Typography
+            variant="caption"
+            className="mt-1 block text-xs font-semibold text-[#1A241C]"
+          >
+            {formatPrice(object)}
+          </Typography>
+          <span className="mt-2.5 inline-flex h-8 w-fit items-center justify-center rounded-md border border-[#BC5434] bg-[#BC5434] px-4 text-[11px] leading-none text-white md:text-xs">
+            {UI_CONFIG.home.bookCta}
+          </span>
+        </div>
+      </Card>
+    </Link>
   );
 }
 
