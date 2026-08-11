@@ -1,14 +1,14 @@
-import Link from "next/link";
-
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Typography } from "@/components/ui/typography";
-import { GLOBAL_CONFIG } from "@/config";
+import { GLOBAL_CONFIG } from "@/config/global";
+import { UI_CONFIG } from "@/config/uiConfig";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
 function formatPrice(object: BaseObject) {
-  return `от ${object.price.from.toLocaleString("ru-RU")} ₽/${object.price.unit}`;
+  return `${UI_CONFIG.base.pricePrefix} ${object.price.from.toLocaleString("ru-RU")} ₽/${object.price.unit}`;
 }
 
 function BaseCard({ object }: { object: BaseObject }) {
@@ -25,7 +25,7 @@ function BaseCard({ object }: { object: BaseObject }) {
         {object.tour?.url ? (
           <Badge
             variant="tour"
-            text="3D-тур"
+            text={UI_CONFIG.home.tourBadge}
             className="absolute bottom-3 right-3 z-10"
           />
         ) : null}
@@ -44,15 +44,13 @@ function BaseCard({ object }: { object: BaseObject }) {
         >
           {formatPrice(object)}
         </Typography>
-        <Link
+        <Button
+          variant="outline"
           href={`/base/${object.slug}`}
-          className={cn(
-            "mt-auto inline-flex w-full items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold tracking-wide transition-colors duration-300",
-            "border border-[#BC5434] bg-[#BC5434] text-white hover:bg-[#a0482c]"
-          )}
+          className="mt-auto w-full bg-[#BC5434] text-white hover:bg-[#a0482c] hover:text-white"
         >
-          Забронировать в Сиеста
-        </Link>
+          {UI_CONFIG.home.bookCta}
+        </Button>
       </div>
     </Card>
   );
@@ -62,8 +60,7 @@ export function CatalogSection() {
   const objects = GLOBAL_CONFIG.objects.filter(
     (object) => object.status === "published"
   );
-  const preferredSlugs = ["kedrovyj-ogon", "zolotoe-cvetenie"];
-  const preferred = preferredSlugs
+  const preferred = UI_CONFIG.home.featuredSlugs
     .map((slug) => objects.find((object) => object.slug === slug))
     .filter((object): object is BaseObject => Boolean(object));
   const featured = preferred.length >= 2 ? preferred : objects.slice(0, 2);
@@ -72,7 +69,7 @@ export function CatalogSection() {
   while (thumbs.length < 3) {
     thumbs.push({
       src: "",
-      alt: "Локация на Алтае",
+      alt: UI_CONFIG.home.thumbAltFallback,
       caption: "",
     });
   }
@@ -80,7 +77,7 @@ export function CatalogSection() {
   return (
     <div id="catalog" className="scroll-mt-8">
       <Typography variant="h2" className="mb-6">
-        Каталог баз отдыха
+        {UI_CONFIG.home.catalogTitle}
       </Typography>
 
       <div className="grid gap-5 sm:grid-cols-2">
@@ -91,9 +88,9 @@ export function CatalogSection() {
 
       <div className="mt-5 grid grid-cols-3 gap-3">
         {thumbs.map((photo, index) => (
-          <div
+          <Card
             key={`${photo.src}-${index}`}
-            className="relative aspect-[5/3] overflow-hidden rounded-lg bg-stone-200"
+            className="relative aspect-[5/3] overflow-hidden rounded-lg border-0 p-0 shadow-none"
           >
             <div
               className={cn(
@@ -108,7 +105,7 @@ export function CatalogSection() {
               aria-hidden
             />
             <span className="sr-only">{photo.alt}</span>
-          </div>
+          </Card>
         ))}
       </div>
     </div>

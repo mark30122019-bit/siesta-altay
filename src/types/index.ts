@@ -63,12 +63,6 @@ export interface SiteConfig {
     companyName: string;
     brandName: string;
     commissionRate: string;
-    labels: {
-        forWhom: string;
-        district: string;
-        features: string;
-        notSuitable: string;
-    };
     manifest: ManifestConfig;
     promoTour: PromoTourConfig;
     testimonials: TestimonialItem[];

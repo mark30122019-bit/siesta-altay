@@ -1,6 +1,8 @@
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
-import { GLOBAL_CONFIG } from "@/config";
+import { GLOBAL_CONFIG } from "@/config/global";
 
 const featureIcons = ["mountains", "tree", "map"] as const;
 
@@ -34,13 +36,15 @@ export function WhySiestaSection() {
               className="flex items-center gap-2 font-sans text-sm text-[#1A241C]"
             >
               <Icon name="chevron" size={16} className="text-stone-400" />
-              {feature}
+              <Typography variant="body" className="text-sm md:text-sm">
+                {feature}
+              </Typography>
             </li>
           ))}
         </ul>
       </div>
 
-      <article className="relative overflow-hidden rounded-2xl">
+      <Card className="relative overflow-hidden border-0 bg-transparent p-0 shadow-none">
         <div
           className="absolute inset-0 bg-[linear-gradient(135deg,#1a241c_0%,#3b4a3e_45%,#5c4030_100%)]"
           aria-hidden
@@ -53,11 +57,13 @@ export function WhySiestaSection() {
           <Typography variant="body" className="max-w-sm text-white/85">
             {promoTour.description}
           </Typography>
-          <span className="absolute right-4 top-1/2 flex h-24 w-24 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/30 px-3 text-center font-sans text-[11px] font-medium leading-tight tracking-wide text-white backdrop-blur-[2px] md:right-6 md:h-28 md:w-28 md:text-xs">
-            {promoTour.badge}
-          </span>
+          <Badge
+            variant="action"
+            text={promoTour.badge}
+            className="absolute right-4 top-1/2 h-24 w-24 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/30 px-3 text-center text-[11px] font-medium leading-tight tracking-wide backdrop-blur-[2px] md:right-6 md:h-28 md:w-28 md:text-xs"
+          />
         </div>
-      </article>
+      </Card>
     </div>
   );
 }

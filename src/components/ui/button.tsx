@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 
@@ -12,6 +13,7 @@ export interface ButtonProps {
   onClick?: () => void;
   className?: string;
   type?: "button" | "submit";
+  href?: string;
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
@@ -22,23 +24,29 @@ const variantStyles: Record<ButtonVariant, string> = {
     "bg-transparent text-[#1A241C] font-medium rounded-lg hover:bg-black/5",
 };
 
+const baseStyles =
+  "inline-flex items-center justify-center px-5 py-2.5 text-sm transition-colors duration-300";
+
 function Button({
   variant,
   children,
   onClick,
   className,
   type = "button",
+  href,
 }: ButtonProps) {
+  const classes = cn(baseStyles, variantStyles[variant], className);
+
+  if (href) {
+    return (
+      <Link href={href} className={classes}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <button
-      type={type}
-      onClick={onClick}
-      className={cn(
-        "inline-flex items-center justify-center px-5 py-2.5 text-sm transition-colors duration-300",
-        variantStyles[variant],
-        className
-      )}
-    >
+    <button type={type} onClick={onClick} className={classes}>
       {children}
     </button>
   );

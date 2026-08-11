@@ -1,0 +1,42 @@
+export const UI_CONFIG = {
+  home: {
+    heroTitle: "Алтай изнутри",
+    chooseLocation: "Выбрать локацию",
+    catalogTitle: "Каталог баз отдыха",
+    bookCta: "Забронировать",
+    tourBadge: "3D-тур",
+    cultureTitle: "Культура сибирского релакса",
+    cultureLead: "Наши эксперты дают советы по выбору места отдыха.",
+    cultureMore: "Подробнее ›",
+    thumbAltFallback: "Локация на Алтае",
+    heroImage: "/media/hero/home.webp",
+    featuredSlugs: ["kedrovyj-ogon", "zolotoe-cvetenie"] as const,
+  },
+  filters: {
+    forWhom: "Для кого",
+    district: "Район",
+    features: "Фишки",
+  },
+  base: {
+    notSuitableTitle: "КОМУ НЕ ПОДОЙДЕТ",
+    bookingTitle: "Оставить заявку",
+    submitPrefix: "Отправить в",
+    bookCta: "Забронировать",
+    enter360: "360° Зайти внутрь",
+    tourBadge: "3D-тур",
+    goodForTitle: "Кому подойдёт",
+    honestNoteTitle: "Честно от автора",
+    distanceFromGorno: "км от Горно-Алтайска",
+    pricePrefix: "от",
+    placeholders: {
+      name: "Имя",
+      phone: "Телефон",
+      dates: "Даты",
+    },
+    notFoundTitle: "Объект не найден",
+    backHome: "На главную",
+  },
+  common: {
+    copyright: "©",
+  },
+} as const;

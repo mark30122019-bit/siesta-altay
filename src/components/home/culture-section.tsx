@@ -1,6 +1,7 @@
 import { Icon } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
-import { GLOBAL_CONFIG } from "@/config";
+import { GLOBAL_CONFIG } from "@/config/global";
+import { UI_CONFIG } from "@/config/uiConfig";
 
 export function CultureSection() {
   const { testimonials } = GLOBAL_CONFIG;
@@ -11,12 +12,12 @@ export function CultureSection() {
         <div className="flex items-center gap-3">
           <Icon name="mountains" size={28} className="text-[#4A5D4E]" />
           <Typography variant="h2" className="uppercase tracking-wide">
-            Культура сибирского релакса
+            {UI_CONFIG.home.cultureTitle}
           </Typography>
         </div>
         <Typography variant="caption" className="max-w-sm md:text-right">
-          Наши эксперты дают советы по выбору места отдыха.{" "}
-          <span className="text-[#1A241C]">Подробнее ›</span>
+          {UI_CONFIG.home.cultureLead}{" "}
+          <span className="text-[#1A241C]">{UI_CONFIG.home.cultureMore}</span>
         </Typography>
       </div>
 
