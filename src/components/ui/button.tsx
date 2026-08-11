@@ -1,57 +1,47 @@
 "use client";
 
-import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
+import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        /** Оливковый фон, белый текст — формы / основной CTA */
-        fill: "bg-olive text-olive-foreground hover:bg-olive/90 shadow-sm",
-        /** Терракотовая рамка и текст — «Забронировать» */
-        outline:
-          "border-2 border-terracotta bg-transparent text-terracotta hover:bg-terracotta-muted",
-        /** Минимальная кнопка — плеер / вторичные действия */
-        ghost:
-          "bg-transparent text-foreground hover:bg-muted hover:text-foreground",
-      },
-      size: {
-        default: "h-11 px-5 py-2",
-        sm: "h-9 rounded-md px-3 text-xs",
-        lg: "h-12 rounded-lg px-8 text-base",
-        icon: "h-10 w-10",
-      },
-    },
-    defaultVariants: {
-      variant: "fill",
-      size: "default",
-    },
-  }
-);
+type ButtonVariant = "fill" | "outline" | "ghost";
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
+export interface ButtonProps {
+  variant: ButtonVariant;
+  children: ReactNode;
+  onClick?: () => void;
+  className?: string;
+  type?: "button" | "submit";
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
-Button.displayName = "Button";
+const variantStyles: Record<ButtonVariant, string> = {
+  outline:
+    "border border-[#BC5434] bg-transparent text-[#BC5434] font-semibold tracking-wide rounded-lg hover:bg-[#BC5434] hover:text-white",
+  fill: "bg-[#4A5D4E] text-white font-semibold rounded-lg hover:bg-[#3B4A3E]",
+  ghost:
+    "bg-transparent text-[#1A241C] font-medium rounded-lg hover:bg-black/5",
+};
 
-export { Button, buttonVariants };
+function Button({
+  variant,
+  children,
+  onClick,
+  className,
+  type = "button",
+}: ButtonProps) {
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      className={cn(
+        "inline-flex items-center justify-center px-5 py-2.5 text-sm transition-colors duration-300",
+        variantStyles[variant],
+        className
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+export { Button };

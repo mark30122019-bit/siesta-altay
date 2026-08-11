@@ -1,48 +1,64 @@
 "use client";
 
-import * as React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 
 import { cn } from "@/lib/utils";
 
-export interface SliderProps
-  extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {}
+export interface SliderProps {
+  min?: number;
+  max?: number;
+  step?: number;
+  value?: [number, number];
+  defaultValue?: [number, number];
+  onValueChange?: (value: [number, number]) => void;
+  className?: string;
+}
 
-/**
- * Двойной ползунок диапазона (от / до) на базе Radix Slider.
- * Передавайте value={[min, max]} или defaultValue={[min, max]}.
- */
-const Slider = React.forwardRef<
-  React.ElementRef<typeof SliderPrimitive.Root>,
-  SliderProps
->(({ className, ...props }, ref) => {
-  const thumbCount = props.value?.length ?? props.defaultValue?.length ?? 2;
-
+function Slider({
+  min = 0,
+  max = 100000,
+  step = 1000,
+  value,
+  defaultValue = [0, 100000],
+  onValueChange,
+  className,
+}: SliderProps) {
   return (
     <SliderPrimitive.Root
-      ref={ref}
+      min={min}
+      max={max}
+      step={step}
+      value={value}
+      defaultValue={value ? undefined : defaultValue}
+      onValueChange={(next) =>
+        onValueChange?.(next as [number, number])
+      }
       className={cn(
-        "relative flex w-full touch-none select-none items-center",
+        "relative flex h-5 w-full touch-none select-none items-center",
         className
       )}
-      {...props}
     >
-      <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-muted">
-        <SliderPrimitive.Range className="absolute h-full bg-olive" />
+      <SliderPrimitive.Track className="relative h-[4px] w-full grow overflow-hidden rounded-full bg-stone-200">
+        <SliderPrimitive.Range className="absolute h-full rounded-full bg-[#BC5434]" />
       </SliderPrimitive.Track>
-      {Array.from({ length: thumbCount }).map((_, index) => (
-        <SliderPrimitive.Thumb
-          key={index}
-          className={cn(
-            "block h-5 w-5 rounded-full border-2 border-olive bg-background shadow-md transition-colors",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-            "disabled:pointer-events-none disabled:opacity-50"
-          )}
-        />
-      ))}
+      <SliderPrimitive.Thumb
+        className={cn(
+          "block h-4 w-4 rounded-full bg-[#BC5434]",
+          "transition-shadow duration-200",
+          "hover:shadow-[0_0_0_4px_rgba(188,84,52,0.2)]",
+          "focus:outline-none focus:shadow-[0_0_0_4px_rgba(188,84,52,0.25)]"
+        )}
+      />
+      <SliderPrimitive.Thumb
+        className={cn(
+          "block h-4 w-4 rounded-full bg-[#BC5434]",
+          "transition-shadow duration-200",
+          "hover:shadow-[0_0_0_4px_rgba(188,84,52,0.2)]",
+          "focus:outline-none focus:shadow-[0_0_0_4px_rgba(188,84,52,0.25)]"
+        )}
+      />
     </SliderPrimitive.Root>
   );
-});
-Slider.displayName = SliderPrimitive.Root.displayName;
+}
 
 export { Slider };

@@ -1,7 +1,7 @@
-export { Button, buttonVariants } from "./button";
+export { Button } from "./button";
 export type { ButtonProps } from "./button";
 
-export { Chip, chipVariants } from "./chip";
+export { Chip } from "./chip";
 export type { ChipProps } from "./chip";
 
 export { Input } from "./input";
@@ -10,24 +10,17 @@ export type { InputProps } from "./input";
 export { Slider } from "./slider";
 export type { SliderProps } from "./slider";
 
-export { Typography, typographyVariants } from "./typography";
+export { Typography } from "./typography";
 export type { TypographyProps } from "./typography";
 
-export {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "./card";
+export { Card } from "./card";
 export type { CardProps } from "./card";
 
-export { Badge, badgeVariants } from "./badge";
+export { Badge } from "./badge";
 export type { BadgeProps } from "./badge";
 
 export { Icon, icons } from "./icon";
 export type { IconProps, IconName } from "./icon";
 
-export { AlertBox, alertBoxVariants } from "./alert-box";
+export { AlertBox } from "./alert-box";
 export type { AlertBoxProps } from "./alert-box";

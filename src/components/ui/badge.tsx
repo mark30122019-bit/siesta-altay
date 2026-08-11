@@ -1,37 +1,23 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
 
-const badgeVariants = cva(
-  "inline-flex items-center justify-center font-sans font-medium transition-colors",
-  {
-    variants: {
-      variant: {
-        /** Контрастный бейдж «3D-тур» */
-        tour: "rounded-md bg-foreground px-2.5 py-1 text-xs uppercase tracking-wide text-background",
-        /** Счётчик фото «+3» */
-        count:
-          "rounded-md bg-background/90 px-2 py-0.5 text-xs text-foreground backdrop-blur-sm border border-border",
-        /** Круглая метка «Организация под ключ» */
-        promo:
-          "rounded-full bg-olive px-3 py-1.5 text-[11px] uppercase tracking-wider text-olive-foreground shadow-sm",
-      },
-    },
-    defaultVariants: {
-      variant: "tour",
-    },
-  }
-);
+type BadgeVariant = "tour" | "action" | "count";
 
-export interface BadgeProps
-  extends React.HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof badgeVariants> {}
-
-function Badge({ className, variant, ...props }: BadgeProps) {
-  return (
-    <span className={cn(badgeVariants({ variant, className }))} {...props} />
-  );
+export interface BadgeProps {
+  variant: BadgeVariant;
+  text: string;
+  className?: string;
 }
 
-export { Badge, badgeVariants };
+const variantStyles: Record<BadgeVariant, string> = {
+  tour: "inline-flex items-center rounded-md bg-black/60 px-2.5 py-1 text-[11px] font-medium tracking-wide text-white",
+  action:
+    "inline-flex items-center rounded-lg bg-black/40 px-3 py-1.5 text-sm font-semibold text-white",
+  count:
+    "absolute inset-0 flex items-center justify-center bg-black/50 text-base font-medium text-white backdrop-blur-[2px]",
+};
+
+function Badge({ variant, text, className }: BadgeProps) {
+  return <span className={cn(variantStyles[variant], className)}>{text}</span>;
+}
+
+export { Badge };

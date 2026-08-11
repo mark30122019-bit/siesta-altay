@@ -1,53 +1,31 @@
 "use client";
 
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
 
-const chipVariants = cva(
-  "inline-flex items-center justify-center rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-  {
-    variants: {
-      tone: {
-        terracotta:
-          "border-border bg-card text-foreground hover:border-terracotta/50 data-[active=true]:border-terracotta data-[active=true]:bg-terracotta data-[active=true]:text-terracotta-foreground",
-        olive:
-          "border-border bg-card text-foreground hover:border-olive/50 data-[active=true]:border-olive data-[active=true]:bg-olive data-[active=true]:text-olive-foreground",
-      },
-    },
-    defaultVariants: {
-      tone: "terracotta",
-    },
-  }
-);
-
-export interface ChipProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children">,
-    VariantProps<typeof chipVariants> {
+export interface ChipProps {
   label: string;
-  isActive?: boolean;
+  isActive: boolean;
+  onClick?: () => void;
+  className?: string;
 }
 
-const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
-  (
-    { className, label, isActive = false, tone, type = "button", ...props },
-    ref
-  ) => {
-    return (
-      <button
-        ref={ref}
-        type={type}
-        data-active={isActive}
-        aria-pressed={isActive}
-        className={cn(chipVariants({ tone, className }))}
-        {...props}
-      >
-        {label}
-      </button>
-    );
-  }
-);
-Chip.displayName = "Chip";
+function Chip({ label, isActive, onClick, className }: ChipProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={isActive}
+      className={cn(
+        "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-sm transition-colors duration-200",
+        isActive
+          ? "border-none bg-[#BC5434] text-white shadow-sm shadow-[#BC5434]/30"
+          : "border border-gray-200 bg-transparent text-[#1A241C] hover:border-gray-300 hover:bg-gray-50",
+        className
+      )}
+    >
+      {label}
+    </button>
+  );
+}
 
-export { Chip, chipVariants };
+export { Chip };
