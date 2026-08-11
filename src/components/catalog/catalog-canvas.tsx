@@ -1,0 +1,301 @@
+"use client";
+
+import { useMemo, useState, type ReactNode } from "react";
+
+import { Chip } from "@/components/ui/chip";
+import { Slider } from "@/components/ui/slider";
+import { Typography } from "@/components/ui/typography";
+import { CatalogListingCard } from "@/components/catalog/catalog-listing-card";
+import { GLOBAL_CONFIG } from "@/config/global";
+import { UI_CONFIG } from "@/config/uiConfig";
+import type { BaseObject } from "@/types";
+import { cn } from "@/lib/utils";
+
+type ViewMode = "list" | "map";
+
+function FilterCard({
+  title,
+  children,
+  className,
+  action,
+}: {
+  title: string;
+  children: ReactNode;
+  className?: string;
+  action?: ReactNode;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex h-full flex-col rounded-xl border border-stone-200/90 bg-white px-3.5 py-3 shadow-[0_8px_30px_rgb(0,0,0,0.02)] md:px-4 md:py-3.5",
+        className
+      )}
+    >
+      <div className="mb-1.5 flex items-center justify-between gap-2">
+        <Typography
+          variant="caption"
+          className="text-[11px] font-bold tracking-wide text-[#1A241C] md:text-xs"
+        >
+          {title}
+        </Typography>
+        {action}
+      </div>
+      <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+    </div>
+  );
+}
+
+function FilterLink({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "text-left font-sans text-[11px] leading-snug transition-colors md:text-xs",
+        active
+          ? "font-semibold text-[#BC5434]"
+          : "text-[#555] hover:text-[#1A241C]"
+      )}
+    >
+      {label}
+    </button>
+  );
+}
+
+function ViewToggle({
+  checked,
+  onChange,
+}: {
+  checked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      onClick={onChange}
+      className={cn(
+        "relative h-4 w-7 shrink-0 rounded-full transition-colors",
+        checked ? "bg-[#BC5434]" : "bg-stone-300"
+      )}
+    >
+      <span
+        className={cn(
+          "absolute top-0.5 size-3 rounded-full bg-white shadow-sm transition-transform",
+          checked ? "left-3.5" : "left-0.5"
+        )}
+      />
+    </button>
+  );
+}
+
+function toggleValue(list: string[], value: string) {
+  return list.includes(value)
+    ? list.filter((item) => item !== value)
+    : [...list, value];
+}
+
+function matchesDistrict(object: BaseObject, districts: string[]) {
+  if (districts.length === 0) return true;
+  const hay = object.location.district.toLowerCase();
+  return districts.some((slug) => {
+    const filter = GLOBAL_CONFIG.filters.districts.find((d) => d.slug === slug);
+    if (!filter) return false;
+    return hay.includes(filter.label.toLowerCase().slice(0, 5));
+  });
+}
+
+function matchesFeature(object: BaseObject, features: string[]) {
+  if (features.length === 0) return true;
+  return features.some((slug) => {
+    if (slug === "banya") return object.amenities.banya;
+    if (slug === "pool") return object.amenities.pool;
+    if (slug === "waterfront") return object.amenities.waterfront;
+    if (slug === "winter")
+      return object.amenities.year_round || object.location.winter_access;
+    if (slug === "pets") return object.amenities.pets;
+    return true;
+  });
+}
+
+function matchesAudience(object: BaseObject, audiences: string[]) {
+  if (audiences.length === 0) return true;
+  return audiences.some((slug) => {
+    if (slug === "with-kids") return object.suitability.family_kids.fit !== "low";
+    if (slug === "in-couple") return object.suitability.couples.fit !== "low";
+    if (slug === "company") return object.suitability.company.fit !== "low";
+    if (slug === "corporate") return object.suitability.corporate.fit !== "low";
+    return true;
+  });
+}
+
+export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
+  const priceBounds = useMemo(() => {
+    const prices = objects.map((object) => object.price.from);
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    return {
+      min: Math.floor(min / 1000) * 1000,
+      max: Math.ceil(max / 1000) * 1000,
+    };
+  }, [objects]);
+
+  const [audiences, setAudiences] = useState<string[]>([]);
+  const [districts, setDistricts] = useState<string[]>([]);
+  const [features, setFeatures] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([
+    priceBounds.min,
+    priceBounds.max,
+  ]);
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
+
+  const filtered = objects.filter((object) => {
+    if (object.price.from < priceRange[0] || object.price.from > priceRange[1]) {
+      return false;
+    }
+    if (!matchesAudience(object, audiences)) return false;
+    if (!matchesDistrict(object, districts)) return false;
+    if (!matchesFeature(object, features)) return false;
+    return true;
+  });
+
+  return (
+    <div className="px-6 py-8 md:px-[15vw] md:py-10">
+      <div className="grid grid-cols-1 items-stretch gap-2.5 sm:grid-cols-2 lg:grid-cols-5 lg:gap-3">
+        <FilterCard title={UI_CONFIG.filters.forWhom}>
+          <div className="flex flex-wrap content-start gap-1.5">
+            {GLOBAL_CONFIG.filters.forWhom.map((item) => (
+              <Chip
+                key={item.slug}
+                label={item.label}
+                isActive={audiences.includes(item.slug)}
+                onClick={() =>
+                  setAudiences((prev) => toggleValue(prev, item.slug))
+                }
+                className={cn(
+                  "rounded-full px-2.5 py-1 text-[11px] md:text-xs",
+                  !audiences.includes(item.slug) &&
+                    "border-transparent bg-[#FBFBFA] text-[#555] hover:bg-stone-100"
+                )}
+              />
+            ))}
+          </div>
+        </FilterCard>
+
+        <FilterCard title={UI_CONFIG.filters.district}>
+          <div className="grid grid-cols-2 content-start gap-x-3 gap-y-1">
+            {GLOBAL_CONFIG.filters.districts.map((item) => (
+              <FilterLink
+                key={item.slug}
+                label={item.label}
+                active={districts.includes(item.slug)}
+                onClick={() =>
+                  setDistricts((prev) => toggleValue(prev, item.slug))
+                }
+              />
+            ))}
+          </div>
+        </FilterCard>
+
+        <FilterCard title={UI_CONFIG.filters.features}>
+          <div className="grid grid-cols-2 content-start gap-x-3 gap-y-1">
+            {GLOBAL_CONFIG.filters.features.map((item) => (
+              <FilterLink
+                key={item.slug}
+                label={item.label}
+                active={features.includes(item.slug)}
+                onClick={() =>
+                  setFeatures((prev) => toggleValue(prev, item.slug))
+                }
+              />
+            ))}
+          </div>
+        </FilterCard>
+
+        <FilterCard title={UI_CONFIG.filters.price}>
+          <div className="flex flex-1 flex-col justify-center gap-2.5">
+            <Slider
+              min={priceBounds.min}
+              max={priceBounds.max}
+              step={500}
+              value={priceRange}
+              onValueChange={setPriceRange}
+            />
+            <div className="flex items-baseline justify-between gap-2">
+              <Typography variant="caption" className="text-[10px] text-[#888]">
+                {`от ${priceRange[0].toLocaleString("ru-RU")} ₽`}
+              </Typography>
+              <Typography variant="caption" className="text-[10px] text-[#888]">
+                {`до ${priceRange[1].toLocaleString("ru-RU")} ₽`}
+              </Typography>
+            </div>
+          </div>
+        </FilterCard>
+
+        <FilterCard
+          title={UI_CONFIG.filters.viewMode}
+          action={
+            <div className="flex items-center gap-2">
+              <Typography variant="caption" className="text-[10px] text-[#888]">
+                {viewMode === "list"
+                  ? UI_CONFIG.filters.list
+                  : UI_CONFIG.filters.map}
+              </Typography>
+              <ViewToggle
+                checked={viewMode === "map"}
+                onChange={() =>
+                  setViewMode((prev) => (prev === "list" ? "map" : "list"))
+                }
+              />
+            </div>
+          }
+        >
+          <button
+            type="button"
+            onClick={() => setViewMode("map")}
+            className="relative mt-0.5 h-[120px] w-full overflow-hidden rounded-lg bg-stone-200 transition-opacity hover:opacity-90 md:h-[132px]"
+            aria-label={UI_CONFIG.filters.map}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={UI_CONFIG.catalog.mapImage}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-bottom"
+              aria-hidden
+            />
+          </button>
+        </FilterCard>
+      </div>
+
+      {viewMode === "map" ? (
+        <div className="mt-8 overflow-hidden rounded-xl border border-stone-200/90 bg-white shadow-sm">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={UI_CONFIG.catalog.mapImage}
+            alt={UI_CONFIG.catalog.mapAlt}
+            className="h-auto w-full object-cover"
+          />
+        </div>
+      ) : filtered.length === 0 ? (
+        <Typography variant="body" className="mt-10 text-center text-[#555]">
+          {UI_CONFIG.catalog.empty}
+        </Typography>
+      ) : (
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          {filtered.map((object) => (
+            <CatalogListingCard key={object.slug} object={object} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

@@ -81,7 +81,7 @@ export const GLOBAL_CONFIG: SiteConfig = {
         winter_access: true,
       },
       tour: {
-        url: "/tours/usadba-velvet/index.html",
+        url: "https://tridetur.ru/360/vozduh_3d/",
         preview: "/media/usadba-velvet/tour-preview.jpg",
         scenes_count: 8,
       },
@@ -172,7 +172,7 @@ export const GLOBAL_CONFIG: SiteConfig = {
         winter_access: false,
       },
       tour: {
-        url: "/tours/glamping-vozduh/index.html",
+        url: "https://tridetur.ru/360/vozduh_3d/",
         preview: "/media/glamping-vozduh/tour-preview.jpg",
         scenes_count: 5,
       },
@@ -263,7 +263,7 @@ export const GLOBAL_CONFIG: SiteConfig = {
         winter_access: true,
       },
       tour: {
-        url: "/tours/park-otel-skala/index.html",
+        url: "https://tridetur.ru/360/vozduh_3d/",
         preview: "/media/park-otel-skala/tour-preview.jpg",
         scenes_count: 7,
       },
@@ -349,7 +349,7 @@ export const GLOBAL_CONFIG: SiteConfig = {
         winter_access: true,
       },
       tour: {
-        url: "/tours/usadba-kruglovyh/index.html",
+        url: "https://tridetur.ru/360/vozduh_3d/",
         preview: "/media/usadba-kruglovyh/tour-preview.jpg",
         scenes_count: 6,
       },
@@ -435,7 +435,7 @@ export const GLOBAL_CONFIG: SiteConfig = {
         winter_access: true,
       },
       tour: {
-        url: "/tours/eko-otel-grinlandiya/index.html",
+        url: "https://tridetur.ru/360/vozduh_3d/",
         preview: "/media/eko-otel-grinlandiya/tour-preview.jpg",
         scenes_count: 9,
       },
@@ -518,7 +518,7 @@ export const GLOBAL_CONFIG: SiteConfig = {
         winter_access: true,
       },
       tour: {
-        url: "/tours/usadba-sokol/index.html",
+        url: "https://tridetur.ru/360/vozduh_3d/",
         preview: "/media/usadba-sokol/tour-preview.jpg",
         scenes_count: 5,
       },
@@ -601,7 +601,7 @@ export const GLOBAL_CONFIG: SiteConfig = {
         winter_access: false,
       },
       tour: {
-        url: "/tours/turbaza-tihiy-bereg/index.html",
+        url: "https://tridetur.ru/360/vozduh_3d/",
         preview: "/media/turbaza-tihiy-bereg/tour-preview.jpg",
         scenes_count: 4,
       },
@@ -687,7 +687,7 @@ export const GLOBAL_CONFIG: SiteConfig = {
         winter_access: true,
       },
       tour: {
-        url: "/tours/turbaza-altair/index.html",
+        url: "https://tridetur.ru/360/vozduh_3d/",
         preview: "/media/turbaza-altair/tour-preview.jpg",
         scenes_count: 3,
       },
@@ -770,7 +770,7 @@ export const GLOBAL_CONFIG: SiteConfig = {
         winter_access: true,
       },
       tour: {
-        url: "/tours/kottedzh-ust-muny/index.html",
+        url: "https://tridetur.ru/360/vozduh_3d/",
         preview: "/media/kottedzh-ust-muny/tour-preview.jpg",
         scenes_count: 4,
       },

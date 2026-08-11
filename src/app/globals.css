@@ -15,8 +15,11 @@
   --terracotta-muted: #f8e9e4;
 
   /* Surfaces */
-  --background: #faf8f4;
+  --background: #ffffff;
+  --background-image: url("/media/bg-paper.png");
   --foreground: #2a2a24;
+  --chrome: #f2ebe6;
+  --chrome-border: #e4dbd4;
   --card: #f3efe6;
   --card-foreground: #2a2a24;
   --muted: #ebe6db;
@@ -49,6 +52,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-chrome: var(--chrome);
+  --color-chrome-border: var(--chrome-border);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-muted: var(--muted);
@@ -88,7 +93,12 @@
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-image: var(--background-image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans-stack);
 }

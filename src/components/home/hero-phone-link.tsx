@@ -1,14 +1,14 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { type MouseEvent } from "react";
 
 import { Typography } from "@/components/ui/typography";
-import { UI_CONFIG } from "@/config/uiConfig";
 import { cn } from "@/lib/utils";
 
 type HeroPhoneLinkProps = {
   phone: string;
   className?: string;
+  linkClassName?: string;
 };
 
 function canHoverFine() {
@@ -18,24 +18,20 @@ function canHoverFine() {
   );
 }
 
-export function HeroPhoneLink({ phone, className }: HeroPhoneLinkProps) {
-  const [copied, setCopied] = useState(false);
-  const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  async function copyPhone() {
+export function HeroPhoneLink({
+  phone,
+  className,
+  linkClassName,
+}: HeroPhoneLinkProps) {
+  async function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    // Desktop: only copy. Mobile: copy + keep tel: dial.
+    if (canHoverFine()) {
+      event.preventDefault();
+    }
     try {
       await navigator.clipboard.writeText(phone);
-      setCopied(true);
-      if (resetTimer.current) clearTimeout(resetTimer.current);
-      resetTimer.current = setTimeout(() => setCopied(false), 1500);
     } catch {
-      // clipboard may be blocked — tel: still works on click
-    }
-  }
-
-  function handleMouseEnter() {
-    if (canHoverFine()) {
-      void copyPhone();
+      // clipboard may be blocked
     }
   }
 
@@ -49,10 +45,9 @@ export function HeroPhoneLink({ phone, className }: HeroPhoneLinkProps) {
     >
       <a
         href={`tel:${phone}`}
-        className="hover:text-white"
-        onMouseEnter={handleMouseEnter}
-        title={copied ? UI_CONFIG.home.phoneCopied : phone}
-        aria-label={copied ? UI_CONFIG.home.phoneCopied : phone}
+        className={cn("hover:text-white", linkClassName)}
+        onClick={handleClick}
+        aria-label={phone}
       >
         {phone}
       </a>

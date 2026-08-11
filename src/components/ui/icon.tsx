@@ -167,6 +167,93 @@ const icons = {
       <path d="m12 3.2 2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 15.5l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 3.2Z" />
     </svg>
   ),
+  home: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m4 11 8-7 8 7" />
+      <path d="M6 10.5V20h12v-9.5" />
+      <path d="M10 20v-5h4v5" />
+    </svg>
+  ),
+  users: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="9" cy="8" r="3" />
+      <path d="M3.5 19c.8-2.6 2.8-4 5.5-4s4.7 1.4 5.5 4" />
+      <circle cx="17" cy="9" r="2.5" />
+      <path d="M14.5 19c.5-1.8 1.8-3 3.8-3 1.5 0 2.7.7 3.4 1.8" />
+    </svg>
+  ),
+  parking: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="4" y="3" width="16" height="18" rx="2" />
+      <path d="M9 17V7h4.2a3 3 0 0 1 0 6H9" />
+    </svg>
+  ),
+  food: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M8 3v8a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V3" />
+      <path d="M10 13v8" />
+      <path d="M16 3v18" />
+      <path d="M16 8h2a2 2 0 0 0 0-4h-2" />
+    </svg>
+  ),
+  check: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m5 12 5 5L20 7" />
+    </svg>
+  ),
+  plus: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  ),
 } as const;
 
 export type IconName = keyof typeof icons;
@@ -179,7 +266,7 @@ export interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 /**
  * Локальный SSR-компонент иконок (инлайн SVG, без CDN).
- * name: bath | pool | water | wifi | fog | mountains | tree | map | chevron | chevronDown | quote | star
+ * name: bath | pool | water | wifi | fog | mountains | tree | map | chevron | chevronDown | quote | star | home | users | parking | food | check | plus
  */
 function Icon({ name, size = 24, className, title, ...props }: IconProps) {
   const svg = icons[name];

@@ -1,5 +1,3 @@
 export default function SpasiboPage() {
-  return (
-    <main className="min-h-screen bg-[#FBFBFA]">Спасибо за заявку</main>
-  );
+  return <main className="min-h-screen">Спасибо за заявку</main>;
 }

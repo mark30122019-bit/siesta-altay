@@ -7,7 +7,7 @@ import { WhySiestaSection } from "@/components/home/why-siesta-section";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#FBFBFA]">
+    <main className="min-h-screen">
       <HeroSection />
 
       {/*
