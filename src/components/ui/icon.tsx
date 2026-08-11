@@ -140,6 +140,19 @@ const icons = {
       <path d="m9 6 6 6-6 6" />
     </svg>
   ),
+  chevronDown: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  ),
   quote: (
     <svg
       viewBox="0 0 24 24"
@@ -166,7 +179,7 @@ export interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 /**
  * Локальный SSR-компонент иконок (инлайн SVG, без CDN).
- * name: bath | pool | water | wifi | fog | mountains | tree | map | chevron | quote | star
+ * name: bath | pool | water | wifi | fog | mountains | tree | map | chevron | chevronDown | quote | star
  */
 function Icon({ name, size = 24, className, title, ...props }: IconProps) {
   const svg = icons[name];

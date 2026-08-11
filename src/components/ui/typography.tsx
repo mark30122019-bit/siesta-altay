@@ -29,12 +29,27 @@ const variantTags: Record<TypographyVariant, "h1" | "h2" | "h3" | "p" | "span"> 
     caption: "span",
   };
 
+/** text-sm / md:text-4xl / lg:text-[11px] и т.п. */
+const TEXT_SIZE_CLASS =
+  /(?:\S+:)?text-(?:xs|sm|base|lg|xl|[2-9]xl|\[[^\]]+\])/g;
+
+function hasTextSizeOverride(className?: string) {
+  if (!className) return false;
+  TEXT_SIZE_CLASS.lastIndex = 0;
+  return TEXT_SIZE_CLASS.test(className);
+}
+
+function stripTextSizes(classes: string) {
+  return classes.replace(TEXT_SIZE_CLASS, "").replace(/\s+/g, " ").trim();
+}
+
 function Typography({ variant, children, className }: TypographyProps) {
   const Comp = variantTags[variant];
+  const base = hasTextSizeOverride(className)
+    ? stripTextSizes(variantStyles[variant])
+    : variantStyles[variant];
 
-  return (
-    <Comp className={cn(variantStyles[variant], className)}>{children}</Comp>
-  );
+  return <Comp className={cn(base, className)}>{children}</Comp>;
 }
 
 export { Typography };

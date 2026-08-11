@@ -62,6 +62,7 @@ export interface TestimonialItem {
 export interface SiteConfig {
     companyName: string;
     brandName: string;
+    phone: string;
     commissionRate: string;
     manifest: ManifestConfig;
     promoTour: PromoTourConfig;

@@ -3,6 +3,7 @@ import type { SiteConfig } from "@/types";
 export const GLOBAL_CONFIG: SiteConfig = {
   companyName: "ООО «Сиеста Центр»",
   brandName: "Алтай изнутри",
+  phone: "+7 (923) 227-94-60",
   commissionRate: "10%",
   filters: {
     forWhom: [

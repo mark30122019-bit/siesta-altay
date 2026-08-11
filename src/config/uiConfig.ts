@@ -10,6 +10,8 @@ export const UI_CONFIG = {
     cultureMore: "Подробнее ›",
     thumbAltFallback: "Локация на Алтае",
     heroImage: "/media/hero/home.webp",
+    scrollDownAria: "Прокрутить вниз",
+    phoneCopied: "Скопировано",
     featuredSlugs: ["kedrovyj-ogon", "zolotoe-cvetenie"] as const,
   },
   filters: {

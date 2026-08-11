@@ -1,34 +1,38 @@
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
+import { HeroPhoneLink } from "@/components/home/hero-phone-link";
+import { HeroScrollDown, HERO_ID } from "@/components/home/hero-scroll-down";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
 
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-[78vh] w-full items-center justify-center overflow-hidden">
+    <section
+      id={HERO_ID}
+      className="relative flex h-[78vh] w-full items-center justify-center overflow-hidden"
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={UI_CONFIG.home.heroImage}
         alt=""
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover object-center"
         aria-hidden
       />
-      <div
-        className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/35 to-black/50"
-        aria-hidden
-      />
+      <div className="absolute inset-0 bg-black/40" aria-hidden />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center px-6 py-20 text-center">
-        <Typography
-          variant="caption"
-          className="absolute left-6 top-8 text-white/90 md:left-0 md:top-10"
-        >
-          {GLOBAL_CONFIG.companyName}
-        </Typography>
+      <Typography
+        variant="caption"
+        className="absolute left-8 top-8 z-10 font-sans text-xl font-bold tracking-wide text-white/80 md:left-10 md:top-10"
+      >
+        {GLOBAL_CONFIG.companyName}
+      </Typography>
 
+      <HeroPhoneLink phone={GLOBAL_CONFIG.phone} />
+
+      <div className="relative z-10 flex flex-col items-center px-6 text-center">
         <Typography
           variant="h1"
-          className="mt-16 max-w-4xl uppercase tracking-[0.08em] text-white md:mt-8 md:text-5xl lg:text-6xl"
+          className="mb-8 max-w-5xl font-serif text-5xl font-normal uppercase leading-[1.1] tracking-[0.14em] text-white md:mb-10 md:text-7xl"
         >
           {UI_CONFIG.home.heroTitle}
         </Typography>
@@ -36,11 +40,13 @@ export function HeroSection() {
         <Button
           variant="ghost"
           href="#catalog"
-          className="mt-10 rounded-full border border-white/90 px-8 text-white hover:bg-white/10"
+          className="rounded-full border border-white bg-transparent px-8 py-3 text-sm font-normal tracking-wide text-white hover:bg-white hover:text-[#1A241C]"
         >
           {UI_CONFIG.home.chooseLocation}
         </Button>
       </div>
+
+      <HeroScrollDown />
     </section>
   );
 }
