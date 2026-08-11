@@ -6,8 +6,8 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-stone-200/80 py-10 text-center">
-      <Typography variant="caption" className="text-stone-400">
+    <footer className="mx-auto w-full max-w-[1440px] px-6 pb-[100px] pt-2 text-right lg:px-10 xl:px-12">
+      <Typography variant="caption" className="text-stone-400 text-xl">
         {GLOBAL_CONFIG.companyName} {UI_CONFIG.common.copyright} {year}
       </Typography>
     </footer>

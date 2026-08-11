@@ -9,7 +9,7 @@ export function HeroSection() {
   return (
     <section
       id={HERO_ID}
-      className="relative flex h-[78vh] w-full items-center justify-center overflow-hidden"
+      className="relative flex h-[78vh] min-h-[520px] w-full items-center justify-center overflow-hidden"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img

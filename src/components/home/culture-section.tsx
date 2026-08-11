@@ -1,3 +1,4 @@
+import { Card } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
 import { GLOBAL_CONFIG } from "@/config/global";
@@ -7,41 +8,51 @@ export function CultureSection() {
   const { testimonials } = GLOBAL_CONFIG;
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-16 md:py-20">
-      <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div className="flex items-center gap-3">
-          <Icon name="mountains" size={28} className="text-[#4A5D4E]" />
-          <Typography variant="h2" className="uppercase tracking-wide">
+    <div className="flex flex-col">
+      <div className="mb-6 flex flex-col gap-2">
+        <div className="flex items-center gap-2.5">
+          <Icon name="mountains" size={22} className="text-[#3A3A34]" />
+          <Typography
+            variant="h2"
+            className="text-lg font-bold uppercase tracking-[0.04em] text-[#1A241C] md:text-xl"
+          >
             {UI_CONFIG.home.cultureTitle}
           </Typography>
         </div>
-        <Typography variant="caption" className="max-w-sm md:text-right">
-          {UI_CONFIG.home.cultureLead}{" "}
-          <span className="text-[#1A241C]">{UI_CONFIG.home.cultureMore}</span>
-        </Typography>
       </div>
 
-      <div className="grid gap-8 md:grid-cols-3 md:divide-x md:divide-stone-200 md:gap-0">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-3">
         {testimonials.map((item) => (
-          <article
+          <Card
             key={item.baseName}
-            className="md:px-8 first:md:pl-0 last:md:pr-0"
+            className="relative flex min-h-[200px] flex-col items-center rounded-lg border border-stone-200 bg-[#FBFBFA] px-3 pb-4 pt-7 text-center shadow-none"
           >
-            <Icon name="quote" size={28} className="mb-4 text-stone-300" />
-            <Typography variant="lead" className="mb-5 min-h-[4.5rem]">
+            <span className="absolute left-1/2 top-0 flex -translate-x-1/2 -translate-y-1/2 bg-[#FBFBFA] px-2 text-stone-300">
+              <Icon name="quote" size={20} className="text-stone-300" />
+            </span>
+
+            <Typography
+              variant="body"
+              className="mb-3 text-sm font-medium leading-snug text-[#333]"
+            >
               {item.quote}
             </Typography>
-            <div className="mb-2 flex gap-0.5 text-[#BC5434]">
+
+            <div className="flex justify-center gap-0.5 text-[#D4A017]">
               {Array.from({ length: item.rating }).map((_, starIndex) => (
-                <Icon key={starIndex} name="star" size={16} />
+                <Icon key={starIndex} name="star" size={24} />
               ))}
             </div>
-            <Typography variant="caption" className="text-stone-600">
+
+            <Typography
+              variant="caption"
+              className="mt-4 text-xs text-stone-500 font-medium"
+            >
               {item.baseName}
             </Typography>
-          </article>
+          </Card>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
