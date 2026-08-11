@@ -1,26 +1,94 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────
+   Тема «Алтай изнутри» / ООО «Сиеста Центр»
+   Без внешних CDN: только локальные CSS-переменные
+   ───────────────────────────────────────────── */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand */
+  --olive: #5c6b3a;
+  --olive-foreground: #ffffff;
+  --olive-muted: #e8ecdf;
+  --terracotta: #c45c3e;
+  --terracotta-foreground: #ffffff;
+  --terracotta-muted: #f8e9e4;
+
+  /* Surfaces */
+  --background: #faf8f4;
+  --foreground: #2a2a24;
+  --card: #f3efe6;
+  --card-foreground: #2a2a24;
+  --muted: #ebe6db;
+  --muted-foreground: #6b675c;
+  --border: #ddd6c8;
+  --ring: #5c6b3a;
+  --input: #ddd6c8;
+
+  /* Semantic */
+  --danger: #c45c3e;
+  --danger-foreground: #5c2418;
+  --danger-bg: #f8e9e4;
+  --info: #5c6b3a;
+  --info-foreground: #2f361c;
+  --info-bg: #e8ecdf;
+
+  /* Radius & shadow */
+  --radius: 0.75rem;
+  --shadow-card: 0 4px 24px rgba(42, 42, 36, 0.08);
+
+  /* Local system stacks — без Google Fonts / CDN */
+  --font-sans-stack: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-serif-stack: ui-serif, Georgia, "Times New Roman", "Liberation Serif",
+    "Noto Serif", serif;
+  --font-mono-stack: ui-monospace, "Cascadia Code", "Segoe UI Mono", "Consolas",
+    monospace;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+
+  --color-olive: var(--olive);
+  --color-olive-foreground: var(--olive-foreground);
+  --color-olive-muted: var(--olive-muted);
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-foreground: var(--terracotta-foreground);
+  --color-terracotta-muted: var(--terracotta-muted);
+
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-danger-bg: var(--danger-bg);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-bg: var(--info-bg);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-card: var(--shadow-card);
+
+  --font-sans: var(--font-sans-stack);
+  --font-serif: var(--font-serif-stack);
+  --font-mono: var(--font-mono-stack);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans-stack);
 }
