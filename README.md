@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Алтай изнутри
 
-## Getting Started
+Агрегатор баз отдыха на Алтае — статический сайт на Next.js 16.  
+Продакшен: **[mark30122019-bit.github.io/siesta-altay](https://mark30122019-bit.github.io/siesta-altay/)**
 
-First, run the development server:
+Проект ООО «Сиеста Центр»: каталог объектов, карточки баз с 3D-турами, фильтры, карта Яндекс.Карт.
+
+---
+
+## Стек
+
+- **Next.js 16** (App Router, `output: "export"`)
+- **React 19**, TypeScript, Tailwind CSS 4
+- **Framer Motion** — анимации каталога
+- **GitHub Actions** → GitHub Pages
+- **Яндекс.Карты** — режим «Карта» в каталоге
+
+---
+
+## Быстрый старт
 
 ```bash
+npm ci
+cp .env.local.example .env.local   # и заполните ключ карт
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте [http://localhost:3000/siesta-altay](http://localhost:3000/siesta-altay) — в dev Next.js сам учитывает `basePath`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Переменные окружения
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Создайте `.env.local` в корне:
 
-## Learn More
+```env
+NEXT_PUBLIC_YANDEX_MAPS_API_KEY=ваш_ключ
+```
 
-To learn more about Next.js, take a look at the following resources:
+Без ключа карта в каталоге покажет сообщение об ошибке; остальной сайт работает.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Локальный preview статики (как на GitHub Pages)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run preview
+```
 
-## Deploy on Vercel
+Откройте **http://localhost:3000/siesta-altay/** — preview-сервер эмулирует `basePath`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Деплой на GitHub Pages
+
+Сборка и публикация — workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) при push в `master`.  
+Собранный сайт из `out/` пушится в ветку **`gh-pages`** (не в `master`, где лежит README).
+
+### Настройка Pages (один раз)
+
+1. Репозиторий → **Settings → Pages**
+2. **Build and deployment → Source** → **Deploy from a branch**
+3. **Branch** → **`gh-pages`** → **`/ (root)`** → Save
+4. Поле **Custom domain** — пустое, если домен не куплен
+
+### Если вместо сайта показывается README
+
+Значит Pages смотрит на ветку **`master`**, а не **`gh-pages`**.  
+Переключите branch на **`gh-pages`** (см. выше) и дождитесь завершения workflow **Deploy Next.js to GitHub Pages**.
+
+Проверьте также, что последний run workflow **зелёный** (Actions → Deploy Next.js to GitHub Pages).
+
+### Переменная для карты в CI
+
+В **Settings → Secrets and variables → Actions → Variables** добавьте:
+
+| Variable | Значение |
+|----------|----------|
+| `NEXT_PUBLIC_YANDEX_MAPS_API_KEY` | ключ API Яндекс.Карт |
+
+Переменная прокидывается в шаг `Build with Next.js` — при статическом экспорте она должна быть доступна **на этапе сборки**.
+
+---
+
+## Структура проекта
+
+```
+src/
+  app/              # страницы (App Router)
+  components/       # UI, home, catalog, base
+  config/           # global.ts — данные баз, uiConfig, site.ts — basePath
+  lib/              # утилиты, фильтры каталога, загрузка карт
+public/media/       # фото баз (копируются в out/)
+scripts/            # preview-server.mjs — локальный preview с basePath
+```
+
+### Важно про пути
+
+- `basePath`: `/siesta-altay` — задан в [`src/config/site.ts`](src/config/site.ts) и [`next.config.ts`](next.config.ts)
+- Статика из `public/` в JSX — через [`assetPath()`](src/config/site.ts), иначе на GitHub Pages картинки не откроются
+- `next/image` для импортированных ассетов подхватывает `basePath` автоматически
+
+---
+
+## Скрипты
+
+| Команда | Описание |
+|---------|----------|
+| `npm run dev` | dev-сервер |
+| `npm run build` | статический экспорт в `out/` |
+| `npm run preview` | build + локальный preview |
+| `npm run lint` | ESLint |
+
+---
+
+## Лицензия
+
+Частный проект. © ООО «Сиеста Центр».
