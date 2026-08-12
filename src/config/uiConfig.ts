@@ -47,6 +47,8 @@ export const UI_CONFIG = {
     emptyReset: "Сбросить фильтры",
     mapImage: "/media/catalog-map.png",
     mapAlt: "Карта баз отдыха",
+    mapLoading: "Загружаем карту…",
+    closeCard: "Закрыть",
   },
   base: {
     notSuitableTitle: "КОМУ НЕ ПОДОЙДЁТ",

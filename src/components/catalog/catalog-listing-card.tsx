@@ -45,10 +45,12 @@ export function CatalogListingCard({
   object,
   className,
   mode = "list",
+  onClose,
 }: {
   object: BaseObject;
   className?: string;
   mode?: "list" | "map";
+  onClose?: () => void;
 }) {
   const src = coverSrc(object);
   const hasTour = Boolean(object.tour?.url);
@@ -71,12 +73,29 @@ export function CatalogListingCard({
   return (
     <article
       className={cn(
-        "surface-card surface-card-interactive flex h-full flex-col overflow-hidden rounded-2xl",
+        "surface-card flex h-full flex-col overflow-hidden rounded-2xl",
+        !isMap && "surface-card-interactive",
+        isMap && "group",
         className
       )}
     >
-      <div className="group relative block">
+      <div className={cn("relative block", !isMap && "group")}>
         <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#d4cfc4] via-[#c5bfb2] to-[#a8b0a4] shimmer">
+          {isMap && onClose ? (
+            <button
+              type="button"
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                onClose();
+              }}
+              className="absolute right-3 top-3 z-20 flex size-8 cursor-pointer items-center justify-center rounded-full bg-[#1A241C]/55 text-white/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_4px_14px_rgba(0,0,0,0.22)] backdrop-blur-[5px] transition-[background-color,transform] duration-200 hover:bg-[#1A241C]/72 active:scale-95 motion-reduce:active:scale-100"
+              aria-label={UI_CONFIG.catalog.closeCard}
+            >
+              <Icon name="close" size={15} />
+            </button>
+          ) : null}
+
           {isMap && tourOpen && hasTour ? (
             <iframe
               src={object.tour.url}
@@ -94,7 +113,12 @@ export function CatalogListingCard({
                 <img
                   src={assetPath(src)}
                   alt={object.name}
-                  className="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+                  className={cn(
+                    "h-full w-full object-cover motion-reduce:transition-none",
+                    isMap
+                      ? "transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                      : "transition-opacity duration-300 group-hover:opacity-90"
+                  )}
                 />
               ) : (
                 <div
@@ -192,7 +216,10 @@ export function CatalogListingCard({
         <div className="mt-auto pt-4">
           <Link
             href={href}
-            className="btn-tactile inline-flex h-10 w-full items-center justify-center rounded-xl bg-gradient-to-b from-[#c86648] to-[#a8482c] px-3 font-sans text-sm font-semibold tracking-wide text-white shadow-[0_4px_16px_rgba(188,84,52,0.28)] transition-all duration-300 hover:from-[#d07050] hover:to-[#b04e30] hover:shadow-[0_8px_24px_rgba(188,84,52,0.32)] md:h-9 md:text-xs"
+            className={cn(
+              "inline-flex h-10 w-full items-center justify-center rounded-xl bg-gradient-to-b from-[#c86648] to-[#a8482c] px-3 font-sans text-sm font-semibold tracking-wide text-white shadow-[0_4px_16px_rgba(188,84,52,0.28)] transition-all duration-300 hover:from-[#d07050] hover:to-[#b04e30] hover:shadow-[0_8px_24px_rgba(188,84,52,0.32)] md:h-9 md:text-xs",
+              isMap ? "" : "btn-tactile"
+            )}
           >
             {UI_CONFIG.common.bookCta}
           </Link>

@@ -3,13 +3,24 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { CatalogListingCard } from "@/components/catalog/catalog-listing-card";
+import { Icon } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
 import { YANDEX_MAPS_API_KEY } from "@/config/maps";
+import { UI_CONFIG } from "@/config/uiConfig";
 import { loadYandexMaps } from "@/lib/load-yandex-maps";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
 const ALTAI_CENTER: [number, number] = [51.45, 86.0];
+
+const MAP_MARKER_DOTS = [
+  { left: "24%", top: "36%" },
+  { left: "42%", top: "28%" },
+  { left: "58%", top: "44%" },
+  { left: "71%", top: "33%" },
+  { left: "36%", top: "58%" },
+  { left: "63%", top: "62%" },
+] as const;
 
 type CatalogMapProps = {
   objects: BaseObject[];
@@ -28,6 +39,72 @@ type YMapWithContainer = {
     options?: { checkZoomRange?: boolean; zoomMargin?: number | number[] }
   ) => void;
 };
+
+function CatalogMapSkeleton() {
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 z-10 overflow-hidden"
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <div className="absolute inset-0 bg-[linear-gradient(155deg,#e6e1d8_0%,#d4cfc4_42%,#c5bfb2_78%,#b5afa3_100%)] shimmer" />
+
+      <div
+        className="absolute inset-0 opacity-[0.22]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.55) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.55) 1px, transparent 1px)
+          `,
+          backgroundSize: "72px 72px",
+        }}
+        aria-hidden
+      />
+
+      <div
+        className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,0.28)_0%,transparent_42%),radial-gradient(circle_at_72%_68%,rgba(248,233,228,0.2)_0%,transparent_38%)]"
+        aria-hidden
+      />
+
+      {MAP_MARKER_DOTS.map((dot, index) => (
+        <span
+          key={`${dot.left}-${dot.top}`}
+          className="absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#8a7f72]/35 motion-safe:animate-pulse"
+          style={{
+            left: dot.left,
+            top: dot.top,
+            animationDelay: `${index * 180}ms`,
+          }}
+          aria-hidden
+        />
+      ))}
+
+      <div className="absolute inset-0 flex items-center justify-center px-6">
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative flex size-16 items-center justify-center rounded-2xl border border-white/45 bg-white/18 shadow-[0_10px_32px_rgba(26,36,28,0.12)] backdrop-blur-[2px] md:size-[4.5rem]">
+            <span
+              className="absolute inset-0 rounded-2xl border border-white/10"
+              aria-hidden
+            />
+            <span
+              className="absolute inset-0 rounded-2xl border-2 border-transparent border-t-white/65 border-r-white/15 motion-safe:animate-spin"
+              style={{ animationDuration: "1.6s" }}
+              aria-hidden
+            />
+            <Icon name="map" size={28} className="text-white/90" />
+          </div>
+
+          <Typography
+            variant="caption"
+            className="text-[12px] font-medium uppercase tracking-[0.18em] text-[#6B635A] md:text-[13px]"
+          >
+            {UI_CONFIG.catalog.mapLoading}
+          </Typography>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function CatalogMap({ objects, className }: CatalogMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,6 +132,7 @@ export function CatalogMap({ objects, className }: CatalogMapProps) {
 
   useEffect(() => {
     let cancelled = false;
+    setReady(false);
 
     if (!YANDEX_MAPS_API_KEY) {
       setError("Не задан ключ Яндекс.Карт");
@@ -160,13 +238,7 @@ export function CatalogMap({ objects, className }: CatalogMapProps) {
     >
       <div ref={containerRef} className="absolute inset-0 h-full w-full" />
 
-      {!ready && !error ? (
-        <div className="surface-glass shimmer pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-          <Typography variant="caption" className="text-[#6B635A]">
-            Загружаем карту…
-          </Typography>
-        </div>
-      ) : null}
+      {!ready && !error ? <CatalogMapSkeleton /> : null}
 
       {error ? (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#f8f8f0] px-6 text-center">
@@ -179,19 +251,12 @@ export function CatalogMap({ objects, className }: CatalogMapProps) {
       {selected ? (
         <div className="pointer-events-none absolute inset-0 z-20 flex items-end justify-center p-3 sm:items-center sm:justify-start sm:p-5 md:p-6">
           <div className="pointer-events-auto relative w-full max-w-[400px]">
-            <button
-              type="button"
-              onClick={() => setSelectedSlug(null)}
-              className="absolute -right-1 -top-1 z-30 flex size-8 items-center justify-center rounded-full border border-[#E8E0D4] bg-white font-sans text-lg leading-none text-[#1A241C] shadow-sm hover:bg-[#f8f8f0]"
-              aria-label="Закрыть"
-            >
-              ×
-            </button>
-            <div className="catalog-map-card-scroll max-h-[calc(100dvh-7.5rem)] overflow-y-auto overscroll-contain rounded-xl shadow-[0_20px_50px_rgba(42,36,28,0.18)]">
+            <div className="catalog-map-card-scroll max-h-[calc(100dvh-7.5rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-xl shadow-[0_20px_50px_rgba(42,36,28,0.18)]">
               <CatalogListingCard
                 key={selected.slug}
                 object={selected}
                 mode="map"
+                onClose={() => setSelectedSlug(null)}
                 className="shadow-none"
               />
             </div>
