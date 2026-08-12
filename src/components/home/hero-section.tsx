@@ -23,14 +23,14 @@ export function HeroSection() {
       <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-3 px-4 pt-5 sm:gap-6 sm:px-8 sm:pt-8 md:left-0 md:right-0 md:px-10 md:pt-10">
         <Typography
           variant="caption"
-          className="min-w-0 max-w-[58%] font-sans text-2xl font-bold leading-snug tracking-[0.02em] text-white/95 sm:max-w-none sm:text-sm sm:tracking-wide md:text-base md:font-semibold md:text-white/80"
+          className="min-w-0 max-w-[58%] font-sans text-xl font-bold leading-snug tracking-[0.02em] text-white/95 sm:max-w-none"
         >
           {GLOBAL_CONFIG.companyName}
         </Typography>
 
         <HeroPhoneLink
           phone={GLOBAL_CONFIG.phone}
-          className="static shrink-0 text-right font-sans text-2xl font-medium tracking-[0.02em] text-white/95 sm:text-sm md:text-base md:font-semibold md:text-white/80"
+          className="static shrink-0 text-right font-sans text-xl font-medium tracking-[0.02em] text-white/95"
         />
       </div>
 
@@ -44,10 +44,10 @@ export function HeroSection() {
 
         <Button
           variant="ghost"
-          href={UI_CONFIG.home.catalogHref}
+          href={UI_CONFIG.routing.catalog.href}
           className="rounded-full border border-white bg-transparent px-8 py-3 text-sm font-normal tracking-wide text-white hover:bg-white hover:text-[#1A241C]"
         >
-          {UI_CONFIG.home.chooseLocation}
+          {UI_CONFIG.routing.catalog.ctaLabel}
         </Button>
       </div>
 

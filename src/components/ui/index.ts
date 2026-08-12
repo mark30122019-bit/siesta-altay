@@ -24,3 +24,9 @@ export type { IconProps, IconName } from "./icon";
 
 export { AlertBox } from "./alert-box";
 export type { AlertBoxProps } from "./alert-box";
+
+export { SiteHeader } from "./site-header";
+export type { SiteHeaderProps } from "./site-header";
+
+export { SiteFooter } from "./site-footer";
+export type { SiteFooterProps } from "./site-footer";

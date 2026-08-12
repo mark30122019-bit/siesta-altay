@@ -42,8 +42,8 @@ export default async function BaseDetailPage({ params }: BaseDetailPageProps) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-4">
         <Typography variant="h2">{UI_CONFIG.base.notFoundTitle}</Typography>
-        <Button variant="outline" href="/">
-          {UI_CONFIG.base.backHome}
+        <Button variant="outline" href={UI_CONFIG.routing.home.href}>
+          {UI_CONFIG.routing.home.label}
         </Button>
       </main>
     );

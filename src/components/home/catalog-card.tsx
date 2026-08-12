@@ -67,7 +67,7 @@ function CatalogCard({
           {hasTour ? (
             <Badge
               variant="tour"
-              text={UI_CONFIG.home.tourBadge}
+              text={UI_CONFIG.common.tourBadge}
               className="absolute bottom-1.5 right-1.5 z-10 scale-75"
             />
           ) : null}
@@ -92,7 +92,7 @@ function CatalogCard({
           {hasTour ? (
             <Badge
               variant="tour"
-              text={UI_CONFIG.home.tourBadge}
+              text={UI_CONFIG.common.tourBadge}
               className="absolute bottom-2 right-2 z-10 scale-90"
             />
           ) : null}
@@ -112,7 +112,7 @@ function CatalogCard({
             {formatPrice(object)}
           </Typography>
           <span className="mt-2.5 inline-flex h-8 w-fit items-center justify-center rounded-md border border-[#BC5434] bg-[#BC5434] px-4 text-[11px] leading-none text-white md:text-xs">
-            {UI_CONFIG.home.bookCta}
+            {UI_CONFIG.common.bookCta}
           </span>
         </div>
       </Card>

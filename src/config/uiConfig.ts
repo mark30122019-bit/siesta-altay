@@ -1,11 +1,26 @@
 export const UI_CONFIG = {
-  home: {
-    heroTitle: "Алтай изнутри",
-    chooseLocation: "В каталог",
-    catalogTitle: "Каталог баз отдыха",
-    catalogHref: "/catalog",
+  /** Пути и подписи навигации — единый источник */
+  routing: {
+    home: {
+      href: "/",
+      backLabel: "← На главную",
+      label: "На главную",
+    },
+    catalog: {
+      href: "/catalog",
+      backLabel: "← К каталогу объектов",
+      /** CTA / короткая ссылка «в каталог» */
+      ctaLabel: "В каталог",
+    },
+  },
+  common: {
+    copyright: "©",
     bookCta: "Забронировать",
     tourBadge: "3D-тур",
+  },
+  home: {
+    heroTitle: "Алтай изнутри",
+    catalogTitle: "Каталог баз отдыха",
     cultureTitle: "Что ждёт вас на базах отдыха?",
     cultureMore: "Подробнее ›",
     thumbAltFallback: "Локация на Алтае",
@@ -29,21 +44,15 @@ export const UI_CONFIG = {
     empty: "По выбранным фильтрам ничего не найдено",
     mapImage: "/media/catalog-map.png",
     mapAlt: "Карта баз отдыха",
-    backToHome: "← На главную",
-  },
-  detailPage: {
-    backToCatalog: "← К каталогу объектов",
   },
   base: {
     notSuitableTitle: "КОМУ НЕ ПОДОЙДЁТ",
     bookingTitle: "Оставить заявку",
     submitCta: "Оставить заявку",
     bookingNotePrefix: "Ваша заявка будет отправлена менеджеру",
-    bookCta: "Забронировать",
     enter360: "360° Зайти внутрь",
     expandFullscreen: "Развернуть",
     exitFullscreen: "Свернуть",
-    tourBadge: "3D-тур",
     unitsOne: "домик",
     unitsFew: "домика",
     unitsMany: "домиков",
@@ -57,8 +66,6 @@ export const UI_CONFIG = {
     detailsTitle: "Подробно",
     amenitiesTitle: "Что есть",
     priceTitle: "Сколько стоит",
-    aboutCatalog: "В каталог",
-    backAria: "Назад",
     placeholders: {
       name: "Имя",
       phone: "Телефон",
@@ -76,9 +83,5 @@ export const UI_CONFIG = {
       year_round: "Круглый год",
     },
     notFoundTitle: "Объект не найден",
-    backHome: "На главную",
-  },
-  common: {
-    copyright: "©",
   },
 } as const;

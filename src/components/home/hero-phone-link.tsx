@@ -39,7 +39,7 @@ export function HeroPhoneLink({
     <Typography
       variant="caption"
       className={cn(
-        "absolute right-8 top-8 z-10 font-sans text-sm font-medium tracking-wide text-white/80 md:right-10 md:top-10 md:text-base md:font-semibold",
+        "absolute right-8 top-8 z-10 font-sans tracking-wide text-white/80 md:right-10 md:top-10",
         className
       )}
     >

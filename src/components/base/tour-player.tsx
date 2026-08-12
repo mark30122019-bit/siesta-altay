@@ -24,7 +24,7 @@ export function TourPlayer({ object }: { object: BaseObject }) {
     <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-[#E8E0D4]/70 bg-[#2C2925] shadow-[0_20px_50px_rgba(42,36,28,0.1)]">
       <iframe
         src={tourUrl}
-        title={`${object.name} — ${UI_CONFIG.base.tourBadge}`}
+        title={`${object.name} — ${UI_CONFIG.common.tourBadge}`}
         className="absolute inset-0 h-full w-full border-0"
         allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
         allowFullScreen

@@ -4,6 +4,14 @@ import { Typography } from "@/components/ui/typography";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
 
+function QuoteDivider() {
+  return (
+    <span className="absolute left-1/2 top-0 flex -translate-x-1/2 -translate-y-1/2 bg-[#f8f8f0] px-2 text-[#C4BBB0]">
+      <Icon name="quote" size={20} className="text-stone-300 bg-amber-600" />
+    </span>
+  );
+}
+
 export function CultureSection() {
   const { testimonials } = GLOBAL_CONFIG;
 
@@ -27,9 +35,7 @@ export function CultureSection() {
             key={item.baseName}
             className="relative flex min-h-[200px] flex-col items-center rounded-lg border border-[#E8E0D4]/90 bg-[#f8f8f0] px-3 pb-4 pt-7 text-center shadow-none"
           >
-            <span className="absolute left-1/2 top-0 flex -translate-x-1/2 -translate-y-1/2 bg-[#f8f8f0] px-2 text-[#C4BBB0]">
-              <Icon name="quote" size={20} className="text-stone-300" />
-            </span>
+            <QuoteDivider />
 
             <Typography
               variant="body"
@@ -46,7 +52,7 @@ export function CultureSection() {
 
             <Typography
               variant="caption"
-              className="mt-4 text-xs text-stone-500 font-medium"
+              className="mt-4 text-xs font-medium text-stone-500"
             >
               {item.baseName}
             </Typography>

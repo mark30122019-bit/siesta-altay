@@ -1,14 +1,12 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { AlertBox } from "@/components/ui/alert-box";
-import { Button } from "@/components/ui/button";
 import { Icon, type IconName } from "@/components/ui/icon";
+import { SiteFooter } from "@/components/ui/site-footer";
+import { SiteHeader } from "@/components/ui/site-header";
 import { Typography } from "@/components/ui/typography";
 import { BookingForm } from "@/components/base/booking-form";
 import { TourPlayer } from "@/components/base/tour-player";
-import { HeroPhoneLink } from "@/components/home/hero-phone-link";
-import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
 import type { BaseObject, PhotoConfig } from "@/types";
 import { cn } from "@/lib/utils";
@@ -60,41 +58,6 @@ function amenityItems(object: BaseObject): { label: string; icon: IconName }[] {
   });
 
   return items;
-}
-
-function BaseHeader() {
-  return (
-    <header className="w-full border-b border-[#f8f8f0] bg-[#f8f8f0]">
-      <div
-        className={cn(
-          "mx-auto flex w-full items-center justify-between gap-4 px-6 py-5 md:py-6",
-          DESKTOP_INSET
-        )}
-      >
-        <Button
-          variant="ghost"
-          href={UI_CONFIG.home.catalogHref}
-          className="flex items-center gap-2 px-0 font-sans text-sm font-medium tracking-wide text-[#6B635A] hover:bg-transparent hover:text-[#8F5A4A]"
-        >
-          {UI_CONFIG.detailPage.backToCatalog}
-        </Button>
-
-        <div className="flex flex-wrap items-center justify-end gap-x-5 gap-y-1">
-          <Link
-            href="/"
-            className="cursor-pointer font-serif text-base font-normal tracking-[0.06em] text-[#1A241C] transition-colors hover:text-[#8F5A4A] md:text-lg"
-          >
-            {GLOBAL_CONFIG.brandName}
-          </Link>
-          <HeroPhoneLink
-            phone={GLOBAL_CONFIG.phone}
-            className="static font-sans text-sm font-medium tracking-wide text-[#6B635A] md:text-base"
-            linkClassName="hover:text-[#8F5A4A]"
-          />
-        </div>
-      </div>
-    </header>
-  );
 }
 
 function PhotoThumbs({ photos }: { photos: PhotoConfig[] }) {
@@ -335,15 +298,16 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
           .filter((item) => item.fit === "high" || item.fit === "medium")
           .map((item) => item.note);
 
-  const year = new Date().getFullYear();
-
   return (
     <main className="min-h-screen bg-[#F4F0E8]">
-      <BaseHeader />
+      <SiteHeader
+        backHref={UI_CONFIG.routing.catalog.href}
+        backLabel={UI_CONFIG.routing.catalog.backLabel}
+      />
 
       <div
         className={cn(
-          "mx-auto grid w-full gap-12 px-6 py-12 md:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)] md:gap-14 md:py-16 lg:gap-16 lg:py-20",
+          "mx-auto grid w-full gap-12 px-6 pt-12 pb-[15vh] md:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)] md:gap-14 md:pt-16 md:pb-[17vh] lg:gap-16 lg:pt-20",
           DESKTOP_INSET
         )}
       >
@@ -439,24 +403,12 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
         </aside>
       </div>
 
-      <footer className="w-full border-t border-[#f8f8f0] bg-[#f8f8f0]">
-        <div
-          className={cn(
-            "relative mx-auto flex min-h-[140px] w-full items-center justify-center px-6 py-10",
-            DESKTOP_INSET
-          )}
-        >
-          <Link
-            href={UI_CONFIG.home.catalogHref}
-            className="absolute left-6 top-1/2 hidden -translate-y-1/2 font-sans text-sm font-medium tracking-wide text-[#1A241C] transition-colors hover:text-[#8F5A4A] md:left-[15vw] md:inline md:text-base"
-          >
-            {UI_CONFIG.base.aboutCatalog}
-          </Link>
-          <Typography variant="caption" className="text-xl text-[#1A241C]">
-            {GLOBAL_CONFIG.companyName} {UI_CONFIG.common.copyright} {year}
-          </Typography>
-        </div>
-      </footer>
+      <SiteFooter
+        sideLink={{
+          href: UI_CONFIG.routing.catalog.href,
+          label: UI_CONFIG.routing.catalog.backLabel,
+        }}
+      />
     </main>
   );
 }

@@ -26,7 +26,7 @@ export function CatalogSection() {
 
   return (
     <div id="catalog" className="scroll-mt-8">
-      <Link href={UI_CONFIG.home.catalogHref} className="mb-4 inline-block">
+      <Link href={UI_CONFIG.routing.catalog.href} className="mb-4 inline-block">
         <Typography
           variant="h2"
           className="text-xl font-bold text-[#1A241C] transition-colors hover:text-[#BC5434] md:text-2xl"
