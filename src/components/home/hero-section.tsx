@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
+import { HeroBackground } from "@/components/home/hero-background";
 import { HeroPhoneLink } from "@/components/home/hero-phone-link";
 import { HeroScrollDown, HERO_ID } from "@/components/home/hero-scroll-down";
 import { GLOBAL_CONFIG } from "@/config/global";
@@ -11,14 +12,8 @@ export function HeroSection() {
       id={HERO_ID}
       className="relative flex h-[78vh] min-h-[520px] w-full items-center justify-center overflow-hidden"
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={UI_CONFIG.home.heroImage}
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover object-center"
-        aria-hidden
-      />
-      <div className="absolute inset-0 bg-black/40" aria-hidden />
+      <HeroBackground />
+      <div className="absolute inset-0 z-[1] bg-black/40" aria-hidden />
 
       <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-3 px-4 pt-5 sm:gap-6 sm:px-8 sm:pt-8 md:left-0 md:right-0 md:px-10 md:pt-10">
         <Typography

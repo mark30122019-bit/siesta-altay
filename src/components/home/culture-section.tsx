@@ -7,8 +7,8 @@ import { UI_CONFIG } from "@/config/uiConfig";
 function QuoteDivider() {
   return (
     <span className="absolute left-1/2 top-0 flex -translate-x-1/2 -translate-y-1/2 bg-[#f8f8f0] px-2">
-      <span className="flex size-8 items-center justify-center rounded-full bg-[#E4DBD4]">
-        <Icon name="quote" size={16} className="text-[#f1ece5]" />
+      <span className="flex size-8 items-center justify-center rounded-full bg-[#f8f8f0]">
+        <Icon name="quote" size={16} className="text-[#000000]" />
       </span>
     </span>
   );

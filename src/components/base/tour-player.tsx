@@ -1,3 +1,4 @@
+import { TourIframe } from "@/components/base/tour-iframe";
 import { UI_CONFIG } from "@/config/uiConfig";
 import type { BaseObject } from "@/types";
 
@@ -21,15 +22,11 @@ export function TourPlayer({ object }: { object: BaseObject }) {
   }
 
   return (
-    <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-[#E8E0D4]/70 bg-[#2C2925] shadow-[0_20px_50px_rgba(42,36,28,0.1)]">
-      <iframe
+    <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-[#E8E0D4]/70 bg-[#E8E0D4] shadow-[0_20px_50px_rgba(42,36,28,0.1)]">
+      <TourIframe
         src={tourUrl}
         title={`${object.name} — ${UI_CONFIG.common.tourBadge}`}
-        className="absolute inset-0 h-full w-full border-0"
-        allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
-        allowFullScreen
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
+        className="absolute inset-0"
       />
     </div>
   );

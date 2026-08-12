@@ -54,6 +54,7 @@ export const UI_CONFIG = {
     submitCta: "Оставить заявку",
     bookingNotePrefix: "Ваша заявка будет отправлена менеджеру",
     enter360: "360° Зайти внутрь",
+    tourLoading: "Загрузка...",
     expandFullscreen: "Развернуть",
     exitFullscreen: "Свернуть",
     unitsOne: "домик",
