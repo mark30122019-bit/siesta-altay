@@ -23,7 +23,7 @@ export function SiteFooter({
     <footer
       className={cn(
         "w-full",
-        tone === "chrome" && "border-t border-[#2e4d34] bg-[#2e4d34]",
+        tone === "chrome" && "site-chrome border-t",
         tone === "plain" && "border-t border-transparent bg-transparent",
         className
       )}

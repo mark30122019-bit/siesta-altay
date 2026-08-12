@@ -18,8 +18,14 @@
   --background: #f4f0e8;
   --background-image: url("/media/bg-paper.png");
   --foreground: #2a2a24;
-  --chrome: #2e4d34;
-  --chrome-border: #2e4d34;
+  --chrome: #35523a;
+  --chrome-border: rgba(245, 239, 224, 0.1);
+  --chrome-gradient: linear-gradient(
+    90deg,
+    #3a5c42 0%,
+    #35523a 48%,
+    #374c3e 100%
+  );
   --card: #f8f8f0;
   --card-foreground: #2a2a24;
   --muted: #ebe6db;
@@ -130,4 +136,10 @@ body {
 /* Курсор интерактивных фильтров каталога */
 .catalog-filter-cursor {
   cursor: pointer;
+}
+
+/* Хедер / футер — лесной градиент Алтая */
+.site-chrome {
+  background: var(--chrome-gradient);
+  border-color: var(--chrome-border);
 }

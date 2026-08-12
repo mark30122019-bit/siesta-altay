@@ -21,7 +21,7 @@ export function SiteHeader({
   return (
     <header
       className={cn(
-        "w-full border-b border-[#2e4d34] bg-[#2e4d34]",
+        "site-chrome w-full border-b",
         className
       )}
     >
