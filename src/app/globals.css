@@ -242,22 +242,69 @@ body {
   background: linear-gradient(
     105deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.22) 42%,
-    rgba(255, 255, 255, 0.38) 50%,
-    rgba(255, 255, 255, 0.22) 58%,
+    rgba(255, 255, 255, 0.12) 42%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.12) 58%,
     transparent 100%
   );
   background-size: 220% 100%;
-  animation: shimmer-sweep 2.4s ease-in-out infinite;
+  animation: shimmer-sweep 6.8s ease-in-out infinite;
+  opacity: 0;
   pointer-events: none;
 }
 
 @keyframes shimmer-sweep {
   0% {
-    background-position: 200% 0;
+    background-position: 220% 0;
+    opacity: 0;
+  }
+  /* Блик быстро проходит за первые ~15% времени */
+  12% {
+    background-position: -200% 0;
+    opacity: 0.18;
+  }
+  15% {
+    background-position: -200% 0;
+    opacity: 0;
   }
   100% {
     background-position: -200% 0;
+    opacity: 0;
+  }
+}
+
+/* Делаем анимацию асинхронной: сдвиг старта для карточек в сетке */
+/* nth-child считаем по корневым карточкам (Card -> className включает surface-card-interactive). */
+.surface-card-interactive:nth-child(1) .shimmer::after {
+  animation-delay: 0s;
+}
+.surface-card-interactive:nth-child(2) .shimmer::after {
+  animation-delay: 1.5s;
+}
+.surface-card-interactive:nth-child(3) .shimmer::after {
+  animation-delay: 3s;
+}
+.surface-card-interactive:nth-child(4) .shimmer::after {
+  animation-delay: 4.5s;
+}
+.surface-card-interactive:nth-child(5) .shimmer::after {
+  animation-delay: 6s;
+}
+.surface-card-interactive:nth-child(6) .shimmer::after {
+  animation-delay: 7.5s;
+}
+.surface-card-interactive:nth-child(7) .shimmer::after {
+  animation-delay: 9s;
+}
+.surface-card-interactive:nth-child(8) .shimmer::after {
+  animation-delay: 10.5s;
+}
+
+/* Полное спокойствие при наличии реального контента */
+@supports selector(:has(img)) {
+  .shimmer:has(img)::after {
+    animation: none;
+    opacity: 0;
   }
 }
 
