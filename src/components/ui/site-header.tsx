@@ -22,10 +22,15 @@ export function SiteHeader({
   className,
 }: SiteHeaderProps) {
   const [isHidden, setIsHidden] = useState(false);
+  const isHiddenRef = useRef(isHidden);
   const lastScrollYRef = useRef<number>(0);
   const accumulatedDownRef = useRef<number>(0);
   const accumulatedUpRef = useRef<number>(0);
   const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    isHiddenRef.current = isHidden;
+  }, [isHidden]);
 
   useEffect(() => {
     lastScrollYRef.current = window.scrollY || 0;
@@ -51,7 +56,7 @@ export function SiteHeader({
         // Анти-дерганье:
         // - вниз копим расстояние до скрытия
         // - вверх копим до показа (микрошаги вверх не вернут header мгновенно)
-        const START_HIDE_AFTER_PX = 80;
+        const START_HIDE_AFTER_PX = 40;
         const SHOW_AFTER_UP_PX = 14;
 
         // Дополнительно: при приближении к футеру точно скрываем,
@@ -74,12 +79,15 @@ export function SiteHeader({
           const shouldHide =
             accumulatedDownRef.current >= START_HIDE_AFTER_PX || isNearFooter;
 
-          if (shouldHide && !isHidden) setIsHidden(true);
+          if (shouldHide && !isHiddenRef.current) setIsHidden(true);
         } else if (delta < 0) {
           accumulatedUpRef.current += Math.abs(delta);
           accumulatedDownRef.current = 0;
 
-          if (accumulatedUpRef.current >= SHOW_AFTER_UP_PX && isHidden) {
+          if (
+            accumulatedUpRef.current >= SHOW_AFTER_UP_PX &&
+            isHiddenRef.current
+          ) {
             setIsHidden(false);
           }
         }
@@ -98,11 +106,9 @@ export function SiteHeader({
   return (
     <header
       className={cn(
-        "site-chrome sticky top-0 z-50 w-full border-b border-white/15 backdrop-blur-lg transform-gpu transition-[transform,opacity] ease-out",
-        // Fade-out дольше, fade-in короче (быстро “выплывает”, когда чуть скроллянул вверх).
-        "duration-[1000ms]" ,
+        "site-chrome sticky top-0 z-50 w-full border-b border-white/15 backdrop-blur-lg transform-gpu transition-[opacity,transform] duration-250 ease-out",
         isHidden
-          ? "-translate-y-full opacity-0 pointer-events-none"
+          ? "-translate-y-0 opacity-0 pointer-events-none"
           : "translate-y-0 opacity-100",
         className
       )}
