@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Typography } from "@/components/ui/typography";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { assetPath } from "@/config/site";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +29,7 @@ function CoverImage({ object, src }: { object: BaseObject; src: string }) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={src}
+        src={assetPath(src)}
         alt={object.name}
         className="h-full w-full object-cover"
       />

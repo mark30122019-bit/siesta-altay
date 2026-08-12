@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Typography } from "@/components/ui/typography";
 import { GLOBAL_CONFIG } from "@/config/global";
+import { assetPath } from "@/config/site";
 
 export function ExpeditionSection() {
   const { promoTour } = GLOBAL_CONFIG;
@@ -10,7 +11,7 @@ export function ExpeditionSection() {
     <Card className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border-0 p-0 shadow-none md:aspect-[2/1]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={promoTour.image}
+        src={assetPath(promoTour.image)}
         alt={promoTour.title}
         className="absolute inset-0 h-full w-full object-cover object-center"
       />

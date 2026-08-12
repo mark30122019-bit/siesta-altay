@@ -1,5 +1,6 @@
 import { TourIframe } from "@/components/base/tour-iframe";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { assetPath } from "@/config/site";
 import type { BaseObject } from "@/types";
 
 export function TourPlayer({ object }: { object: BaseObject }) {
@@ -12,7 +13,7 @@ export function TourPlayer({ object }: { object: BaseObject }) {
         {cover ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={cover}
+            src={assetPath(cover)}
             alt={object.name}
             className="h-full w-full object-cover"
           />

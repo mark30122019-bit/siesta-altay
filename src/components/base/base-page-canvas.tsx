@@ -7,6 +7,7 @@ import { BasePageFooter, BasePageHeader } from "@/components/base/base-page-chro
 import { BookingForm } from "@/components/base/booking-form";
 import { TourPlayer } from "@/components/base/tour-player";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { assetPath } from "@/config/site";
 import type { BaseObject, PhotoConfig } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -82,7 +83,7 @@ function PhotoThumbs({ photos }: { photos: PhotoConfig[] }) {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={photo.src}
+              src={assetPath(photo.src)}
               alt={photo.alt}
               className={cn(
                 "h-full w-full object-cover",

@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Icon, type IconName } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { assetPath } from "@/config/site";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -91,7 +92,7 @@ export function CatalogListingCard({
               {src ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={src}
+                  src={assetPath(src)}
                   alt={object.name}
                   className="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
                 />

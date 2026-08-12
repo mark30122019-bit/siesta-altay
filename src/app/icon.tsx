@@ -3,12 +3,12 @@ import { ImageResponse } from "next/og";
 export const dynamic = "force-static";
 
 export const size = {
-  width: 180,
-  height: 180,
+  width: 32,
+  height: 32,
 };
 export const contentType = "image/png";
 
-export default function AppleIcon() {
+export default function Icon() {
   return new ImageResponse(
     (
       <div
@@ -21,7 +21,7 @@ export default function AppleIcon() {
           background: "linear-gradient(135deg, #3a5c42 0%, #35523a 100%)",
           borderRadius: "50%",
           color: "#F5EFE0",
-          fontSize: 108,
+          fontSize: 20,
           fontWeight: 600,
           fontFamily: "Georgia, serif",
         }}

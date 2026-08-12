@@ -18,6 +18,7 @@ import { CatalogListingCard } from "@/components/catalog/catalog-listing-card";
 import { CatalogMap } from "@/components/catalog/catalog-map";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { assetPath } from "@/config/site";
 import {
   buildCatalogHref,
   catalogHrefMatchesSearchParams,
@@ -448,7 +449,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={UI_CONFIG.catalog.mapImage}
+              src={assetPath(UI_CONFIG.catalog.mapImage)}
               alt=""
               className="absolute inset-0 h-full w-full object-cover object-bottom"
               aria-hidden
