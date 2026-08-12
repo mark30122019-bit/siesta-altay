@@ -31,13 +31,13 @@ export function SiteFooter({
       <div
         className={cn(
           "relative mx-auto flex min-h-[140px] w-full items-center justify-center px-6 py-6 text-center",
-          sideLink ? "md:px-[15vw]" : "max-w-[1440px] lg:px-10 xl:px-12"
+          sideLink ? "md:px-[10vw]" : "max-w-[1440px] lg:px-10 xl:px-12"
         )}
       >
         {sideLink ? (
           <Link
             href={sideLink.href}
-            className="absolute left-6 top-1/2 hidden -translate-y-1/2 font-sans text-sm font-medium tracking-wide text-[#F5EFE0]/80 transition-colors hover:text-[#D4A24A] md:left-[15vw] md:inline md:text-base"
+            className="absolute left-6 top-1/2 hidden -translate-y-1/2 font-sans text-sm font-medium tracking-wide text-[#F5EFE0]/80 transition-colors hover:text-[#D4A24A] md:left-[10vw] md:inline md:text-base"
           >
             {sideLink.label}
           </Link>

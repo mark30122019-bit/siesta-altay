@@ -10,7 +10,7 @@ import { UI_CONFIG } from "@/config/uiConfig";
 import type { BaseObject, PhotoConfig } from "@/types";
 import { cn } from "@/lib/utils";
 
-const DESKTOP_INSET = "md:px-[15vw]";
+const DESKTOP_INSET = "md:px-[10vw]";
 
 function gallerySources(object: BaseObject): PhotoConfig[] {
   const items: PhotoConfig[] = [];

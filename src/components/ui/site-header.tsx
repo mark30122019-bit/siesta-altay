@@ -8,7 +8,7 @@ import { HeroPhoneLink } from "@/components/home/hero-phone-link";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { cn } from "@/lib/utils";
 
-const DESKTOP_INSET = "md:px-[15vw]";
+const DESKTOP_INSET = "md:px-[10vw]";
 
 export type SiteHeaderProps = {
   backHref: string;
@@ -58,6 +58,10 @@ export function SiteHeader({
         // - вверх копим до показа (микрошаги вверх не вернут header мгновенно)
         const START_HIDE_AFTER_PX = 40;
         const SHOW_AFTER_UP_PX = 14;
+        // Показываем header только в верхней зоне страницы,
+        // чтобы он не "вылезал" в середине из-за микродвижений/инерции.
+        const SHOW_ONLY_NEAR_TOP_PX = 160;
+        const isNearTop = currentY <= SHOW_ONLY_NEAR_TOP_PX;
 
         // Дополнительно: при приближении к футеру точно скрываем,
         // но обратно показываем ТОЛЬКО по порогу вверх.
@@ -85,6 +89,7 @@ export function SiteHeader({
           accumulatedDownRef.current = 0;
 
           if (
+            isNearTop &&
             accumulatedUpRef.current >= SHOW_AFTER_UP_PX &&
             isHiddenRef.current
           ) {
@@ -106,7 +111,7 @@ export function SiteHeader({
   return (
     <header
       className={cn(
-        "site-chrome sticky top-0 z-50 w-full border-b border-white/15 backdrop-blur-lg transform-gpu transition-[opacity,transform] duration-250 ease-out",
+        "site-chrome sticky top-0 z-50 w-full border-b border-white/15 backdrop-blur-lg transform-gpu transition-[opacity,transform] duration-500 ease-out",
         isHidden
           ? "-translate-y-0 opacity-0 pointer-events-none"
           : "translate-y-0 opacity-100",
