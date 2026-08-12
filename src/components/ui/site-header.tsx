@@ -24,6 +24,7 @@ export function SiteHeader({
   const [isHidden, setIsHidden] = useState(false);
   const lastScrollYRef = useRef<number>(0);
   const accumulatedDownRef = useRef<number>(0);
+  const accumulatedUpRef = useRef<number>(0);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -42,41 +43,45 @@ export function SiteHeader({
         if (currentY < 8) {
           setIsHidden(false);
           accumulatedDownRef.current = 0;
+          accumulatedUpRef.current = 0;
           lastScrollYRef.current = currentY;
           return;
         }
 
-        // Прячем очень аккуратно: как только пользователь “заехал” вниз на ~20-40px.
-        const START_HIDE_AFTER_PX = 50;
+        // Анти-дерганье:
+        // - вниз копим расстояние до скрытия
+        // - вверх копим до показа (микрошаги вверх не вернут header мгновенно)
+        const START_HIDE_AFTER_PX = 80;
+        const SHOW_AFTER_UP_PX = 14;
+
+        // Дополнительно: при приближении к футеру точно скрываем,
+        // но обратно показываем ТОЛЬКО по порогу вверх.
+        const footerEl = document.querySelector("footer");
+        const footerTop = footerEl
+          ? footerEl.getBoundingClientRect().top + currentY
+          : null;
+        const FOOTER_HIDE_MARGIN_PX = 26;
+        const isNearFooter =
+          footerTop !== null
+            ? currentY + window.innerHeight >=
+              footerTop - FOOTER_HIDE_MARGIN_PX
+            : false;
 
         if (delta > 0) {
           accumulatedDownRef.current += delta;
+          accumulatedUpRef.current = 0;
 
-          // Если пользователь быстро едет вниз — прячем раньше накопленного порога тоже.
-          const QUICK_FALLBACK_PX = 100;
           const shouldHide =
-            accumulatedDownRef.current >= START_HIDE_AFTER_PX ||
-            delta >= QUICK_FALLBACK_PX;
+            accumulatedDownRef.current >= START_HIDE_AFTER_PX || isNearFooter;
 
-          // Дополнительно: при приближении к футеру точно скрываем.
-          const footerEl = document.querySelector("footer");
-          const footerTop = footerEl
-            ? footerEl.getBoundingClientRect().top + currentY
-            : null;
-          const FOOTER_HIDE_MARGIN_PX = 24;
-          const isNearFooter =
-            footerTop !== null
-              ? currentY + window.innerHeight >=
-                footerTop - FOOTER_HIDE_MARGIN_PX
-              : false;
-
-          setIsHidden(shouldHide || isNearFooter);
+          if (shouldHide && !isHidden) setIsHidden(true);
         } else if (delta < 0) {
-          // При любом ощутимом подъёме показываем обратно (для UX переключения фильтра).
+          accumulatedUpRef.current += Math.abs(delta);
           accumulatedDownRef.current = 0;
-          setIsHidden(false);
-        } else {
-          // delta === 0: не трогаем
+
+          if (accumulatedUpRef.current >= SHOW_AFTER_UP_PX && isHidden) {
+            setIsHidden(false);
+          }
         }
 
         lastScrollYRef.current = currentY;
@@ -95,7 +100,7 @@ export function SiteHeader({
       className={cn(
         "site-chrome sticky top-0 z-50 w-full border-b border-white/15 backdrop-blur-lg transform-gpu transition-[transform,opacity] ease-out",
         // Fade-out дольше, fade-in короче (быстро “выплывает”, когда чуть скроллянул вверх).
-        isHidden ? "duration-[2000ms]" : "duration-250",
+        "duration-[1000ms]" ,
         isHidden
           ? "-translate-y-full opacity-0 pointer-events-none"
           : "translate-y-0 opacity-100",
