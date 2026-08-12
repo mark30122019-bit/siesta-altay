@@ -16,6 +16,12 @@ function findPublishedObject(slug: string) {
   );
 }
 
+export function generateStaticParams() {
+  return GLOBAL_CONFIG.objects
+    .filter((object) => object.status === "published")
+    .map((object) => ({ slug: object.slug }));
+}
+
 export async function generateMetadata({
   params,
 }: BaseDetailPageProps): Promise<Metadata> {
