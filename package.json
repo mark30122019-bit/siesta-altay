@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/preview-server.mjs",
+    "preview": "npm run build && npm run start",
     "lint": "eslint"
   },
   "dependencies": {
