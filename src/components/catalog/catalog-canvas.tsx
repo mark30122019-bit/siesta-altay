@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Chip } from "@/components/ui/chip";
 import { Slider } from "@/components/ui/slider";
 import { Typography } from "@/components/ui/typography";
+import { CatalogEmptyState } from "@/components/catalog/catalog-empty-state";
 import { CatalogListingCard } from "@/components/catalog/catalog-listing-card";
 import { CatalogMap } from "@/components/catalog/catalog-map";
 import { GLOBAL_CONFIG } from "@/config/global";
@@ -324,6 +325,15 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
 
   const visibleCount = filtered.length;
 
+  function resetFilters() {
+    setAudiences([]);
+    setDistricts([]);
+    setFeatures([]);
+    setPriceRange(defaultState.priceRange);
+    setDebouncedPriceRange(defaultState.priceRange);
+    setViewMode("list");
+  }
+
   return (
     <div
       className={cn(
@@ -449,12 +459,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
 
       {viewMode === "map" ? (
         visibleCount === 0 ? (
-          <Typography
-            variant="body"
-            className="mt-10 pb-[15vh] text-center text-[#555] md:pb-[17vh]"
-          >
-            {UI_CONFIG.catalog.empty}
-          </Typography>
+          <CatalogEmptyState onReset={resetFilters} />
         ) : (
           <>
             <CatalogMap objects={filtered} />
@@ -464,9 +469,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
       ) : (
         <>
           {visibleCount === 0 ? (
-            <Typography variant="body" className="mt-10 text-center text-[#555]">
-              {UI_CONFIG.catalog.empty}
-            </Typography>
+            <CatalogEmptyState onReset={resetFilters} />
           ) : null}
 
           {/*
