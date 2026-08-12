@@ -14,13 +14,13 @@
   --terracotta-foreground: #ffffff;
   --terracotta-muted: #f8e9e4;
 
-  /* Surfaces */
-  --background: #ffffff;
+  /* Surfaces — книжная бумага */
+  --background: #f4f0e8;
   --background-image: url("/media/bg-paper.png");
   --foreground: #2a2a24;
-  --chrome: #f2ebe6;
-  --chrome-border: #e4dbd4;
-  --card: #f3efe6;
+  --chrome: #f8f8f0;
+  --chrome-border: #f8f8f0;
+  --card: #f8f8f0;
   --card-foreground: #2a2a24;
   --muted: #ebe6db;
   --muted-foreground: #6b675c;

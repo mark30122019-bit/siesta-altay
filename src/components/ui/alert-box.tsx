@@ -12,8 +12,9 @@ export interface AlertBoxProps {
 }
 
 const variantStyles: Record<AlertBoxVariant, string> = {
-  danger: "border-2 border-[#BC5434] bg-[#F8E9E4] rounded-xl p-5 md:p-6 text-[#1A241C]",
-  info: "border-2 border-[#8B4A3A] bg-[#A05A48] rounded-xl p-5 md:p-6",
+  danger:
+    "border border-black bg-[#F3E6E0] rounded-2xl p-5 md:p-7 text-[#1A241C] shadow-[0_12px_40px_rgba(42,36,28,0.04)]",
+  info: "border border-black bg-[#8F5A4A] rounded-2xl p-5 md:p-7 shadow-[0_12px_40px_rgba(42,36,28,0.08)]",
 };
 
 function AlertBox({ variant, title, children, className }: AlertBoxProps) {
@@ -23,8 +24,8 @@ function AlertBox({ variant, title, children, className }: AlertBoxProps) {
     <div role="note" className={cn(variantStyles[variant], className)}>
       <p
         className={cn(
-          "mb-2 font-sans text-lg font-bold tracking-[0.04em] md:text-xl",
-          isDanger ? "text-[#BC5434]" : "text-white"
+          "mb-3 font-sans text-base font-bold tracking-[0.06em] md:text-lg",
+          isDanger ? "text-[#8F5A4A]" : "text-[#F7F3ED]"
         )}
       >
         {title}
@@ -32,7 +33,7 @@ function AlertBox({ variant, title, children, className }: AlertBoxProps) {
       <div
         className={cn(
           "text-sm leading-relaxed",
-          isDanger ? "text-[#2A2A24]/90" : "text-white/90"
+          isDanger ? "text-[#3D3832]/85" : "text-[#F7F3ED]/88"
         )}
       >
         {children}

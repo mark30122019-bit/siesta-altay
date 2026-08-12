@@ -32,10 +32,12 @@ function Input({
       onChange={onChange}
       required={required}
       className={cn(
-        "w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 font-sans text-sm text-[#1A241C]",
-        "placeholder:text-gray-400",
-        "transition-colors duration-200",
-        "focus:border-[#4A5D4E] focus:outline-none focus:ring-0",
+        "w-full rounded-md border border-[#E0D8CE] bg-[#FBF8F3] px-4 py-3 font-sans text-sm text-[#1A241C]",
+        "placeholder:text-[#9A9288]",
+        "transition-[border-color,box-shadow,background-color] duration-300",
+        "outline-none ring-0",
+        "focus:border-[#A05A48] focus:bg-[#FFFcf8] focus:outline-none focus:ring-0",
+        "focus-visible:border-[#A05A48] focus-visible:outline-none focus-visible:ring-0",
         className
       )}
     />

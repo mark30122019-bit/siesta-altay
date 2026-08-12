@@ -1,5 +1,6 @@
 import { CatalogCanvas } from "@/components/catalog/catalog-canvas";
 import { CatalogHeader } from "@/components/catalog/catalog-header";
+import { SiteFooter } from "@/components/home/site-footer";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
 
@@ -13,9 +14,10 @@ export default function CatalogPage() {
   );
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-[#F4F0E8]">
       <CatalogHeader />
       <CatalogCanvas objects={objects} />
+      <SiteFooter tone="paper" />
     </main>
   );
 }

@@ -20,19 +20,24 @@ export function HeroSection() {
       />
       <div className="absolute inset-0 bg-black/40" aria-hidden />
 
-      <Typography
-        variant="caption"
-        className="absolute left-8 top-8 z-10 font-sans text-xl font-bold tracking-wide text-white/80 md:left-10 md:top-10"
-      >
-        {GLOBAL_CONFIG.companyName}
-      </Typography>
+      <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-3 px-4 pt-5 sm:gap-6 sm:px-8 sm:pt-8 md:left-0 md:right-0 md:px-10 md:pt-10">
+        <Typography
+          variant="caption"
+          className="min-w-0 max-w-[58%] font-sans text-2xl font-bold leading-snug tracking-[0.02em] text-white/95 sm:max-w-none sm:text-sm sm:tracking-wide md:text-base md:font-semibold md:text-white/80"
+        >
+          {GLOBAL_CONFIG.companyName}
+        </Typography>
 
-      <HeroPhoneLink phone={GLOBAL_CONFIG.phone} />
+        <HeroPhoneLink
+          phone={GLOBAL_CONFIG.phone}
+          className="static shrink-0 text-right font-sans text-2xl font-medium tracking-[0.02em] text-white/95 sm:text-sm md:text-base md:font-semibold md:text-white/80"
+        />
+      </div>
 
       <div className="relative z-10 flex flex-col items-center px-6 text-center">
         <Typography
           variant="h1"
-          className="mb-8 max-w-5xl font-serif text-5xl font-normal uppercase leading-[1.1] tracking-[0.14em] text-white md:mb-10 md:text-7xl"
+          className="mb-8 max-w-5xl font-serif text-[2rem] font-normal uppercase leading-[1.15] tracking-[0.12em] text-white sm:text-5xl md:mb-10 md:text-7xl md:tracking-[0.14em]"
         >
           {UI_CONFIG.home.heroTitle}
         </Typography>

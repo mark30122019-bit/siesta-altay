@@ -27,14 +27,14 @@ function FilterCard({
   return (
     <div
       className={cn(
-        "flex h-full flex-col rounded-xl border border-stone-200/90 bg-white px-3.5 py-3 shadow-[0_8px_30px_rgb(0,0,0,0.02)] md:px-4 md:py-3.5",
+        "flex h-full flex-col rounded-xl border border-[#E8E0D4]/90 bg-[#f8f8f0] px-3.5 py-3 shadow-[0_16px_48px_rgba(42,36,28,0.045)] md:px-4 md:py-3.5",
         className
       )}
     >
       <div className="mb-1.5 flex items-center justify-between gap-2">
         <Typography
           variant="caption"
-          className="text-[11px] font-bold tracking-wide text-[#1A241C] md:text-xs"
+          className="text-[13px] font-bold tracking-wide text-[#1A241C] md:text-xs"
         >
           {title}
         </Typography>
@@ -59,7 +59,7 @@ function FilterLink({
       type="button"
       onClick={onClick}
       className={cn(
-        "text-left font-sans text-[11px] leading-snug transition-colors md:text-xs",
+        "text-left font-sans text-[13px] leading-snug transition-colors md:text-xs",
         active
           ? "font-semibold text-[#BC5434]"
           : "text-[#555] hover:text-[#1A241C]"
@@ -182,9 +182,9 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
                   setAudiences((prev) => toggleValue(prev, item.slug))
                 }
                 className={cn(
-                  "rounded-full px-2.5 py-1 text-[11px] md:text-xs",
+                  "rounded-full px-3 py-1.5 text-[13px] md:px-2.5 md:py-1 md:text-xs",
                   !audiences.includes(item.slug) &&
-                    "border-transparent bg-[#FBFBFA] text-[#555] hover:bg-stone-100"
+                    "border-transparent bg-[#F0EBE3] text-[#6B635A] hover:bg-[#E8E0D4]"
                 )}
               />
             ))}
@@ -231,10 +231,10 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
               onValueChange={setPriceRange}
             />
             <div className="flex items-baseline justify-between gap-2">
-              <Typography variant="caption" className="text-[10px] text-[#888]">
+              <Typography variant="caption" className="text-[12px] text-[#888] md:text-[10px]">
                 {`от ${priceRange[0].toLocaleString("ru-RU")} ₽`}
               </Typography>
-              <Typography variant="caption" className="text-[10px] text-[#888]">
+              <Typography variant="caption" className="text-[12px] text-[#888] md:text-[10px]">
                 {`до ${priceRange[1].toLocaleString("ru-RU")} ₽`}
               </Typography>
             </div>
@@ -245,7 +245,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
           title={UI_CONFIG.filters.viewMode}
           action={
             <div className="flex items-center gap-2">
-              <Typography variant="caption" className="text-[10px] text-[#888]">
+              <Typography variant="caption" className="text-[12px] text-[#888] md:text-[10px]">
                 {viewMode === "list"
                   ? UI_CONFIG.filters.list
                   : UI_CONFIG.filters.map}
@@ -277,7 +277,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
       </div>
 
       {viewMode === "map" ? (
-        <div className="mt-8 overflow-hidden rounded-xl border border-stone-200/90 bg-white shadow-sm">
+        <div className="mt-8 overflow-hidden rounded-xl border border-[#E8E0D4]/90 bg-[#f8f8f0] shadow-[0_16px_48px_rgba(42,36,28,0.045)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={UI_CONFIG.catalog.mapImage}

@@ -23,16 +23,16 @@ export function BookingForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-xl border border-stone-200/90 bg-white p-5 shadow-sm md:p-6"
+      className="rounded-2xl border border-[#E8E0D4]/80 bg-[#f8f8f0] p-6 shadow-[0_24px_60px_rgba(42,36,28,0.06)] md:p-8"
     >
       <Typography
         variant="h2"
-        className="mb-5 text-center text-xl font-bold text-[#1A241C] md:text-2xl"
+        className="mb-7 text-center font-serif text-xl font-normal tracking-[0.04em] text-[#1A241C] md:text-2xl"
       >
         {UI_CONFIG.base.bookingTitle}
       </Typography>
 
-      <div className="grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 gap-3.5">
         <Input
           type="text"
           name="name"
@@ -57,17 +57,17 @@ export function BookingForm() {
             value={dates}
             onChange={(event) => setDates(event.target.value)}
             required
-            className="pr-10"
+            className="pr-11"
           />
           <span
-            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-stone-400"
+            className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A89F94]"
             aria-hidden
           >
             <svg
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.75"
+              strokeWidth="1.5"
               className="size-4"
             >
               <rect x="3" y="5" width="18" height="16" rx="2" />
@@ -80,14 +80,14 @@ export function BookingForm() {
       <Button
         variant="ghost"
         type="submit"
-        className="mt-5 w-full border border-stone-300 bg-stone-200 font-semibold text-[#1A241C] hover:bg-stone-300 hover:text-[#1A241C]"
+        className="mt-7 w-full rounded-md border-0 bg-[#3D3832] py-3.5 font-sans text-[13px] font-semibold tracking-[0.08em] text-[#F7F3ED] hover:bg-[#2C2925] hover:text-[#F7F3ED]"
       >
         {UI_CONFIG.base.submitCta}
       </Button>
 
       <Typography
         variant="caption"
-        className="mt-3 block text-center text-[11px] leading-snug text-[#555]"
+        className="mt-4 block text-center text-[11px] leading-relaxed text-[#8A8278]"
       >
         {`${UI_CONFIG.base.bookingNotePrefix} ${GLOBAL_CONFIG.companyName}`}
       </Typography>

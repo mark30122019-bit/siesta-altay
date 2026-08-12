@@ -56,7 +56,7 @@ export function CatalogListingCard({
   return (
     <article
       className={cn(
-        "flex h-full flex-col overflow-hidden rounded-xl border border-stone-200/90 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.02)]",
+        "flex h-full flex-col overflow-hidden rounded-xl border border-[#E8E0D4]/90 bg-[#f8f8f0] shadow-[0_16px_48px_rgba(42,36,28,0.045)]",
         className
       )}
     >
@@ -89,13 +89,13 @@ export function CatalogListingCard({
         <Link href={href} className="block">
           <Typography
             variant="h3"
-            className="font-serif text-base font-normal leading-snug tracking-wide text-[#1A241C] md:text-[17px]"
+            className="font-serif text-lg font-normal leading-snug tracking-wide text-[#1A241C] md:text-[17px]"
           >
             {object.name}
           </Typography>
           <Typography
             variant="caption"
-            className="mt-1 block text-[11px] text-[#888]"
+            className="mt-1 block text-[13px] text-[#888] md:text-[11px]"
           >
             {object.location.district}
           </Typography>
@@ -103,7 +103,7 @@ export function CatalogListingCard({
 
         <Typography
           variant="body"
-          className="mt-2.5 text-sm font-semibold text-[#1A241C]"
+          className="mt-2.5 text-[15px] font-semibold text-[#1A241C] md:text-sm"
         >
           {`${UI_CONFIG.base.pricePrefix} ${object.price.from.toLocaleString("ru-RU")} ₽/${object.price.unit}`}
         </Typography>
@@ -116,7 +116,7 @@ export function CatalogListingCard({
                 className="flex flex-col items-center gap-1.5 text-stone-400"
               >
                 <Icon name={item.icon} size={22} />
-                <span className="font-sans text-[11px] leading-none text-stone-400">
+                <span className="font-sans text-[12px] leading-none text-stone-400 md:text-[11px]">
                   {item.label}
                 </span>
               </div>
@@ -127,13 +127,13 @@ export function CatalogListingCard({
         <div className="mt-3 border-t border-stone-100 pt-3">
           <Typography
             variant="caption"
-            className="mb-1 block text-[11px] font-semibold text-[#BC5434]"
+            className="mb-1 block text-[13px] font-semibold text-[#BC5434] md:text-[11px]"
           >
             {UI_CONFIG.catalog.notForLabel}
           </Typography>
           <Typography
             variant="body"
-            className="line-clamp-3 text-[12px] leading-relaxed text-[#555]"
+            className="line-clamp-3 text-[14px] leading-relaxed text-[#555] md:text-[12px]"
           >
             {notFor}
           </Typography>
@@ -142,7 +142,7 @@ export function CatalogListingCard({
         <div className="mt-auto pt-4">
           <Link
             href={href}
-            className="inline-flex h-9 w-full items-center justify-center rounded-lg bg-[#BC5434] px-3 font-sans text-xs font-semibold tracking-wide text-white transition-colors hover:bg-[#a0482c]"
+            className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-[#BC5434] px-3 font-sans text-sm font-semibold tracking-wide text-white transition-colors hover:bg-[#a0482c] md:h-9 md:text-xs"
           >
             {UI_CONFIG.home.bookCta}
           </Link>

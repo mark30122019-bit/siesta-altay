@@ -83,7 +83,7 @@ function CatalogCard({
     >
       <Card
         className={cn(
-          "flex flex-col overflow-hidden rounded-xl border border-stone-200/90 bg-white p-0 shadow-sm",
+          "flex flex-col overflow-hidden rounded-xl border border-[#E8E0D4]/90 bg-[#f8f8f0] p-0 shadow-[0_16px_48px_rgba(42,36,28,0.045)]",
           "transition-opacity duration-300 group-hover:opacity-90"
         )}
       >

@@ -7,7 +7,7 @@ import { WhySiestaSection } from "@/components/home/why-siesta-section";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-white">
       <HeroSection />
 
       {/*
@@ -15,7 +15,7 @@ export default function HomePage() {
         слева  — Почему Сиеста → Экспедиция (список сразу над карточкой)
         справа — Каталог → Культура
       */}
-      <section className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-6 py-14 md:gap-12 lg:grid-cols-2 lg:gap-x-14 lg:px-10 lg:py-16 xl:px-12">
+      <section className="bg-[#FFFbf7] mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-6 py-14 md:gap-12 lg:grid-cols-2 lg:gap-x-14 lg:px-10 lg:py-16 xl:px-12">
         <div className="flex flex-col justify-between gap-12 md:gap-[3.75rem]">
           <WhySiestaSection />
           <ExpeditionSection />
@@ -27,7 +27,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <SiteFooter />
+      <SiteFooter tone="plain" />
     </main>
   );
 }

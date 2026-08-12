@@ -64,32 +64,32 @@ function amenityItems(object: BaseObject): { label: string; icon: IconName }[] {
 
 function BaseHeader() {
   return (
-    <header className="w-full border-b border-stone-200/60 bg-[#FBFBFA]">
+    <header className="w-full border-b border-[#f8f8f0] bg-[#f8f8f0]">
       <div
         className={cn(
-          "mx-auto flex w-full items-center justify-between gap-4 px-6 py-4 md:py-5",
+          "mx-auto flex w-full items-center justify-between gap-4 px-6 py-5 md:py-6",
           DESKTOP_INSET
         )}
       >
         <Button
           variant="ghost"
           href={UI_CONFIG.home.catalogHref}
-          className="flex items-center gap-2 px-0 text-sm font-sans font-medium text-stone-600 hover:bg-transparent hover:text-[#BC5434]"
+          className="flex items-center gap-2 px-0 font-sans text-sm font-medium tracking-wide text-[#6B635A] hover:bg-transparent hover:text-[#8F5A4A]"
         >
           {UI_CONFIG.detailPage.backToCatalog}
         </Button>
 
-        <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-1">
-          <Typography
-            variant="h3"
-            className="font-serif text-base tracking-wide text-[#1A241C] md:text-lg"
+        <div className="flex flex-wrap items-center justify-end gap-x-5 gap-y-1">
+          <Link
+            href="/"
+            className="cursor-pointer font-serif text-base font-normal tracking-[0.06em] text-[#1A241C] transition-colors hover:text-[#8F5A4A] md:text-lg"
           >
             {GLOBAL_CONFIG.brandName}
-          </Typography>
+          </Link>
           <HeroPhoneLink
             phone={GLOBAL_CONFIG.phone}
-            className="static font-sans text-sm font-semibold tracking-wide text-stone-600 md:text-base"
-            linkClassName="hover:text-[#BC5434]"
+            className="static font-sans text-sm font-medium tracking-wide text-[#6B635A] md:text-base"
+            linkClassName="hover:text-[#8F5A4A]"
           />
         </div>
       </div>
@@ -107,7 +107,7 @@ function PhotoThumbs({ photos }: { photos: PhotoConfig[] }) {
 
   return (
     <div
-      className="mt-3 grid gap-2.5"
+      className="mt-4 grid gap-3"
       style={{ gridTemplateColumns: `repeat(${slotCount}, minmax(0, 1fr))` }}
     >
       {visible.map((photo, index) => {
@@ -116,7 +116,7 @@ function PhotoThumbs({ photos }: { photos: PhotoConfig[] }) {
         return (
           <div
             key={`${photo.src}-${index}`}
-            className="relative aspect-video overflow-hidden rounded-lg border-0 bg-stone-200"
+            className="relative aspect-video overflow-hidden rounded-xl bg-[#E8E0D4] shadow-[0_8px_24px_rgba(42,36,28,0.05)]"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -147,10 +147,10 @@ function PanelCard({
   children: ReactNode;
 }) {
   return (
-    <div className="flex h-full flex-col rounded-xl border border-stone-200/90 bg-white px-5 py-6 shadow-sm md:px-6 md:py-7">
+    <div className="flex h-full flex-col rounded-2xl border border-[#E8E0D4]/90 bg-[#f8f8f0] px-5 py-7 shadow-[0_16px_48px_rgba(42,36,28,0.045)] md:px-7 md:py-8">
       <Typography
         variant="h3"
-        className="mb-4 font-sans text-[13px] font-bold tracking-wide text-[#1A241C] md:mb-5 md:text-sm"
+        className="mb-5 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-[#6B635A] md:mb-6 md:text-[13px]"
       >
         {title}
       </Typography>
@@ -195,17 +195,17 @@ function DetailColumns({ object }: { object: BaseObject }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-3 sm:gap-5">
+    <div className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-3 sm:gap-6">
       <PanelCard title={UI_CONFIG.base.detailsTitle}>
-        <ul className="space-y-3.5">
+        <ul className="space-y-4">
           {details.map((item) => (
-            <li key={item.label} className="flex items-start gap-3">
-              <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-[#F3F1EC] text-[#4A5D4E]">
+            <li key={item.label} className="flex items-start gap-3.5">
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#F0EBE3] text-[#6B635A]">
                 <Icon name={item.icon} size={16} />
               </span>
               <Typography
                 variant="body"
-                className="pt-1.5 text-[13px] leading-snug text-[#2A2A24] md:text-sm"
+                className="pt-2 text-[13px] leading-relaxed text-[#2C3228] md:text-sm"
               >
                 {item.label}
               </Typography>
@@ -215,16 +215,16 @@ function DetailColumns({ object }: { object: BaseObject }) {
       </PanelCard>
 
       <PanelCard title={UI_CONFIG.base.amenitiesTitle}>
-        <div className="flex flex-wrap content-start gap-2">
+        <div className="flex flex-wrap content-start gap-2.5">
           {(amenities.length > 0
             ? amenities
             : [{ label: "—", icon: "check" as const }]
           ).map((item) => (
             <span
               key={item.label}
-              className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-[#F3F1EC] px-2.5 font-sans text-[12px] leading-none text-[#1A241C]"
+              className="inline-flex h-9 items-center gap-2 rounded-xl bg-[#F0EBE3] px-3 font-sans text-[12px] leading-none text-[#2C3228]"
             >
-              <Icon name={item.icon} size={14} className="text-[#4A5D4E]" />
+              <Icon name={item.icon} size={15} className="text-[#6B635A]" />
               {item.label}
             </span>
           ))}
@@ -233,23 +233,23 @@ function DetailColumns({ object }: { object: BaseObject }) {
 
       <PanelCard title={UI_CONFIG.base.priceTitle}>
         <div className="flex items-baseline gap-1.5">
-          <span className="font-sans text-[12px] text-[#555]">
+          <span className="font-sans text-[12px] text-[#8A8278]">
             {UI_CONFIG.base.pricePrefix}
           </span>
-          <span className="font-serif text-[1.375rem] leading-none tracking-wide text-[#1A241C] md:text-[1.5rem]">
+          <span className="font-serif text-[1.5rem] leading-none tracking-wide text-[#1A241C] md:text-[1.65rem]">
             {`${object.price.from.toLocaleString("ru-RU")} ₽`}
           </span>
-          <span className="font-sans text-[12px] text-[#555]">
+          <span className="font-sans text-[12px] text-[#8A8278]">
             /{object.price.unit}
           </span>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-4">
+        <div className="mt-7 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-5">
           {object.price.included.length > 0 ? (
             <div>
               <Typography
                 variant="caption"
-                className="mb-2.5 block text-[10px] font-semibold uppercase tracking-[0.1em] text-[#4A5D4E]"
+                className="mb-3 block text-[10px] font-semibold uppercase tracking-[0.12em] text-[#6B635A]"
               >
                 Включено
               </Typography>
@@ -259,11 +259,11 @@ function DetailColumns({ object }: { object: BaseObject }) {
                     <Icon
                       name="check"
                       size={14}
-                      className="mt-0.5 shrink-0 text-[#4A5D4E]"
+                      className="mt-0.5 shrink-0 text-[#6B635A]"
                     />
                     <Typography
                       variant="body"
-                      className="text-[13px] leading-snug text-[#2A2A24] md:text-sm"
+                      className="text-[13px] leading-snug text-[#2C3228] md:text-sm"
                     >
                       {item}
                     </Typography>
@@ -277,7 +277,7 @@ function DetailColumns({ object }: { object: BaseObject }) {
             <div>
               <Typography
                 variant="caption"
-                className="mb-2.5 block text-[10px] font-semibold uppercase tracking-[0.1em] text-[#BC5434]"
+                className="mb-3 block text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8F5A4A]"
               >
                 Дополнительно
               </Typography>
@@ -287,11 +287,11 @@ function DetailColumns({ object }: { object: BaseObject }) {
                     <Icon
                       name="plus"
                       size={14}
-                      className="mt-0.5 shrink-0 text-[#BC5434]"
+                      className="mt-0.5 shrink-0 text-[#8F5A4A]"
                     />
                     <Typography
                       variant="body"
-                      className="text-[13px] leading-snug text-[#2A2A24] md:text-sm"
+                      className="text-[13px] leading-snug text-[#2C3228] md:text-sm"
                     >
                       {item}
                     </Typography>
@@ -305,7 +305,7 @@ function DetailColumns({ object }: { object: BaseObject }) {
         {object.price.note ? (
           <Typography
             variant="caption"
-            className="mt-auto pt-5 text-[11px] leading-relaxed text-[#888]"
+            className="mt-auto pt-6 text-[11px] leading-relaxed text-[#8A8278]"
           >
             {object.price.note}
           </Typography>
@@ -338,62 +338,68 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
   const year = new Date().getFullYear();
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-[#F4F0E8]">
       <BaseHeader />
 
       <div
         className={cn(
-          "mx-auto grid w-full gap-10 px-6 py-10 md:grid-cols-[minmax(0,1.35fr)_minmax(260px,0.65fr)] md:gap-12 md:py-14 lg:gap-14",
+          "mx-auto grid w-full gap-12 px-6 py-12 md:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)] md:gap-14 md:py-16 lg:gap-16 lg:py-20",
           DESKTOP_INSET
         )}
       >
-        <div className="space-y-10 md:space-y-12">
+        <div className="space-y-14 md:space-y-16">
           <section>
             <TourPlayer object={object} />
             <PhotoThumbs photos={photos} />
           </section>
 
-          <section className="max-w-2xl space-y-3">
+          <section className="max-w-2xl space-y-5">
             <Typography
               variant="h1"
-              className="font-serif text-3xl font-normal tracking-wide text-[#1A241C] md:text-4xl"
+              className="font-serif text-3xl font-normal tracking-[0.02em] text-[#1A241C] md:text-[2.75rem] md:leading-tight"
             >
               {object.name}
             </Typography>
-            <Typography variant="caption" className="block text-[#555]">
+            <Typography
+              variant="caption"
+              className="block text-[13px] tracking-wide text-[#8A8278]"
+            >
               {locationLine}
             </Typography>
-            <Typography variant="lead" className="pt-1 text-[#2A2A24]">
+            <Typography
+              variant="lead"
+              className="pt-1 text-[17px] leading-relaxed text-[#2C3228] md:text-lg"
+            >
               {object.author.verdict}
             </Typography>
           </section>
 
-          <section className="mx-auto max-w-xl space-y-3 text-center">
+          <section className="mx-auto max-w-xl space-y-5 text-center">
             <Typography
               variant="h2"
-              className="text-xl font-bold uppercase tracking-[0.04em] text-[#1A241C] md:text-2xl"
+              className="font-sans text-lg font-bold uppercase tracking-[0.08em] text-[#1A241C] md:text-xl"
             >
               {UI_CONFIG.base.honestNoteTitle}
             </Typography>
             <Typography
               variant="body"
-              className="text-sm leading-relaxed text-[#555] md:text-[15px]"
+              className="text-[15px] leading-[1.75] text-[#6B635A] md:text-base"
             >
               {object.author.honest_note}
             </Typography>
           </section>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
             <AlertBox
               variant="info"
               title={UI_CONFIG.base.goodForTitle}
-              className="h-full px-5 py-5 md:px-6 md:py-6"
+              className="h-full"
             >
-              <ul className="mt-1 list-disc space-y-2 pl-5">
+              <ul className="mt-1 list-disc space-y-2.5 pl-5">
                 {goodForItems.map((item) => (
                   <li
                     key={item}
-                    className="text-sm leading-relaxed text-white/90 md:text-[15px]"
+                    className="text-sm leading-relaxed text-[#F7F3ED]/88 md:text-[15px]"
                   >
                     {item}
                   </li>
@@ -404,20 +410,20 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
             <AlertBox
               variant="danger"
               title={UI_CONFIG.base.notSuitableTitle}
-              className="h-full px-5 py-5 md:px-6 md:py-6"
+              className="h-full"
             >
-              <ul className="mt-1 list-disc space-y-2 pl-5">
+              <ul className="mt-1 list-disc space-y-2.5 pl-5">
                 {notForItems.map((item) => (
                   <li
                     key={item}
-                    className="text-sm leading-relaxed text-[#2A2A24] md:text-[15px]"
+                    className="text-sm leading-relaxed text-[#3D3832]/85 md:text-[15px]"
                   >
                     {item}
                   </li>
                 ))}
                 {object.suitability.family_kids.note &&
                 !notForItems.includes(object.suitability.family_kids.note) ? (
-                  <li className="text-sm leading-relaxed text-[#2A2A24] md:text-[15px]">
+                  <li className="text-sm leading-relaxed text-[#3D3832]/85 md:text-[15px]">
                     {object.suitability.family_kids.note}
                   </li>
                 ) : null}
@@ -428,21 +434,21 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
           <DetailColumns object={object} />
         </div>
 
-        <aside className="md:sticky md:top-8 md:self-start" id="booking">
+        <aside className="md:sticky md:top-10 md:self-start" id="booking">
           <BookingForm />
         </aside>
       </div>
 
-      <footer className="w-full border-t border-[var(--chrome-border)] bg-[var(--chrome)]">
+      <footer className="w-full border-t border-[#f8f8f0] bg-[#f8f8f0]">
         <div
           className={cn(
-            "mx-auto flex w-full items-end justify-between gap-4 px-6 pb-[100px] pt-8",
+            "relative mx-auto flex min-h-[140px] w-full items-center justify-center px-6 py-10",
             DESKTOP_INSET
           )}
         >
           <Link
             href={UI_CONFIG.home.catalogHref}
-            className="font-sans text-sm font-medium text-[#1A241C] transition-colors hover:text-[#BC5434] md:text-base"
+            className="absolute left-6 top-1/2 hidden -translate-y-1/2 font-sans text-sm font-medium tracking-wide text-[#1A241C] transition-colors hover:text-[#8F5A4A] md:left-[15vw] md:inline md:text-base"
           >
             {UI_CONFIG.base.aboutCatalog}
           </Link>

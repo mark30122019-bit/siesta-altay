@@ -25,9 +25,9 @@ export function CultureSection() {
         {testimonials.map((item) => (
           <Card
             key={item.baseName}
-            className="relative flex min-h-[200px] flex-col items-center rounded-lg border border-stone-200 bg-[#FBFBFA] px-3 pb-4 pt-7 text-center shadow-none"
+            className="relative flex min-h-[200px] flex-col items-center rounded-lg border border-[#E8E0D4]/90 bg-[#f8f8f0] px-3 pb-4 pt-7 text-center shadow-none"
           >
-            <span className="absolute left-1/2 top-0 flex -translate-x-1/2 -translate-y-1/2 bg-[#FBFBFA] px-2 text-stone-300">
+            <span className="absolute left-1/2 top-0 flex -translate-x-1/2 -translate-y-1/2 bg-[#f8f8f0] px-2 text-[#C4BBB0]">
               <Icon name="quote" size={20} className="text-stone-300" />
             </span>
 
