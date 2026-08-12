@@ -35,7 +35,7 @@ export function CultureSection() {
         {testimonials.map((item) => (
           <Card
             key={item.baseName}
-            className="relative flex min-h-[200px] flex-col items-center rounded-lg border border-[#E8E0D4]/90 bg-[#f8f8f0] px-3 pb-4 pt-8 text-center shadow-none"
+            className="surface-card relative flex min-h-[200px] flex-col items-center rounded-2xl px-3 pb-4 pt-8 text-center"
           >
             <QuoteDivider />
 

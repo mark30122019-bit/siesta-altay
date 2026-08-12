@@ -62,7 +62,7 @@ function FilterCard({
   return (
     <div
       className={cn(
-        "catalog-filter-cursor flex h-full flex-col rounded-xl border border-[#E8E0D4]/90 bg-[#f8f8f0] px-3.5 py-3 shadow-[0_16px_48px_rgba(42,36,28,0.045)] md:px-4 md:py-3.5",
+        "surface-glass catalog-filter-cursor flex h-full flex-col px-3.5 py-3 md:px-4 md:py-3.5",
         className
       )}
     >
@@ -94,10 +94,10 @@ function FilterLink({
       type="button"
       onClick={onClick}
       className={cn(
-        "catalog-filter-cursor text-left font-sans text-[13px] leading-snug transition-colors md:text-xs",
+        "catalog-filter-cursor text-left font-sans text-[13px] leading-snug transition-all duration-300 md:text-xs",
         active
-          ? "font-semibold text-[#BC5434]"
-          : "text-[#555] hover:text-[#1A241C]"
+          ? "scale-[1.02] font-semibold text-[#BC5434]"
+          : "text-[#555] hover:scale-[1.01] hover:text-[#1A241C]",
       )}
     >
       {label}
@@ -443,7 +443,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
           <button
             type="button"
             onClick={() => setViewMode("map")}
-            className="catalog-filter-cursor relative mt-0.5 h-[120px] w-full overflow-hidden rounded-lg bg-stone-200 transition-opacity hover:opacity-90 md:h-[132px]"
+            className="catalog-filter-cursor relative mt-0.5 h-[120px] w-full overflow-hidden rounded-xl bg-gradient-to-br from-[#d4cfc4] via-[#c5bfb2] to-[#a8b0a4] transition-all duration-300 hover:opacity-95 hover:shadow-[var(--shadow-card-hover)] md:h-[132px]"
             aria-label={UI_CONFIG.filters.map}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -70,12 +70,12 @@ export function CatalogListingCard({
   return (
     <article
       className={cn(
-        "flex h-full flex-col overflow-hidden rounded-xl border border-[#E8E0D4]/90 bg-[#f8f8f0] shadow-[0_16px_48px_rgba(42,36,28,0.045)]",
+        "surface-card surface-card-interactive flex h-full flex-col overflow-hidden rounded-2xl",
         className
       )}
     >
       <div className="group relative block">
-        <div className="relative aspect-[4/3] overflow-hidden bg-stone-200">
+        <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#d4cfc4] via-[#c5bfb2] to-[#a8b0a4] shimmer">
           {isMap && tourOpen && hasTour ? (
             <iframe
               src={object.tour.url}
@@ -173,7 +173,7 @@ export function CatalogListingCard({
           </div>
         ) : null}
 
-        <div className="mt-3 rounded-lg border border-black bg-[#F8E9E4]/60 px-3 py-2.5">
+        <div className="mt-3 rounded-xl border border-black/[0.06] bg-gradient-to-br from-[#FCEEE8] to-[#F8E9E4]/80 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]">
           <Typography
             variant="caption"
             className="mb-1 block text-[13px] font-semibold text-[#BC5434] md:text-[11px]"
@@ -191,7 +191,7 @@ export function CatalogListingCard({
         <div className="mt-auto pt-4">
           <Link
             href={href}
-            className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-[#BC5434] px-3 font-sans text-sm font-semibold tracking-wide text-white transition-colors hover:bg-[#a0482c] md:h-9 md:text-xs"
+            className="btn-tactile inline-flex h-10 w-full items-center justify-center rounded-xl bg-gradient-to-b from-[#c86648] to-[#a8482c] px-3 font-sans text-sm font-semibold tracking-wide text-white shadow-[0_4px_16px_rgba(188,84,52,0.28)] transition-all duration-300 hover:from-[#d07050] hover:to-[#b04e30] hover:shadow-[0_8px_24px_rgba(188,84,52,0.32)] md:h-9 md:text-xs"
           >
             {UI_CONFIG.common.bookCta}
           </Link>

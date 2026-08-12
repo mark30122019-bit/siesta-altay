@@ -43,8 +43,30 @@
   --info-bg: #e8ecdf;
 
   /* Radius & shadow */
-  --radius: 0.75rem;
-  --shadow-card: 0 4px 24px rgba(42, 42, 36, 0.08);
+  --radius: 0.875rem;
+  --border-subtle: rgba(42, 36, 28, 0.06);
+  --border-glass: rgba(255, 255, 255, 0.42);
+  --surface-card-bg: linear-gradient(
+    165deg,
+    #faf9f4 0%,
+    #f6f4ec 46%,
+    #f0ede4 100%
+  );
+  --surface-glass-bg: rgba(255, 255, 255, 0.72);
+  --shadow-card:
+    0 1px 2px rgba(42, 36, 28, 0.03),
+    0 4px 14px rgba(42, 36, 28, 0.05),
+    0 18px 44px rgba(42, 36, 28, 0.04);
+  --shadow-card-hover:
+    0 2px 6px rgba(42, 36, 28, 0.04),
+    0 10px 28px rgba(42, 36, 28, 0.08),
+    0 28px 60px rgba(42, 36, 28, 0.06);
+  --shadow-input:
+    0 1px 2px rgba(42, 36, 28, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --shadow-input-focus:
+    0 2px 8px rgba(188, 84, 52, 0.1),
+    0 0 0 3px rgba(188, 84, 52, 0.08);
 
   /* Local system stacks — без Google Fonts / CDN */
   --font-sans-stack: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
@@ -142,4 +164,115 @@ body {
 .site-chrome {
   background: var(--chrome-gradient);
   border-color: var(--chrome-border);
+  box-shadow:
+    0 4px 20px rgba(26, 36, 28, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ── Объёмные поверхности ── */
+.surface-card {
+  border-radius: 1rem;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-card-bg);
+  box-shadow: var(--shadow-card);
+}
+
+.surface-card-interactive {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+@media (hover: hover) {
+  .surface-card-interactive:hover {
+    transform: scale(1.01);
+    box-shadow: var(--shadow-card-hover);
+    border-color: rgba(42, 36, 28, 0.09);
+  }
+}
+
+.surface-card-interactive:active {
+  transform: scale(0.995);
+  transition-duration: 0.15s;
+}
+
+.surface-glass {
+  border-radius: 1rem;
+  border: 1px solid var(--border-glass);
+  background: var(--surface-glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Тактильные кнопки и чипы ── */
+.btn-tactile {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+@media (hover: hover) {
+  .btn-tactile:hover {
+    transform: scale(1.02);
+  }
+}
+
+.btn-tactile:active {
+  transform: scale(0.98);
+  transition-duration: 0.15s;
+}
+
+/* ── Shimmer для скелетонов ── */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.22) 42%,
+    rgba(255, 255, 255, 0.38) 50%,
+    rgba(255, 255, 255, 0.22) 58%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  animation: shimmer-sweep 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer::after {
+    animation: none;
+  }
+
+  .surface-card-interactive,
+  .btn-tactile {
+    transition: none;
+  }
+
+  .surface-card-interactive:hover,
+  .btn-tactile:hover {
+    transform: none;
+  }
 }

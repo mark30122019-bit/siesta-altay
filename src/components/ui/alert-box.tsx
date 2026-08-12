@@ -13,8 +13,8 @@ export interface AlertBoxProps {
 
 const variantStyles: Record<AlertBoxVariant, string> = {
   danger:
-    "border border-black bg-[#F3E6E0] rounded-2xl p-5 md:p-7 text-[#1A241C] shadow-[0_12px_40px_rgba(42,36,28,0.04)]",
-  info: "border border-black bg-[#8F5A4A] rounded-2xl p-5 md:p-7 shadow-[0_12px_40px_rgba(42,36,28,0.08)]",
+    "border border-black/[0.06] bg-gradient-to-br from-[#FAF0EB] to-[#F3E6E0] rounded-2xl p-5 md:p-7 text-[#1A241C] shadow-[var(--shadow-card)]",
+  info: "border border-black/[0.08] bg-gradient-to-br from-[#9A6454] to-[#7A4E42] rounded-2xl p-5 md:p-7 shadow-[var(--shadow-card-hover)]",
 };
 
 function AlertBox({ variant, title, children, className }: AlertBoxProps) {

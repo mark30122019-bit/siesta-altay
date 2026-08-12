@@ -40,7 +40,7 @@ export function HeroSection() {
         <Button
           variant="ghost"
           href={UI_CONFIG.routing.catalog.href}
-          className="rounded-full border border-white bg-transparent px-8 py-3 text-sm font-normal tracking-wide text-white hover:bg-white hover:text-[#1A241C]"
+          className="btn-tactile rounded-full border border-white/60 bg-white/10 px-8 py-3 text-sm font-normal tracking-wide text-white shadow-[0_4px_20px_rgba(0,0,0,0.18)] backdrop-blur-sm transition-all duration-300 hover:border-white hover:bg-white hover:text-[#1A241C] hover:shadow-[0_8px_28px_rgba(0,0,0,0.22)]"
         >
           {UI_CONFIG.routing.catalog.ctaLabel}
         </Button>

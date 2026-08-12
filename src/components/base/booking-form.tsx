@@ -23,7 +23,7 @@ export function BookingForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-2xl border border-[#E8E0D4]/80 bg-[#f8f8f0] p-6 shadow-[0_24px_60px_rgba(42,36,28,0.06)] md:p-8"
+      className="surface-glass rounded-2xl p-6 md:p-8"
     >
       <Typography
         variant="h2"
@@ -80,7 +80,7 @@ export function BookingForm() {
       <Button
         variant="ghost"
         type="submit"
-        className="mt-7 w-full rounded-md border-0 bg-[#3D3832] py-3.5 font-sans text-[13px] font-semibold tracking-[0.08em] text-[#F7F3ED] hover:bg-[#2C2925] hover:text-[#F7F3ED]"
+        className="btn-tactile mt-7 w-full rounded-xl border-0 bg-gradient-to-b from-[#4a4540] to-[#2c2925] py-3.5 font-sans text-[13px] font-semibold tracking-[0.08em] text-[#F7F3ED] shadow-[0_6px_20px_rgba(44,41,37,0.28)] hover:from-[#3d3832] hover:to-[#1f1d1a] hover:text-[#F7F3ED]"
       >
         {UI_CONFIG.base.submitCta}
       </Button>

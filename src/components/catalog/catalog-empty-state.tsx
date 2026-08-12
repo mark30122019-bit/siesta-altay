@@ -20,7 +20,7 @@ export function CatalogEmptyState({ onReset }: CatalogEmptyStateProps) {
       className="mt-8 flex min-h-[calc(100dvh-19rem)] flex-col items-center justify-center pb-[15vh] md:min-h-[calc(100dvh-17.5rem)] md:pb-[17vh]"
       aria-live="polite"
     >
-      <div className="relative flex w-full max-w-lg flex-col items-center overflow-hidden rounded-2xl border border-[#E8E0D4]/90 bg-[#f8f8f0] px-8 py-14 text-center shadow-[0_16px_48px_rgba(42,36,28,0.045)] md:px-12 md:py-16">
+      <div className="relative flex w-full max-w-lg flex-col items-center overflow-hidden surface-card px-8 py-14 text-center md:px-12 md:py-16">
         <div
           className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-[#E8ECDF]/60 blur-2xl"
           aria-hidden

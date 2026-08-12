@@ -8,7 +8,7 @@ export function TourPlayer({ object }: { object: BaseObject }) {
 
   if (!tourUrl) {
     return (
-      <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-[#E8E0D4]/90 bg-[#E8E0D4] shadow-[0_20px_50px_rgba(42,36,28,0.08)]">
+      <div className="relative aspect-[16/9] overflow-hidden rounded-2xl surface-card">
         {cover ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -22,7 +22,7 @@ export function TourPlayer({ object }: { object: BaseObject }) {
   }
 
   return (
-    <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-[#E8E0D4]/70 bg-[#E8E0D4] shadow-[0_20px_50px_rgba(42,36,28,0.1)]">
+    <div className="relative aspect-[16/9] overflow-hidden rounded-2xl surface-card">
       <TourIframe
         src={tourUrl}
         title={`${object.name} — ${UI_CONFIG.common.tourBadge}`}

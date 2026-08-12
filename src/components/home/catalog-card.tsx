@@ -59,8 +59,7 @@ function CatalogCard({
       >
         <Card
           className={cn(
-            "relative h-[88px] overflow-hidden rounded-lg border-0 bg-stone-200 p-0 shadow-none md:h-[100px]",
-            "transition-opacity duration-300 group-hover:opacity-90"
+            "surface-card surface-card-interactive relative h-[88px] overflow-hidden rounded-xl p-0 md:h-[100px]"
           )}
         >
           <CoverImage object={object} src={src} />
@@ -83,11 +82,10 @@ function CatalogCard({
     >
       <Card
         className={cn(
-          "flex flex-col overflow-hidden rounded-xl border border-[#E8E0D4]/90 bg-[#f8f8f0] p-0 shadow-[0_16px_48px_rgba(42,36,28,0.045)]",
-          "transition-opacity duration-300 group-hover:opacity-90"
+          "surface-card surface-card-interactive flex flex-col overflow-hidden rounded-2xl p-0"
         )}
       >
-        <div className="relative h-[120px] overflow-hidden bg-stone-200 md:h-[132px]">
+        <div className="relative h-[120px] overflow-hidden bg-gradient-to-br from-[#d4cfc4] via-[#c5bfb2] to-[#a8b0a4] shimmer md:h-[132px]">
           <CoverImage object={object} src={src} />
           {hasTour ? (
             <Badge
@@ -111,7 +109,7 @@ function CatalogCard({
           >
             {formatPrice(object)}
           </Typography>
-          <span className="mt-2.5 inline-flex h-8 w-fit items-center justify-center rounded-md border border-[#BC5434] bg-[#BC5434] px-4 text-[11px] leading-none text-white md:text-xs">
+          <span className="btn-tactile mt-2.5 inline-flex h-8 w-fit items-center justify-center rounded-xl border border-[#BC5434]/20 bg-gradient-to-b from-[#c86648] to-[#a8482c] px-4 text-[11px] leading-none text-white shadow-[0_3px_12px_rgba(188,84,52,0.24)] md:text-xs">
             {UI_CONFIG.common.bookCta}
           </span>
         </div>

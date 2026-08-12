@@ -16,10 +16,10 @@ function Chip({ label, isActive, onClick, className }: ChipProps) {
       onClick={onClick}
       aria-pressed={isActive}
       className={cn(
-        "inline-flex items-center justify-center rounded-full px-4 py-1.5 text-sm transition-colors duration-200",
+        "btn-tactile inline-flex items-center justify-center rounded-full px-4 py-1.5 text-sm",
         isActive
-          ? "border-none bg-[#BC5434] text-white shadow-sm shadow-[#BC5434]/30"
-          : "border border-gray-200 bg-transparent text-[#1A241C] hover:border-gray-300 hover:bg-gray-50",
+          ? "border border-transparent bg-gradient-to-b from-[#c86648] to-[#a8482c] text-white shadow-[0_4px_14px_rgba(188,84,52,0.28)]"
+          : "border border-black/[0.06] bg-gradient-to-b from-white/80 to-[#F3EEE6] text-[#1A241C] hover:border-black/[0.1] hover:shadow-[0_4px_12px_rgba(42,36,28,0.06)]",
         className
       )}
     >

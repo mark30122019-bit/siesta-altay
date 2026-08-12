@@ -153,7 +153,7 @@ export function CatalogMap({ objects, className }: CatalogMapProps) {
   return (
     <div
       className={cn(
-        "relative mt-6 w-full overflow-hidden rounded-xl border border-[#E8E0D4]/90 bg-[#f8f8f0] shadow-[0_16px_48px_rgba(42,36,28,0.045)]",
+        "surface-card relative mt-6 w-full overflow-hidden rounded-2xl",
         "h-[calc(100dvh-5.5rem)] min-h-[560px]",
         className
       )}
@@ -161,7 +161,7 @@ export function CatalogMap({ objects, className }: CatalogMapProps) {
       <div ref={containerRef} className="absolute inset-0 h-full w-full" />
 
       {!ready && !error ? (
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-[#f8f8f0]/80">
+        <div className="surface-glass shimmer pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
           <Typography variant="caption" className="text-[#6B635A]">
             Загружаем карту…
           </Typography>

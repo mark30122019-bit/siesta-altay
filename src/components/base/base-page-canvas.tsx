@@ -78,7 +78,7 @@ function PhotoThumbs({ photos }: { photos: PhotoConfig[] }) {
         return (
           <div
             key={`${photo.src}-${index}`}
-            className="relative aspect-video overflow-hidden rounded-xl bg-[#E8E0D4] shadow-[0_8px_24px_rgba(42,36,28,0.05)]"
+            className="relative aspect-video overflow-hidden rounded-2xl surface-card shimmer bg-gradient-to-br from-[#E8E0D4] to-[#ddd6c8]"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -109,7 +109,7 @@ function PanelCard({
   children: ReactNode;
 }) {
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-[#E8E0D4]/90 bg-[#f8f8f0] px-5 py-7 shadow-[0_16px_48px_rgba(42,36,28,0.045)] md:px-7 md:py-8">
+    <div className="surface-card flex h-full flex-col rounded-2xl px-5 py-7 md:px-7 md:py-8">
       <Typography
         variant="h3"
         className="mb-5 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-[#6B635A] md:mb-6 md:text-[13px]"

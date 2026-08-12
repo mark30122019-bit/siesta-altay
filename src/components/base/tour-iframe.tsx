@@ -69,7 +69,7 @@ export function TourIframe({ src, title, className }: TourIframeProps) {
           aria-busy={!isIframeLoaded}
           aria-live="polite"
         >
-          <div className="absolute inset-0 bg-[linear-gradient(160deg,#d4cfc4_0%,#8a9a8e_42%,#5c6b6e_78%,#4a5d4e_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(160deg,#d4cfc4_0%,#8a9a8e_42%,#5c6b6e_78%,#4a5d4e_100%)] shimmer" />
           <div
             className="pointer-events-none absolute -left-16 top-1/4 size-48 rounded-full bg-[#E8ECDF]/35 blur-3xl"
             aria-hidden

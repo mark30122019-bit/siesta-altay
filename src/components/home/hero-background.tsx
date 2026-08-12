@@ -14,7 +14,7 @@ export function HeroBackground() {
     <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden>
       <div
         className={cn(
-          "absolute inset-0 bg-[linear-gradient(145deg,#c5bfb2_0%,#8a9a8e_50%,#5c6b6e_100%)] transition-opacity duration-700 ease-out motion-reduce:transition-none",
+          "absolute inset-0 bg-[linear-gradient(145deg,#c5bfb2_0%,#8a9a8e_50%,#5c6b6e_100%)] transition-opacity duration-700 ease-out motion-reduce:transition-none shimmer",
           isLoaded ? "pointer-events-none opacity-0" : "opacity-100"
         )}
       >
