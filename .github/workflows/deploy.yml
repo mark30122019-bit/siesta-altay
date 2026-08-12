@@ -2,7 +2,8 @@ name: Deploy Next.js to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -38,10 +39,15 @@ jobs:
       - name: Build with Next.js
         run: npm run build
 
+      - name: Verify static export output
+        run: |
+          test -f out/index.html || (echo "out/index.html not found — check output: export in next.config.ts" && exit 1)
+          echo "Static export OK: $(ls -la out | head -20)"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: out
 
       - name: Deploy to GitHub Pages
         id: deployment
