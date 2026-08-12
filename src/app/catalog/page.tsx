@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { CatalogCanvas } from "@/components/catalog/catalog-canvas";
 import { SiteFooter, SiteHeader } from "@/components/ui";
 import { GLOBAL_CONFIG } from "@/config/global";
@@ -18,7 +20,9 @@ export default function CatalogPage() {
         backHref={UI_CONFIG.routing.home.href}
         backLabel={UI_CONFIG.routing.home.backLabel}
       />
-      <CatalogCanvas objects={objects} />
+      <Suspense fallback={<div className="min-h-[50vh]" aria-hidden />}>
+        <CatalogCanvas objects={objects} />
+      </Suspense>
       <SiteFooter />
     </main>
   );

@@ -2,9 +2,8 @@ import type { ReactNode } from "react";
 
 import { AlertBox } from "@/components/ui/alert-box";
 import { Icon, type IconName } from "@/components/ui/icon";
-import { SiteFooter } from "@/components/ui/site-footer";
-import { SiteHeader } from "@/components/ui/site-header";
 import { Typography } from "@/components/ui/typography";
+import { BasePageFooter, BasePageHeader } from "@/components/base/base-page-chrome";
 import { BookingForm } from "@/components/base/booking-form";
 import { TourPlayer } from "@/components/base/tour-player";
 import { UI_CONFIG } from "@/config/uiConfig";
@@ -300,10 +299,7 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
 
   return (
     <main className="min-h-screen bg-[#F4F0E8]">
-      <SiteHeader
-        backHref={UI_CONFIG.routing.catalog.href}
-        backLabel={UI_CONFIG.routing.catalog.backLabel}
-      />
+      <BasePageHeader />
 
       <div
         className={cn(
@@ -403,12 +399,7 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
         </aside>
       </div>
 
-      <SiteFooter
-        sideLink={{
-          href: UI_CONFIG.routing.catalog.href,
-          label: UI_CONFIG.routing.catalog.backLabel,
-        }}
-      />
+      <BasePageFooter />
     </main>
   );
 }

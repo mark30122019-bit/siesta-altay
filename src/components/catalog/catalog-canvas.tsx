@@ -7,6 +7,7 @@ import {
   useTransition,
   type ReactNode,
 } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { Chip } from "@/components/ui/chip";
@@ -16,10 +17,19 @@ import { CatalogListingCard } from "@/components/catalog/catalog-listing-card";
 import { CatalogMap } from "@/components/catalog/catalog-map";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
+import {
+  buildCatalogHref,
+  catalogHrefMatchesSearchParams,
+  defaultCatalogFilterState,
+  loadCatalogFilterState,
+  parseCatalogSearchParams,
+  persistCatalogFilterState,
+  type CatalogViewMode,
+} from "@/lib/catalog-filter-state";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
-type ViewMode = "list" | "map";
+type ViewMode = CatalogViewMode;
 
 type FilterSnapshot = {
   audiences: string[];
@@ -176,6 +186,9 @@ function matchesFilters(object: BaseObject, filters: FilterSnapshot) {
 }
 
 export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const priceBounds = useMemo(() => {
     const prices = objects.map((object) => object.price.from);
     const min = Math.min(...prices);
@@ -186,37 +199,118 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
     };
   }, [objects]);
 
-  const [audiences, setAudiences] = useState<string[]>([]);
-  const [districts, setDistricts] = useState<string[]>([]);
-  const [features, setFeatures] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([
-    priceBounds.min,
-    priceBounds.max,
-  ]);
-  const [viewMode, setViewMode] = useState<ViewMode>("list");
+  const defaultState = useMemo(
+    () => defaultCatalogFilterState(priceBounds),
+    [priceBounds]
+  );
+
+  const parsedFromUrl = useMemo(
+    () => parseCatalogSearchParams(searchParams),
+    [searchParams]
+  );
+
+  const [audiences, setAudiences] = useState(parsedFromUrl.audiences);
+  const [districts, setDistricts] = useState(parsedFromUrl.districts);
+  const [features, setFeatures] = useState(parsedFromUrl.features);
+  const [priceRange, setPriceRange] = useState<[number, number]>(
+    defaultState.priceRange
+  );
+  const [viewMode, setViewMode] = useState<ViewMode>(parsedFromUrl.viewMode);
   const [isPending, startTransition] = useTransition();
+  const [priceHydrated, setPriceHydrated] = useState(false);
 
   const [appliedFilters, setAppliedFilters] = useState<FilterSnapshot>({
-    audiences: [],
-    districts: [],
-    features: [],
-    priceRange: [priceBounds.min, priceBounds.max],
+    audiences: parsedFromUrl.audiences,
+    districts: parsedFromUrl.districts,
+    features: parsedFromUrl.features,
+    priceRange: defaultState.priceRange,
   });
+
+  const [debouncedPriceRange, setDebouncedPriceRange] = useState<
+    [number, number]
+  >(defaultState.priceRange);
+
+  useEffect(() => {
+    const stored = loadCatalogFilterState(priceBounds);
+    const price = stored?.priceRange ?? defaultState.priceRange;
+
+    startTransition(() => {
+      setPriceRange(price);
+      setDebouncedPriceRange(price);
+      setAppliedFilters((prev) => ({ ...prev, priceRange: price }));
+      setPriceHydrated(true);
+    });
+  }, [defaultState.priceRange, priceBounds]);
+
+  useEffect(() => {
+    startTransition(() => {
+      setAudiences(parsedFromUrl.audiences);
+      setDistricts(parsedFromUrl.districts);
+      setFeatures(parsedFromUrl.features);
+      setViewMode(parsedFromUrl.viewMode);
+      setAppliedFilters((prev) => ({
+        audiences: parsedFromUrl.audiences,
+        districts: parsedFromUrl.districts,
+        features: parsedFromUrl.features,
+        priceRange: prev.priceRange,
+      }));
+    });
+  }, [parsedFromUrl]);
 
   useEffect(() => {
     const handle = window.setTimeout(() => {
-      startTransition(() => {
-        setAppliedFilters({
-          audiences,
-          districts,
-          features,
-          priceRange,
-        });
-      });
+      setDebouncedPriceRange(priceRange);
     }, FILTER_DEBOUNCE_MS);
 
     return () => window.clearTimeout(handle);
-  }, [audiences, districts, features, priceRange]);
+  }, [priceRange]);
+
+  useEffect(() => {
+    startTransition(() => {
+      setAppliedFilters({
+        audiences,
+        districts,
+        features,
+        priceRange: debouncedPriceRange,
+      });
+    });
+  }, [audiences, districts, features, debouncedPriceRange]);
+
+  useEffect(() => {
+    if (!priceHydrated) return;
+
+    const href = buildCatalogHref({
+      audiences,
+      districts,
+      features,
+      viewMode,
+    });
+
+    persistCatalogFilterState(
+      {
+        audiences,
+        districts,
+        features,
+        priceRange: debouncedPriceRange,
+        viewMode,
+      },
+      priceBounds
+    );
+
+    if (!catalogHrefMatchesSearchParams(href, searchParams)) {
+      router.replace(href, { scroll: false });
+    }
+  }, [
+    audiences,
+    districts,
+    features,
+    debouncedPriceRange,
+    viewMode,
+    priceBounds,
+    priceHydrated,
+    router,
+    searchParams,
+  ]);
 
   const filtered = useMemo(
     () => objects.filter((object) => matchesFilters(object, appliedFilters)),
