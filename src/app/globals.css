@@ -162,13 +162,19 @@ body {
 
 /* Хедер / футер — лесной градиент Алтая */
 .site-chrome {
-  background: var(--chrome-gradient);
+  /* Тонированное полупрозрачное стекло: позволяет контенту проходить сквозь шапку */
+  background: linear-gradient(
+    90deg,
+    rgba(58, 92, 66, 0.9) 0%,
+    rgba(53, 82, 58, 0.9) 48%,
+    rgba(55, 76, 62, 0.9) 100%
+  );
   border-color: var(--chrome-border);
   box-shadow:
-    0 4px 20px rgba(26, 36, 28, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+    0 18px 60px rgba(8, 16, 10, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 /* ── Объёмные поверхности ── */
