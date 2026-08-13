@@ -43,22 +43,36 @@ export function SiteFooter({
           </Link>
         ) : null}
 
-        <Typography
-          variant="caption"
-          className={cn(
-            "text-xl tracking-wide",
-            tone === "chrome" ? "text-[#F5EFE0]" : "text-[#1A241C]"
-          )}
-        >
-          <span>{GLOBAL_CONFIG.companyName}</span>{" "}
-          <span
-            className={
-              tone === "chrome" ? "font-medium text-[#D4A24A]" : undefined
-            }
+        <div className="flex flex-col items-center gap-3">
+          <Typography
+            variant="caption"
+            className={cn(
+              "text-xl tracking-wide",
+              tone === "chrome" ? "text-[#F5EFE0]" : "text-[#1A241C]"
+            )}
           >
-            {UI_CONFIG.common.copyright} {year}
-          </span>
-        </Typography>
+            <span>{GLOBAL_CONFIG.companyName}</span>{" "}
+            <span
+              className={
+                tone === "chrome" ? "font-medium text-[#D4A24A]" : undefined
+              }
+            >
+              {UI_CONFIG.common.copyright} {year}
+            </span>
+          </Typography>
+
+          <Link
+            href="/politika"
+            className={cn(
+              "font-sans text-sm tracking-wide transition-colors",
+              tone === "chrome"
+                ? "text-[#F5EFE0]/65 hover:text-[#D4A24A]"
+                : "text-[#6B635A] hover:text-[#BC5434]"
+            )}
+          >
+            {UI_CONFIG.politika.footerLink}
+          </Link>
+        </div>
       </div>
     </footer>
   );
