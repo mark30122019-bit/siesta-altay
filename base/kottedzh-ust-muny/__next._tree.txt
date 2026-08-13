@@ -1,4 +1,4 @@
-:HL["/siesta-altay/_next/static/chunks/15pexmg6za8hh.css","style"]
+:HL["/siesta-altay/_next/static/chunks/0peupuko1dixl.css","style"]
 :HL["/siesta-altay/media/kottedzh-ust-muny/tour-preview.jpg","image"]
 :HL["/siesta-altay/media/kottedzh-ust-muny/01.jpg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"base","param":null,"prefetchHints":4192,"slots":{"children":{"name":"slug","param":{"type":"d","key":"kottedzh-ust-muny","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"-KdgVlUQI8sie1oiBRCqW"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"base","param":null,"prefetchHints":4192,"slots":{"children":{"name":"slug","param":{"type":"d","key":"kottedzh-ust-muny","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"cvsmQvmCW-racjSWttQ80"}
