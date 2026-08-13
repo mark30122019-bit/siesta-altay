@@ -396,7 +396,7 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
         </div>
 
         <aside className="md:sticky md:top-10 md:self-start" id="booking">
-          <BookingForm />
+          <BookingForm objectName={object.name} objectSlug={object.slug} />
         </aside>
       </div>
 

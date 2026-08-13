@@ -6,6 +6,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DateRangePicker,
+  formatDateRangeLabel,
   type DateRangeValue,
 } from "@/components/ui/date-range-picker";
 import {
@@ -15,9 +16,16 @@ import {
 import { isCompletePhoneValue, PhoneInput } from "@/components/ui/phone-input";
 import { Typography } from "@/components/ui/typography";
 import { GLOBAL_CONFIG } from "@/config/global";
+import { isBookingApiConfigured } from "@/config/telegram";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { sendBookingToTelegram } from "@/lib/send-booking-telegram";
 
-export function BookingForm() {
+type BookingFormProps = {
+  objectName?: string;
+  objectSlug?: string;
+};
+
+export function BookingForm({ objectName, objectSlug }: BookingFormProps) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -25,12 +33,40 @@ export function BookingForm() {
     start: null,
     end: null,
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setError(null);
+
     if (!isValidBookingName(name)) return;
     if (!isCompletePhoneValue(phone)) return;
     if (!dates.start || !dates.end) return;
+
+    if (!isBookingApiConfigured()) {
+      setError(UI_CONFIG.base.bookingConfigError);
+      return;
+    }
+
+    setSubmitting(true);
+
+    const result = await sendBookingToTelegram({
+      name: name.trim(),
+      phone,
+      dates: formatDateRangeLabel(dates),
+      objectName,
+      objectSlug,
+      pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
+    });
+
+    setSubmitting(false);
+
+    if (!result.ok) {
+      setError(UI_CONFIG.base.bookingError);
+      return;
+    }
+
     router.push("/spasibo");
   }
 
@@ -58,12 +94,21 @@ export function BookingForm() {
         />
       </div>
 
+      {error ? (
+        <p className="mt-4 text-center font-sans text-[12px] leading-relaxed text-[#C45C3E]">
+          {error}
+        </p>
+      ) : null}
+
       <Button
         variant="ghost"
         type="submit"
-        className="btn-tactile mt-7 w-full rounded-xl border-0 bg-gradient-to-b from-[#4a4540] to-[#2c2925] py-3.5 font-sans text-[13px] font-semibold tracking-[0.08em] text-[#F7F3ED] shadow-[0_6px_20px_rgba(44,41,37,0.28)] hover:from-[#3d3832] hover:to-[#1f1d1a] hover:text-[#F7F3ED]"
+        disabled={submitting}
+        className="btn-tactile mt-7 w-full rounded-xl border-0 bg-gradient-to-b from-[#4a4540] to-[#2c2925] py-3.5 font-sans text-[13px] font-semibold tracking-[0.08em] text-[#F7F3ED] shadow-[0_6px_20px_rgba(44,41,37,0.28)] hover:from-[#3d3832] hover:to-[#1f1d1a] hover:text-[#F7F3ED] disabled:pointer-events-none disabled:opacity-60"
       >
-        {UI_CONFIG.base.submitCta}
+        {submitting
+          ? UI_CONFIG.base.submittingCta
+          : UI_CONFIG.base.submitCta}
       </Button>
 
       <Typography

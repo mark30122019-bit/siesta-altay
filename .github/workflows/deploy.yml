@@ -32,6 +32,7 @@ jobs:
         run: npx next build
         env:
           NEXT_PUBLIC_YANDEX_MAPS_API_KEY: ${{ vars.NEXT_PUBLIC_YANDEX_MAPS_API_KEY }}
+          NEXT_PUBLIC_BOOKING_API_URL: ${{ vars.NEXT_PUBLIC_BOOKING_API_URL }}
 
       - name: Verify static export output
         run: |

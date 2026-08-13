@@ -54,7 +54,11 @@ export const UI_CONFIG = {
     notSuitableTitle: "КОМУ НЕ ПОДОЙДЁТ",
     bookingTitle: "Оставить заявку",
     submitCta: "Оставить заявку",
+    submittingCta: "Отправляем…",
     bookingNotePrefix: "Ваша заявка будет отправлена менеджеру",
+    bookingError: "Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.",
+    bookingConfigError:
+      "Приём заявок временно недоступен. Позвоните нам по телефону на сайте.",
     enter360: "360° Зайти внутрь",
     tourLoading: "Загрузка...",
     expandFullscreen: "Развернуть",

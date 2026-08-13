@@ -1,0 +1,12 @@
+name = "siesta-altay-booking"
+main = "src/index.js"
+compatibility_date = "2026-03-01"
+
+# Публичные переменные (не секреты):
+# wrangler.toml или Dashboard → Settings → Variables
+[vars]
+ALLOWED_ORIGINS = "https://mark30122019-bit.github.io,http://localhost:3000,http://127.0.0.1:3000"
+
+# Секреты задаются командами (не коммитить!):
+#   npx wrangler secret put TG_BOT_TOKEN
+#   npx wrangler secret put TG_CHAT_ID

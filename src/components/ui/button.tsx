@@ -14,6 +14,7 @@ export interface ButtonProps {
   className?: string;
   type?: "button" | "submit";
   href?: string;
+  disabled?: boolean;
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
@@ -34,6 +35,7 @@ function Button({
   className,
   type = "button",
   href,
+  disabled,
 }: ButtonProps) {
   const classes = cn(baseStyles, variantStyles[variant], className);
 
@@ -46,7 +48,7 @@ function Button({
   }
 
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} disabled={disabled} className={classes}>
       {children}
     </button>
   );
