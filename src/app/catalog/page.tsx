@@ -1,12 +1,26 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { CatalogCanvas } from "@/components/catalog/catalog-canvas";
 import { SiteFooter, SiteHeader } from "@/components/ui";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { absoluteUrl } from "@/config/site";
 
-export const metadata = {
+const catalogDescription =
+  "Каталог проверенных баз отдыха на Алтае: фильтры по району, удобствам и цене, карта объектов и честные 3D-туры изнутри.";
+
+export const metadata: Metadata = {
   title: UI_CONFIG.home.catalogTitle,
+  description: catalogDescription,
+  alternates: {
+    canonical: absoluteUrl("/catalog"),
+  },
+  openGraph: {
+    title: `${UI_CONFIG.home.catalogTitle} | Алтай изнутри`,
+    description: catalogDescription,
+    url: absoluteUrl("/catalog"),
+  },
 };
 
 export default function CatalogPage() {

@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
+
 import { Typography } from "@/components/ui/typography";
+
+export const metadata: Metadata = {
+  title: "Typography",
+  robots: { index: false, follow: false },
+};
 
 export default function TestTypographyPage() {
   return (

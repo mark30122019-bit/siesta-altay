@@ -29,6 +29,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Локальный preview статики: `npm run preview` → `scripts/preview-server.mjs` → URL с `/siesta-altay/`
 - CI: `.github/workflows/deploy.yml` — build → push `out/` в ветку **`gh-pages`**
 - **Pages Source:** Deploy from branch → **`gh-pages`** / root (не `master` — там README)
+- SEO: `src/app/sitemap.ts`, `src/app/robots.ts`, metadata/OG в layout и страницах, JSON-LD в `src/lib/seo.ts`
 
 Не добавлять `CNAME` и не убирать `basePath`, пока сайт на бесплатном поддомене `github.io/siesta-altay`.
 

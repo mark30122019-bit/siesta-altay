@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { AlertBox } from "@/components/ui/alert-box";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -6,6 +8,11 @@ import { Chip } from "@/components/ui/chip";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Typography } from "@/components/ui/typography";
+
+export const metadata: Metadata = {
+  title: "UI kit",
+  robots: { index: false, follow: false },
+};
 
 export default function TestUiPage() {
   return (
