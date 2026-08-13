@@ -5,9 +5,11 @@ import {
   useId,
   useRef,
   useState,
+  type AnimationEvent,
   type ChangeEvent,
   type ClipboardEvent,
   type FocusEvent,
+  type FormEvent,
   type KeyboardEvent,
 } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -105,36 +107,88 @@ function PhoneInput({
     onChange(normalized ? toE164(normalized, nextCountry) : "");
   }
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    const next = event.target.value;
-    if (!next.trim()) {
-      onChange("");
+  /** Разбор сырого значения (ввод / paste / autofill), в т.ч. с кодом страны. */
+  function ingestRawPhone(raw: string, markTouched = false) {
+    if (!raw.trim()) {
+      if (value) onChange("");
       return;
     }
-    commitNational(next);
-  }
 
-  function handlePaste(event: ClipboardEvent<HTMLInputElement>) {
-    event.preventDefault();
-    const pasted = event.clipboardData.getData("text");
-    const digits = phoneDigitsOnly(pasted);
-
+    const digits = phoneDigitsOnly(raw);
     const matched = [...PHONE_COUNTRIES]
       .sort((a, b) => b.dialCode.length - a.dialCode.length)
       .find((item) => {
         if (!digits.startsWith(item.dialCode)) return false;
         if (item.dialCode === "7" && item.iso === "KZ") return false;
-        return true;
+        const nationalLen = digits.length - item.dialCode.length;
+        // Только полный/международный номер (+7… / 7900…), не национальный ввод
+        return (
+          (raw.includes("+") || digits.length > item.maxLength) &&
+          nationalLen >= 1 &&
+          nationalLen <= item.maxLength
+        );
       });
 
-    if (matched && matched.iso !== country.iso) {
-      setCountry(matched);
-      commitNational(digits.slice(matched.dialCode.length), matched);
-      return;
+    if (matched) {
+      const nationalPart = digits.slice(matched.dialCode.length);
+      if (matched.iso !== country.iso) setCountry(matched);
+      commitNational(nationalPart, matched);
+    } else {
+      commitNational(raw);
     }
 
-    commitNational(pasted);
+    if (markTouched) setTouched(true);
   }
+
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    ingestRawPhone(event.target.value);
+  }
+
+  function handleInput(event: FormEvent<HTMLInputElement>) {
+    ingestRawPhone((event.target as HTMLInputElement).value);
+  }
+
+  function handlePaste(event: ClipboardEvent<HTMLInputElement>) {
+    event.preventDefault();
+    ingestRawPhone(event.clipboardData.getData("text"), true);
+  }
+
+  /** Chrome/Safari autofill часто не шлёт onChange — как у NameInput. */
+  function handleAnimationStart(event: AnimationEvent<HTMLInputElement>) {
+    if (
+      event.animationName === "onAutoFillStart" ||
+      event.animationName.includes("onAutoFill")
+    ) {
+      ingestRawPhone(event.currentTarget.value, true);
+    }
+  }
+
+  useEffect(() => {
+    const input = inputRef.current;
+    if (!input) return;
+
+    const sync = () => {
+      const raw = input.value;
+      if (!raw) return;
+      // Сравниваем с отображаемым значением — autofill кладёт «сырое» в DOM
+      if (raw !== displayValue) {
+        ingestRawPhone(raw, true);
+      }
+    };
+
+    const t1 = window.setTimeout(sync, 100);
+    const t2 = window.setTimeout(sync, 500);
+    const t3 = window.setTimeout(sync, 1000);
+
+    input.addEventListener("input", sync);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.clearTimeout(t3);
+      input.removeEventListener("input", sync);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- как у NameInput: polling autofill
+  }, [value, displayValue, onChange, country.iso]);
 
   function handleCountrySelect(next: PhoneCountry) {
     setCountry(next);
@@ -174,17 +228,17 @@ function PhoneInput({
 
       <div
         className={cn(
-          "field-surface flex w-full items-center rounded-xl border bg-gradient-to-b from-white/90 to-[#FAF7F2] shadow-[var(--shadow-input)] transition-[border-color,box-shadow,background-color] duration-300",
+          "field-surface relative flex w-full items-center rounded-xl border bg-gradient-to-b from-white/90 to-[#FAF7F2] shadow-[var(--shadow-input)] transition-[border-color,box-shadow,background-color] duration-300",
           "border-black/[0.06]",
           focused &&
+            !complete &&
             !invalid &&
             "border-[#BC5434]/35 bg-white shadow-[var(--shadow-input-focus)]",
           invalid &&
             "border-[#C45C3E]/45 bg-[#FFF8F6] shadow-[0_0_0_3px_rgba(196,92,62,0.08)]",
           complete &&
-            !focused &&
             !invalid &&
-            "border-[#5c6b3a]/35 bg-[#F4F7F0]"
+            "is-valid border-[#5c6b3a]/35 bg-[#F4F7F0]"
         )}
       >
         <button
@@ -226,18 +280,21 @@ function PhoneInput({
           id={inputId}
           type="tel"
           inputMode="tel"
-          autoComplete="tel-national"
+          autoComplete="tel"
+          name={`${name}_display`}
           placeholder={country.mask.replace(/#/g, "0")}
           aria-label={labels.ariaLabel}
           aria-invalid={invalid || undefined}
           aria-describedby={statusMessage ? `${inputId}-status` : undefined}
           value={displayValue}
           onChange={handleChange}
+          onInput={handleInput}
           onPaste={handlePaste}
+          onAnimationStart={handleAnimationStart}
           onFocus={handleFocus}
           onBlur={handleBlur}
           className={cn(
-            "field-autofill min-w-0 flex-1 bg-transparent px-3 py-3 font-sans text-sm tracking-wide text-[#1A241C]",
+            "field-autofill min-w-0 flex-1 rounded-r-xl bg-transparent px-3 py-3 font-sans text-sm tracking-wide text-[#1A241C]",
             "placeholder:text-[#9A9288]",
             "outline-none ring-0 focus:outline-none focus:ring-0"
           )}

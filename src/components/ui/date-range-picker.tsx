@@ -122,6 +122,7 @@ export function DateRangePicker({
   const rootRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
+  const [applied, setApplied] = useState(false);
   const [viewMonth, setViewMonth] = useState(() =>
     startOfDay(value.start ?? new Date())
   );
@@ -129,6 +130,7 @@ export function DateRangePicker({
   const today = useMemo(() => startOfDay(new Date()), []);
   const displayValue = formatDateRangeLabel(value);
   const complete = Boolean(value.start && value.end);
+  const confirmed = applied && complete;
   const selectingEnd = Boolean(value.start && !value.end);
 
   useEffect(() => {
@@ -195,6 +197,8 @@ export function DateRangePicker({
   function handleSelect(date: Date) {
     if (isBeforeDay(date, today)) return;
 
+    setApplied(false);
+
     if (!value.start || (value.start && value.end)) {
       onChange({ start: startOfDay(date), end: null });
       setHoverDate(null);
@@ -213,12 +217,14 @@ export function DateRangePicker({
 
   function handleClear() {
     onChange({ start: null, end: null });
+    setApplied(false);
     setHoverDate(null);
     setViewMonth(startOfDay(new Date()));
   }
 
   function handleApply() {
     if (!complete) return;
+    setApplied(true);
     setOpen(false);
   }
 
@@ -264,12 +270,14 @@ export function DateRangePicker({
         aria-controls={panelId}
         className={cn(
           "flex w-full items-center justify-between gap-3 rounded-xl border border-black/[0.06] bg-gradient-to-b from-white/90 to-[#FAF7F2] px-4 py-3 text-left font-sans text-sm shadow-[var(--shadow-input)] transition-[border-color,box-shadow,background-color] duration-300",
-          "outline-none focus:border-[#BC5434]/35 focus:bg-white focus:shadow-[var(--shadow-input-focus)]",
-          open && "border-[#BC5434]/35 bg-white shadow-[var(--shadow-input-focus)]",
+          "outline-none focus:border-[#9A6454]/40 focus:bg-white focus:shadow-[0_2px_8px_rgba(122,78,66,0.12),0_0_0_3px_rgba(154,100,84,0.12)]",
+          open &&
+            "border-[#9A6454]/40 bg-white shadow-[0_2px_8px_rgba(122,78,66,0.12),0_0_0_3px_rgba(154,100,84,0.12)]",
           complete &&
             !open &&
+            confirmed &&
             "border-[#5c6b3a]/35 bg-[#F4F7F0] text-[#1A241C]",
-          displayValue && !complete ? "text-[#1A241C]" : null,
+          displayValue && !confirmed ? "text-[#1A241C]" : null,
           !displayValue && "text-[#9A9288]"
         )}
       >
@@ -277,23 +285,20 @@ export function DateRangePicker({
           {displayValue || labels.triggerLabel}
         </span>
         <span className="flex shrink-0 items-center gap-1.5">
-          <Icon
-            name="calendar"
-            size={18}
-            className={cn(
-              "transition-colors",
-              open
-                ? "text-[#BC5434]"
-                : complete
-                  ? "text-[#3D4F40]"
-                  : "text-[#A89F94]"
-            )}
-          />
-          {complete && !open ? (
+          {!confirmed || open ? (
+            <Icon
+              name="calendar"
+              size={18}
+              className={cn(
+                "transition-colors",
+                open ? "text-[#9A6454]" : "text-[#A89F94]"
+              )}
+            />
+          ) : (
             <span className="flex size-6 items-center justify-center rounded-full bg-[#E8ECDF] text-[#3D4F40]">
               <Icon name="check" size={14} />
             </span>
-          ) : null}
+          )}
         </span>
       </button>
 
@@ -385,13 +390,13 @@ export function DateRangePicker({
                         !disabled &&
                           !selectedEdge &&
                           !inRange &&
-                          "text-[#2A2A24] hover:bg-[#E8ECDF]/80",
+                          "text-[#2A2A24] hover:bg-[#F3E6E0]",
                         isWeekend && !disabled && "text-[#8A6A4A]",
                         inRange &&
                           !selectedEdge &&
-                          "bg-[#D5E2B8] text-[#2F3B22]",
+                          "bg-[#E8D4C8] text-[#3D2A24]",
                         selectedEdge &&
-                          "bg-gradient-to-b from-[#6B8244] to-[#5C6B3A] font-semibold text-white shadow-[0_6px_16px_rgba(92,107,58,0.28)]",
+                          "bg-[#9A6454] font-semibold text-[#F7F3ED] shadow-[0_4px_14px_rgba(122,78,66,0.32)]",
                         isStart &&
                           value.end &&
                           "rounded-r-md",
@@ -401,7 +406,7 @@ export function DateRangePicker({
                           "rounded-l-md",
                         isToday &&
                           !selectedEdge &&
-                          "ring-1 ring-inset ring-[#5c6b3a]/40"
+                          "ring-1 ring-inset ring-[#9A6454]/40"
                       )}
                     >
                       {date.getDate()}
@@ -432,7 +437,7 @@ export function DateRangePicker({
                     type="button"
                     onClick={handleApply}
                     className={cn(
-                      "flex-1 border-0 bg-gradient-to-b from-[#c86648] to-[#a8482c] font-semibold text-white shadow-[0_6px_18px_rgba(188,84,52,0.28)] hover:from-[#d07050] hover:to-[#b04e30] hover:text-white",
+                      "flex-1 border-0 bg-[#9A6454] font-semibold text-[#F7F3ED] shadow-[0_4px_14px_rgba(122,78,66,0.28)] transition-[background-color,box-shadow,transform] duration-200 hover:bg-[#7A4E42] hover:text-[#F7F3ED] hover:shadow-[0_8px_22px_rgba(122,78,66,0.38)]",
                       !complete && "pointer-events-none opacity-45"
                     )}
                   >

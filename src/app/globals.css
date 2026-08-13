@@ -157,7 +157,7 @@ body {
   background: linear-gradient(to bottom, #faf7f2, #faf7f2);
 }
 
-/* Autofill + валидное имя — зелёный фон как у ручного ввода */
+/* Autofill + валидное поле — зелёный фон как у ручного ввода */
 .field-surface.is-valid .field-autofill:-webkit-autofill,
 .field-surface.is-valid .field-autofill:-webkit-autofill:hover,
 .field-surface.is-valid .field-autofill:-webkit-autofill:focus {
