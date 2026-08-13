@@ -8,8 +8,11 @@ import {
   DateRangePicker,
   type DateRangeValue,
 } from "@/components/ui/date-range-picker";
-import { Input } from "@/components/ui/input";
-import { isCompleteRuPhone, PhoneInput } from "@/components/ui/phone-input";
+import {
+  isValidBookingName,
+  NameInput,
+} from "@/components/ui/name-input";
+import { isCompletePhoneValue, PhoneInput } from "@/components/ui/phone-input";
 import { Typography } from "@/components/ui/typography";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
@@ -25,8 +28,9 @@ export function BookingForm() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!isValidBookingName(name)) return;
+    if (!isCompletePhoneValue(phone)) return;
     if (!dates.start || !dates.end) return;
-    if (!isCompleteRuPhone(phone)) return;
     router.push("/spasibo");
   }
 
@@ -34,6 +38,7 @@ export function BookingForm() {
     <form
       onSubmit={handleSubmit}
       className="surface-glass rounded-2xl p-6 md:p-8"
+      autoComplete="on"
     >
       <Typography
         variant="h2"
@@ -43,14 +48,7 @@ export function BookingForm() {
       </Typography>
 
       <div className="grid grid-cols-1 gap-3.5">
-        <Input
-          type="text"
-          name="name"
-          placeholder={UI_CONFIG.base.placeholders.name}
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          required
-        />
+        <NameInput value={name} onChange={setName} name="name" required />
         <PhoneInput value={phone} onChange={setPhone} name="phone" required />
         <DateRangePicker
           value={dates}

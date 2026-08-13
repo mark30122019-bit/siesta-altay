@@ -266,20 +266,35 @@ export function DateRangePicker({
           "flex w-full items-center justify-between gap-3 rounded-xl border border-black/[0.06] bg-gradient-to-b from-white/90 to-[#FAF7F2] px-4 py-3 text-left font-sans text-sm shadow-[var(--shadow-input)] transition-[border-color,box-shadow,background-color] duration-300",
           "outline-none focus:border-[#BC5434]/35 focus:bg-white focus:shadow-[var(--shadow-input-focus)]",
           open && "border-[#BC5434]/35 bg-white shadow-[var(--shadow-input-focus)]",
-          displayValue ? "text-[#1A241C]" : "text-[#9A9288]"
+          complete &&
+            !open &&
+            "border-[#5c6b3a]/35 bg-[#F4F7F0] text-[#1A241C]",
+          displayValue && !complete ? "text-[#1A241C]" : null,
+          !displayValue && "text-[#9A9288]"
         )}
       >
         <span className="min-w-0 truncate">
           {displayValue || labels.triggerLabel}
         </span>
-        <Icon
-          name="calendar"
-          size={18}
-          className={cn(
-            "shrink-0 transition-colors",
-            open ? "text-[#BC5434]" : "text-[#A89F94]"
-          )}
-        />
+        <span className="flex shrink-0 items-center gap-1.5">
+          <Icon
+            name="calendar"
+            size={18}
+            className={cn(
+              "transition-colors",
+              open
+                ? "text-[#BC5434]"
+                : complete
+                  ? "text-[#3D4F40]"
+                  : "text-[#A89F94]"
+            )}
+          />
+          {complete ? (
+            <span className="flex size-6 items-center justify-center rounded-full bg-[#E8ECDF] text-[#3D4F40]">
+              <Icon name="check" size={14} />
+            </span>
+          ) : null}
+        </span>
       </button>
 
       <AnimatePresence>
@@ -374,9 +389,9 @@ export function DateRangePicker({
                         isWeekend && !disabled && "text-[#8A6A4A]",
                         inRange &&
                           !selectedEdge &&
-                          "bg-[#E8ECDF]/95 text-[#2F361C]",
+                          "bg-[#5c6b3a]/15 text-[#2A2A24]",
                         selectedEdge &&
-                          "bg-gradient-to-b from-[#c86648] to-[#a8482c] font-semibold text-white shadow-[0_6px_16px_rgba(188,84,52,0.28)]",
+                          "bg-gradient-to-b from-[#4a6350] to-[#2f4034] font-semibold text-white shadow-[0_6px_16px_rgba(47,64,52,0.28)]",
                         isStart &&
                           value.end &&
                           "rounded-r-md",
@@ -413,11 +428,11 @@ export function DateRangePicker({
                     {labels.clear}
                   </Button>
                   <Button
-                    variant="fill"
+                    variant="ghost"
                     type="button"
                     onClick={handleApply}
                     className={cn(
-                      "flex-1",
+                      "flex-1 border-0 bg-gradient-to-b from-[#c86648] to-[#a8482c] font-semibold text-white shadow-[0_6px_18px_rgba(188,84,52,0.28)] hover:from-[#d07050] hover:to-[#b04e30] hover:text-white",
                       !complete && "pointer-events-none opacity-45"
                     )}
                   >

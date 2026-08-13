@@ -131,6 +131,44 @@ body {
   font-family: var(--font-sans-stack);
 }
 
+/* Убираем жёлтый autofill браузера на полях формы */
+@keyframes onAutoFillStart {
+  from {
+    opacity: 0.99;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.field-autofill:-webkit-autofill,
+.field-autofill:-webkit-autofill:hover,
+.field-autofill:-webkit-autofill:focus,
+.field-autofill:-webkit-autofill:active {
+  -webkit-text-fill-color: #1a241c !important;
+  caret-color: #1a241c;
+  animation-name: onAutoFillStart;
+  animation-duration: 0.001s;
+  transition: background-color 99999s ease-out;
+  box-shadow: 0 0 0 1000px #faf7f2 inset !important;
+}
+
+.field-surface:has(.field-autofill:-webkit-autofill) {
+  background: linear-gradient(to bottom, #faf7f2, #faf7f2);
+}
+
+/* Autofill + валидное имя — зелёный фон как у ручного ввода */
+.field-surface.is-valid .field-autofill:-webkit-autofill,
+.field-surface.is-valid .field-autofill:-webkit-autofill:hover,
+.field-surface.is-valid .field-autofill:-webkit-autofill:focus {
+  box-shadow: 0 0 0 1000px #f4f7f0 inset !important;
+}
+
+.field-surface.is-valid:has(.field-autofill:-webkit-autofill) {
+  background: #f4f7f0;
+  border-color: rgba(92, 107, 58, 0.35);
+}
+
 /* Скролл карточки на карте каталога */
 .catalog-map-card-scroll {
   scrollbar-width: thin;
