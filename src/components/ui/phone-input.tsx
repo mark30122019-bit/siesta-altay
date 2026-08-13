@@ -321,45 +321,49 @@ function PhoneInput({
 
       <AnimatePresence>
         {menuOpen ? (
-          <motion.ul
-            role="listbox"
-            aria-label={labels.countryAria}
+          <motion.div
             initial={{ opacity: 0, y: 6, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.98 }}
             transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 right-0 z-50 mt-2 max-h-64 overflow-y-auto rounded-2xl border border-[#E8E0D4] bg-[#FBF8F2] p-1.5 shadow-[0_16px_40px_rgba(42,36,28,0.14)]"
+            className="absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-2xl border border-[#E8E0D4] bg-[#FBF8F2] p-2 shadow-[0_16px_40px_rgba(42,36,28,0.14)]"
           >
-            {PHONE_COUNTRIES.map((item) => {
-              const selected = item.iso === country.iso;
-              return (
-                <li key={item.iso}>
-                  <button
-                    type="button"
-                    role="option"
-                    aria-selected={selected}
-                    onClick={() => handleCountrySelect(item)}
-                    className={cn(
-                      "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors",
-                      selected
-                        ? "bg-[#E8ECDF] text-[#1A241C]"
-                        : "hover:bg-white/80 text-[#2A2A24]"
-                    )}
-                  >
-                    <span className="text-lg leading-none" aria-hidden>
-                      {item.flag}
-                    </span>
-                    <span className="min-w-0 flex-1 truncate font-sans text-sm">
-                      {item.name}
-                    </span>
-                    <span className="font-sans text-sm font-semibold text-[#6B635A]">
-                      +{item.dialCode}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </motion.ul>
+            <ul
+              role="listbox"
+              aria-label={labels.countryAria}
+              className="phone-country-scroll max-h-60 overflow-y-auto pr-1.5"
+            >
+              {PHONE_COUNTRIES.map((item) => {
+                const selected = item.iso === country.iso;
+                return (
+                  <li key={item.iso}>
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={selected}
+                      onClick={() => handleCountrySelect(item)}
+                      className={cn(
+                        "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors",
+                        selected
+                          ? "bg-[#E8ECDF] text-[#1A241C]"
+                          : "hover:bg-white/80 text-[#2A2A24]"
+                      )}
+                    >
+                      <span className="text-lg leading-none" aria-hidden>
+                        {item.flag}
+                      </span>
+                      <span className="min-w-0 flex-1 truncate font-sans text-sm">
+                        {item.name}
+                      </span>
+                      <span className="font-sans text-sm font-semibold text-[#6B635A]">
+                        +{item.dialCode}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </motion.div>
         ) : null}
       </AnimatePresence>
 
