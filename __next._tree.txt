@@ -1,8 +1,8 @@
-:HL["/siesta-altay/_next/static/chunks/0v9fdmj1zs9e4.css","style"]
+:HL["/siesta-altay/_next/static/chunks/15pexmg6za8hh.css","style"]
 :HL["/siesta-altay/media/promo/expedition.jpg","image"]
 :HL["/siesta-altay/media/park-otel-skala/tour-preview.jpg","image"]
 :HL["/siesta-altay/media/usadba-kruglovyh/tour-preview.jpg","image"]
 :HL["/siesta-altay/media/usadba-velvet/tour-preview.jpg","image"]
 :HL["/siesta-altay/media/glamping-vozduh/tour-preview.jpg","image"]
 :HL["/siesta-altay/media/eko-otel-grinlandiya/tour-preview.jpg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"ICntSFpawZlDM5_8Pi5XL"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"-KdgVlUQI8sie1oiBRCqW"}

@@ -1,0 +1,8 @@
+User-Agent: *
+Allow: /siesta-altay/
+Disallow: /siesta-altay/test-ui
+Disallow: /siesta-altay/test-typography
+Disallow: /siesta-altay/spasibo
+
+Host: https://mark30122019-bit.github.io/siesta-altay/
+Sitemap: https://mark30122019-bit.github.io/siesta-altay/sitemap.xml
