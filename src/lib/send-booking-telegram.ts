@@ -14,7 +14,7 @@ export type SendBookingResult =
   | { ok: false; error: string };
 
 /**
- * Отправка заявки через Cloudflare Worker → Telegram.
+ * Отправка заявки через Vercel Serverless → Telegram.
  * Токен бота на клиенте не используется.
  */
 export async function sendBookingToTelegram(
@@ -28,7 +28,7 @@ export async function sendBookingToTelegram(
   }
 
   try {
-    const response = await fetch(`${BOOKING_API_URL}/booking`, {
+    const response = await fetch(`${BOOKING_API_URL}/api/booking`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

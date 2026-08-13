@@ -1,6 +1,7 @@
 /**
- * URL Cloudflare Worker для заявок.
- * Пример: https://siesta-altay-booking.xxx.workers.dev
+ * Базовый URL Vercel API для заявок (без пути).
+ * Пример: https://siesta-altay-booking-api.vercel.app
+ * Клиент дергает `${BOOKING_API_URL}/api/booking`
  */
 export const BOOKING_API_URL =
   process.env.NEXT_PUBLIC_BOOKING_API_URL?.trim().replace(/\/$/, "") ?? "";

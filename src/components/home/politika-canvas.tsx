@@ -25,10 +25,6 @@ export function PolitikaCanvas() {
         />
 
         <header className="mb-10 border-b border-[#E8E0D4] pb-8 text-center md:mb-12 md:pb-10">
-          <div className="mx-auto mb-5 flex size-14 items-center justify-center rounded-full border border-[#E8E0D4] bg-[#E8ECDF]/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
-            <Icon name="check" size={24} className="text-[#3D4F40]" />
-          </div>
-
           <Typography
             variant="caption"
             className="mb-3 block text-[11px] font-semibold uppercase tracking-[0.2em] text-[#8A8278]"

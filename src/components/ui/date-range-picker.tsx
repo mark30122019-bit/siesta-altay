@@ -289,7 +289,7 @@ export function DateRangePicker({
                   : "text-[#A89F94]"
             )}
           />
-          {complete ? (
+          {complete && !open ? (
             <span className="flex size-6 items-center justify-center rounded-full bg-[#E8ECDF] text-[#3D4F40]">
               <Icon name="check" size={14} />
             </span>
@@ -389,9 +389,9 @@ export function DateRangePicker({
                         isWeekend && !disabled && "text-[#8A6A4A]",
                         inRange &&
                           !selectedEdge &&
-                          "bg-[#5c6b3a]/15 text-[#2A2A24]",
+                          "bg-[#D5E2B8] text-[#2F3B22]",
                         selectedEdge &&
-                          "bg-gradient-to-b from-[#4a6350] to-[#2f4034] font-semibold text-white shadow-[0_6px_16px_rgba(47,64,52,0.28)]",
+                          "bg-gradient-to-b from-[#6B8244] to-[#5C6B3A] font-semibold text-white shadow-[0_6px_16px_rgba(92,107,58,0.28)]",
                         isStart &&
                           value.end &&
                           "rounded-r-md",
@@ -401,7 +401,7 @@ export function DateRangePicker({
                           "rounded-l-md",
                         isToday &&
                           !selectedEdge &&
-                          "ring-1 ring-inset ring-[#5c6b3a]/35"
+                          "ring-1 ring-inset ring-[#5c6b3a]/40"
                       )}
                     >
                       {date.getDate()}
