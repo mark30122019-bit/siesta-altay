@@ -4,7 +4,12 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  DateRangePicker,
+  type DateRangeValue,
+} from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/input";
+import { isCompleteRuPhone, PhoneInput } from "@/components/ui/phone-input";
 import { Typography } from "@/components/ui/typography";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
@@ -13,10 +18,15 @@ export function BookingForm() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [dates, setDates] = useState("");
+  const [dates, setDates] = useState<DateRangeValue>({
+    start: null,
+    end: null,
+  });
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!dates.start || !dates.end) return;
+    if (!isCompleteRuPhone(phone)) return;
     router.push("/spasibo");
   }
 
@@ -41,40 +51,13 @@ export function BookingForm() {
           onChange={(event) => setName(event.target.value)}
           required
         />
-        <Input
-          type="tel"
-          name="phone"
-          placeholder={UI_CONFIG.base.placeholders.phone}
-          value={phone}
-          onChange={(event) => setPhone(event.target.value)}
+        <PhoneInput value={phone} onChange={setPhone} name="phone" required />
+        <DateRangePicker
+          value={dates}
+          onChange={setDates}
+          name="dates"
           required
         />
-        <div className="relative">
-          <Input
-            type="text"
-            name="dates"
-            placeholder={UI_CONFIG.base.placeholders.dates}
-            value={dates}
-            onChange={(event) => setDates(event.target.value)}
-            required
-            className="pr-11"
-          />
-          <span
-            className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A89F94]"
-            aria-hidden
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="size-4"
-            >
-              <rect x="3" y="5" width="18" height="16" rx="2" />
-              <path d="M8 3v4M16 3v4M3 11h18" />
-            </svg>
-          </span>
-        </div>
       </div>
 
       <Button
