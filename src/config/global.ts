@@ -95,11 +95,17 @@ export const GLOBAL_CONFIG: SiteConfig = {
     },
     tour: {
       url: "https://tridetur.ru/360/mgrv/",
-      preview: null,
+      preview: "/media/usadba-velvet/tour-preview.webp",
       scenes_count: 22,
       features: "панорамы территории и части номерного фонда; интерактивное открытие/закрытие кухонных шкафов и штор"
     },
-    photos: [],
+    photos: [
+      {
+        src: "/media/usadba-velvet/01.webp",
+        alt: "Усадьба «Вельвет» — гостевой дом вечером",
+        caption: "Гостевой дом"
+      }
+    ],
     price: {
       from: null,
       unit: "объект/сутки",
@@ -206,11 +212,17 @@ export const GLOBAL_CONFIG: SiteConfig = {
     },
     tour: {
       url: "https://tridetur.ru/360/vozduh_3d/",
-      preview: null,
+      preview: "/media/glamping-vozduh/tour-preview.webp",
       scenes_count: 56,
       features: "панорамы территории и всего номерного фонда; эффект день/ночь на территории и в номерах"
     },
-    photos: [],
+    photos: [
+      {
+        src: "/media/glamping-vozduh/01.webp",
+        alt: "Глэмпинг «Воздух» — купола на деревянном помосте",
+        caption: "Купола вечером"
+      }
+    ],
     price: {
       from: null,
       unit: "объект/сутки",
@@ -309,11 +321,17 @@ export const GLOBAL_CONFIG: SiteConfig = {
     },
     tour: {
       url: "https://mysiesta.ru/360/skala-2023/tour2.html",
-      preview: null,
+      preview: "/media/park-otel-skala/tour-preview.webp",
       scenes_count: 108,
       features: "панорамы большой территории и части номерного фонда; аэропанорама; меню по категориям номеров"
     },
-    photos: [],
+    photos: [
+      {
+        src: "/media/park-otel-skala/01.webp",
+        alt: "Парк-отель «Скала» — дома на территории",
+        caption: "Территория парк-отеля"
+      }
+    ],
     price: {
       from: null,
       unit: "номер/сутки",
@@ -415,11 +433,17 @@ export const GLOBAL_CONFIG: SiteConfig = {
     },
     tour: {
       url: "https://tridetur.ru/360/usadba_kruglovyh/",
-      preview: null,
+      preview: "/media/usadba-kruglovyh/tour-preview.webp",
       scenes_count: 17,
       features: "панорамы территории и части номерного фонда"
     },
-    photos: [],
+    photos: [
+      {
+        src: "/media/usadba-kruglovyh/01.webp",
+        alt: "Усадьба Кругловых — деревянный дом",
+        caption: "Гостевой дом"
+      }
+    ],
     price: {
       from: null,
       unit: "объект/сутки",
@@ -517,11 +541,17 @@ export const GLOBAL_CONFIG: SiteConfig = {
     },
     tour: {
       url: "https://tridetur.ru/360/grn_test/",
-      preview: null,
+      preview: "/media/eko-otel-grinlandiya/tour-preview.jpg",
       scenes_count: 29,
       features: "панорамы территории и части номерного фонда"
     },
-    photos: [],
+    photos: [
+      {
+        src: "/media/eko-otel-grinlandiya/01.jpg",
+        alt: "Эко-отель «Гринландия» — бассейн и корпус",
+        caption: "Бассейн"
+      }
+    ],
     price: {
       from: null,
       unit: "номер/сутки",
@@ -843,11 +873,17 @@ export const GLOBAL_CONFIG: SiteConfig = {
     },
     tour: {
       url: "https://tridetur.ru/360/altair/",
-      preview: null,
+      preview: "/media/turbaza-altair/tour-preview.jpg",
       scenes_count: 23,
       features: "панорамы территории и части номерного фонда"
     },
-    photos: [],
+    photos: [
+      {
+        src: "/media/turbaza-altair/01.jpg",
+        alt: "Турбаза «Альтаир» — кафе",
+        caption: "Кафе"
+      }
+    ],
     price: {
       from: null,
       unit: "объект/сутки",
