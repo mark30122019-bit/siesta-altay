@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type MouseEvent } from "react";
+import type { MouseEvent } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Icon, type IconName } from "@/components/ui/icon";
@@ -48,15 +48,19 @@ export function CatalogListingCard({
   className,
   mode = "list",
   onClose,
+  tourOpen = false,
+  onTourToggle,
 }: {
   object: BaseObject;
   className?: string;
   mode?: "list" | "map";
   onClose?: () => void;
+  /** В режиме карты: тур открыт в панели рядом, не внутри карточки. */
+  tourOpen?: boolean;
+  onTourToggle?: () => void;
 }) {
   const src = coverSrc(object);
   const hasTour = Boolean(object.tour?.url);
-  const [tourOpen, setTourOpen] = useState(false);
   const amenities = AMENITY_ICONS.filter((item) =>
     hasAmenityFlag(object.amenities[item.key] as boolean | null)
   ).slice(0, 5);
@@ -67,10 +71,10 @@ export function CatalogListingCard({
   const priceLabel = formatObjectPrice(object);
 
   function handleTourClick(event: MouseEvent) {
-    if (!isMap || !hasTour) return;
+    if (!isMap || !hasTour || !onTourToggle) return;
     event.preventDefault();
     event.stopPropagation();
-    setTourOpen((prev) => !prev);
+    onTourToggle();
   }
 
   return (
@@ -99,58 +103,43 @@ export function CatalogListingCard({
             </button>
           ) : null}
 
-          {isMap && tourOpen && hasTour && object.tour.url ? (
-            <iframe
-              src={object.tour.url}
-              title={`${object.name} — ${UI_CONFIG.common.tourBadge}`}
-              className="absolute inset-0 h-full w-full border-0"
-              allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          ) : (
-            <Link href={href} className="absolute inset-0 block">
-              {src ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={assetPath(src)}
-                  alt={object.name}
-                  className={cn(
-                    "h-full w-full object-cover motion-reduce:transition-none",
-                    isMap
-                      ? "transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                      : "transition-opacity duration-300 group-hover:opacity-90"
-                  )}
-                />
-              ) : (
-                <div
-                  className="h-full w-full bg-[linear-gradient(145deg,#c5bfb2_0%,#8a9a8e_50%,#5c6b6e_100%)]"
-                  aria-hidden
-                />
-              )}
-            </Link>
-          )}
+          <Link href={href} className="absolute inset-0 block">
+            {src ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={assetPath(src)}
+                alt={object.name}
+                className={cn(
+                  "h-full w-full object-cover motion-reduce:transition-none",
+                  isMap
+                    ? "transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    : "transition-opacity duration-300 group-hover:opacity-90"
+                )}
+              />
+            ) : (
+              <div
+                className="h-full w-full bg-[linear-gradient(145deg,#c5bfb2_0%,#8a9a8e_50%,#5c6b6e_100%)]"
+                aria-hidden
+              />
+            )}
+          </Link>
 
           {hasTour ? (
             isMap ? (
-              <button
-                type="button"
-                onClick={handleTourClick}
-                className="absolute bottom-2.5 right-2.5 z-10 cursor-pointer"
-                aria-pressed={tourOpen}
-                aria-label={
-                  tourOpen
-                    ? UI_CONFIG.base.exitFullscreen
-                    : UI_CONFIG.common.tourBadge
-                }
-              >
-                <Badge
-                  variant="tour"
-                  text={tourOpen ? "Закрыть 3D" : UI_CONFIG.common.tourBadge}
-                  className="pointer-events-none"
-                />
-              </button>
+              tourOpen ? null : (
+                <button
+                  type="button"
+                  onClick={handleTourClick}
+                  className="tour-badge-glow absolute bottom-2.5 right-2.5 z-10 cursor-pointer rounded-md transition-transform active:scale-95"
+                  aria-label={UI_CONFIG.catalog.openTour}
+                >
+                  <Badge
+                    variant="tour"
+                    text={UI_CONFIG.common.tourBadge}
+                    className="pointer-events-none bg-gradient-to-b from-[#d07050] to-[#a8482c] text-[11px] font-semibold tracking-wide shadow-none"
+                  />
+                </button>
+              )
             ) : (
               <Badge
                 variant="tour"

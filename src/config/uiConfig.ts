@@ -51,6 +51,8 @@ export const UI_CONFIG = {
     mapLoading: "Загружаем карту…",
     selectRegionHint: "Выберите регион",
     closeCard: "Закрыть",
+    closeTour: "Закрыть тур",
+    openTour: "3D-тур",
   },
   base: {
     notSuitableTitle: "КОМУ НЕ ПОДОЙДЁТ",

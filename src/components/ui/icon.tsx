@@ -326,6 +326,38 @@ const icons = {
       <path d="m18 6-12 12" />
     </svg>
   ),
+  expand: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M15 3h6v6" />
+      <path d="M9 21H3v-6" />
+      <path d="M21 3l-7 7" />
+      <path d="M3 21l7-7" />
+    </svg>
+  ),
+  compress: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 14h6v6" />
+      <path d="M20 10h-6V4" />
+      <path d="M14 10l7-7" />
+      <path d="M3 21l7-7" />
+    </svg>
+  ),
 } as const;
 
 export type IconName = keyof typeof icons;
@@ -338,7 +370,7 @@ export interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 /**
  * Локальный SSR-компонент иконок (инлайн SVG, без CDN).
- * name: bath | pool | water | wifi | fog | mountains | tree | dog | map | chevron | chevronLeft | chevronDown | calendar | phone | quote | star | home | users | parking | food | check | plus | close
+ * name: bath | pool | water | wifi | fog | mountains | tree | dog | map | chevron | chevronLeft | chevronDown | calendar | phone | quote | star | home | users | parking | food | check | plus | close | expand | compress
  */
 function Icon({ name, size = 24, className, title, ...props }: IconProps) {
   const svg = icons[name];

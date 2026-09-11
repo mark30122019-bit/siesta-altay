@@ -377,8 +377,34 @@ body {
   }
 }
 
+/* Кликабельный бейдж 3D-тура на карте */
+.tour-badge-glow {
+  box-shadow: 0 0 10px rgba(200, 102, 72, 0.35);
+  animation: tour-badge-pulse 2.8s ease-in-out infinite;
+}
+
+.tour-badge-glow:hover {
+  box-shadow: 0 0 14px rgba(200, 102, 72, 0.5);
+}
+
+@keyframes tour-badge-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(200, 102, 72, 0.28);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 14px rgba(200, 102, 72, 0.48);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .shimmer::after {
+    animation: none;
+  }
+
+  .tour-badge-glow {
     animation: none;
   }
 
