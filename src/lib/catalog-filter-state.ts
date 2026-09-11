@@ -1,5 +1,7 @@
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { hasAmenityFlag } from "@/lib/object-flags";
+import type { BaseObject } from "@/types";
 
 export const CATALOG_PATH = UI_CONFIG.routing.catalog.href;
 export const CATALOG_RETURN_HREF_KEY = "altai:catalog-return-href";
@@ -215,4 +217,46 @@ export function pruneDistrictsForRegions(
 ) {
   const allowed = new Set(districtsForRegions(regions).map((item) => item.slug));
   return districts.filter((slug) => allowed.has(slug));
+}
+
+export function objectMatchesDistrictFilter(
+  object: Pick<BaseObject, "location">,
+  filter: { label: string }
+) {
+  const hay = (object.location.district || "").toLowerCase();
+  if (!hay) return false;
+  return hay.includes(filter.label.toLowerCase().slice(0, 5));
+}
+
+export function objectHasFeatureFlag(
+  object: Pick<BaseObject, "amenities" | "location">,
+  slug: string
+) {
+  if (slug === "banya") return hasAmenityFlag(object.amenities.banya);
+  if (slug === "pool") return hasAmenityFlag(object.amenities.pool);
+  if (slug === "waterfront") return hasAmenityFlag(object.amenities.waterfront);
+  if (slug === "winter") {
+    return (
+      hasAmenityFlag(object.amenities.year_round) ||
+      object.location.winter_access === true
+    );
+  }
+  if (slug === "pets") return hasAmenityFlag(object.amenities.pets);
+  return false;
+}
+
+/** Районы, которые реально встречаются у переданных объектов. */
+export function usedDistrictFilters(objects: Pick<BaseObject, "location">[]) {
+  return GLOBAL_CONFIG.filters.districts.filter((filter) =>
+    objects.some((object) => objectMatchesDistrictFilter(object, filter))
+  );
+}
+
+/** Фишки, которые реально есть хотя бы у одного объекта. */
+export function usedFeatureFilters(
+  objects: Pick<BaseObject, "amenities" | "location">[]
+) {
+  return GLOBAL_CONFIG.filters.features.filter((filter) =>
+    objects.some((object) => objectHasFeatureFlag(object, filter.slug))
+  );
 }

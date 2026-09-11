@@ -112,6 +112,24 @@ const icons = {
       <path d="M12 15c-3.5 0-6-2.2-6-5.2C6 7 9 4 12 2c3 2 6 5 6 7.8 0 3-2.5 5.2-6 5.2Z" />
     </svg>
   ),
+  dog: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {/* Lucide Icons — dog (ISC), https://lucide.dev/icons/dog */}
+      <path d="M11.25 16.25h1.5L12 17z" />
+      <path d="M16 14v.5" />
+      <path d="M4.42 11.247A13.152 13.152 0 0 0 4 14.556C4 18.728 7.582 21 12 21s8-2.272 8-6.444a11.702 11.702 0 0 0-.493-3.309" />
+      <path d="M8 14v.5" />
+      <path d="M8.5 8.5c-.384 1.05-1.083 2.028-2.344 2.5-1.931.722-3.576-.297-3.656-1-.113-.994 1.177-6.53 4-7 1.923-.321 3.651.845 3.651 2.235A7.497 7.497 0 0 1 14 5.277c0-1.39 1.844-2.598 3.767-2.277 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.855-1.45-2.239-2.5" />
+    </svg>
+  ),
   map: (
     <svg
       viewBox="0 0 24 24"
@@ -320,7 +338,7 @@ export interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 /**
  * Локальный SSR-компонент иконок (инлайн SVG, без CDN).
- * name: bath | pool | water | wifi | fog | mountains | tree | map | chevron | chevronLeft | chevronDown | calendar | phone | quote | star | home | users | parking | food | check | plus | close
+ * name: bath | pool | water | wifi | fog | mountains | tree | dog | map | chevron | chevronLeft | chevronDown | calendar | phone | quote | star | home | users | parking | food | check | plus | close
  */
 function Icon({ name, size = 24, className, title, ...props }: IconProps) {
   const svg = icons[name];

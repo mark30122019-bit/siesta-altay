@@ -34,7 +34,7 @@ function amenityItems(object: BaseObject): { label: string; icon: IconName }[] {
     heating: "fog",
     parking: "parking",
     waterfront: "water",
-    pets: "tree",
+    pets: "dog",
     year_round: "mountains",
   };
 

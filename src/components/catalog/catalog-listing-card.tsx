@@ -36,7 +36,7 @@ const AMENITY_ICONS: {
     icon: "mountains",
     label: UI_CONFIG.base.amenityLabels.year_round,
   },
-  { key: "pets", icon: "tree", label: UI_CONFIG.base.amenityLabels.pets },
+  { key: "pets", icon: "dog", label: UI_CONFIG.base.amenityLabels.pets },
 ];
 
 function coverSrc(object: BaseObject) {
@@ -192,10 +192,10 @@ export function CatalogListingCard({
             {amenities.map((item) => (
               <div
                 key={item.key}
-                className="flex flex-col items-center gap-1.5 text-stone-400"
+                className="flex flex-col items-center gap-1.5"
               >
-                <Icon name={item.icon} size={22} />
-                <span className="font-sans text-[12px] leading-none text-stone-400 md:text-[11px]">
+                <Icon name={item.icon} size={22} className="text-[#1A241C]" />
+                <span className="font-sans text-[12px] leading-none text-[#1A241C] md:text-[11px]">
                   {item.label}
                 </span>
               </div>

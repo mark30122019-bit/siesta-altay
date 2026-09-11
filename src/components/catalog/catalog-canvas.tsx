@@ -27,13 +27,17 @@ import {
   districtsForRegions,
   isDefaultRegions,
   loadCatalogFilterState,
+  objectHasFeatureFlag,
+  objectMatchesDistrictFilter,
   parseCatalogSearchParams,
   persistCatalogFilterState,
   pruneDistrictsForRegions,
+  usedDistrictFilters,
+  usedFeatureFilters,
   type CatalogViewMode,
 } from "@/lib/catalog-filter-state";
 import { hasObjectPrice } from "@/lib/object-price";
-import { hasAmenityFlag, isSuitableFit } from "@/lib/object-flags";
+import { isSuitableFit } from "@/lib/object-flags";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -189,29 +193,16 @@ function matchesRegion(object: BaseObject, regions: string[]) {
 
 function matchesDistrict(object: BaseObject, districts: string[]) {
   if (districts.length === 0) return true;
-  const hay = (object.location.district || "").toLowerCase();
-  if (!hay) return false;
   return districts.some((slug) => {
     const filter = GLOBAL_CONFIG.filters.districts.find((d) => d.slug === slug);
     if (!filter) return false;
-    return hay.includes(filter.label.toLowerCase().slice(0, 5));
+    return objectMatchesDistrictFilter(object, filter);
   });
 }
 
 function matchesFeature(object: BaseObject, features: string[]) {
   if (features.length === 0) return true;
-  return features.some((slug) => {
-    if (slug === "banya") return hasAmenityFlag(object.amenities.banya);
-    if (slug === "pool") return hasAmenityFlag(object.amenities.pool);
-    if (slug === "waterfront") return hasAmenityFlag(object.amenities.waterfront);
-    if (slug === "winter")
-      return (
-        hasAmenityFlag(object.amenities.year_round) ||
-        object.location.winter_access === true
-      );
-    if (slug === "pets") return hasAmenityFlag(object.amenities.pets);
-    return true;
-  });
+  return features.some((slug) => objectHasFeatureFlag(object, slug));
 }
 
 function matchesAudience(object: BaseObject, audiences: string[]) {
@@ -399,9 +390,14 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
     [objects, appliedFilters, priceFilterEnabled]
   );
 
-  const visibleDistricts = useMemo(
-    () => districtsForRegions(regions),
-    [regions]
+  const visibleDistricts = useMemo(() => {
+    const usedSlugs = new Set(usedDistrictFilters(objects).map((item) => item.slug));
+    return districtsForRegions(regions).filter((item) => usedSlugs.has(item.slug));
+  }, [objects, regions]);
+
+  const availableFeatures = useMemo(
+    () => usedFeatureFilters(objects),
+    [objects]
   );
 
   const visibleSlugSet = useMemo(
@@ -414,7 +410,14 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
   function toggleRegion(slug: string) {
     setRegions((prev) => {
       const next = toggleValue(prev, slug);
-      setDistricts((current) => pruneDistrictsForRegions(current, next));
+      const usedSlugs = new Set(
+        usedDistrictFilters(objects).map((item) => item.slug)
+      );
+      setDistricts((current) =>
+        pruneDistrictsForRegions(current, next).filter((item) =>
+          usedSlugs.has(item)
+        )
+      );
       return next;
     });
   }
@@ -497,20 +500,22 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
           )}
         </FilterCard>
 
-        <FilterCard title={UI_CONFIG.filters.features}>
-          <div className="grid min-h-[80px] grid-cols-2 content-start gap-x-3 gap-y-3">
-            {GLOBAL_CONFIG.filters.features.map((item) => (
-              <FilterLink
-                key={item.slug}
-                label={item.label}
-                active={features.includes(item.slug)}
-                onClick={() =>
-                  setFeatures((prev) => toggleValue(prev, item.slug))
-                }
-              />
-            ))}
-          </div>
-        </FilterCard>
+        {availableFeatures.length > 0 ? (
+          <FilterCard title={UI_CONFIG.filters.features}>
+            <div className="grid min-h-[80px] grid-cols-2 content-start gap-x-3 gap-y-2">
+              {availableFeatures.map((item) => (
+                <FilterLink
+                  key={item.slug}
+                  label={item.label}
+                  active={features.includes(item.slug)}
+                  onClick={() =>
+                    setFeatures((prev) => toggleValue(prev, item.slug))
+                  }
+                />
+              ))}
+            </div>
+          </FilterCard>
+        ) : null}
 
         {priceFilterEnabled ? (
           <FilterCard title={UI_CONFIG.filters.price}>
