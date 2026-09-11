@@ -13,7 +13,7 @@ import { splitProseParagraphs } from "@/lib/format-prose";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
-const DESKTOP_INSET = "md:px-[10vw]";
+const DESKTOP_INSET = "md:px-[5vw]";
 
 function amenityItems(object: BaseObject): { label: string; icon: IconName }[] {
   const labels = UI_CONFIG.base.amenityLabels;
@@ -221,16 +221,16 @@ function DetailColumns({ object }: { object: BaseObject }) {
       </PanelCard>
 
       <PanelCard title={UI_CONFIG.base.amenitiesTitle}>
-        <div className="flex flex-wrap content-start gap-2.5">
+        <div className="flex flex-wrap content-start gap-3">
           {(amenities.length > 0
             ? amenities
             : [{ label: "—", icon: "check" as const }]
           ).map((item) => (
             <span
               key={item.label}
-              className="inline-flex h-9 items-center gap-2 rounded-xl bg-[#F0EBE3] px-3 font-sans text-[12px] leading-none text-[#2C3228]"
+              className="inline-flex h-11 items-center gap-2.5 rounded-xl bg-[#F0EBE3] px-3.5 font-sans text-[14px] leading-none text-[#2C3228] md:text-[15px]"
             >
-              <Icon name={item.icon} size={15} className="text-[#6B635A]" />
+              <Icon name={item.icon} size={19} className="text-[#6B635A]" />
               {item.label}
             </span>
           ))}
@@ -389,17 +389,17 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
 
       <div
         className={cn(
-          "mx-auto grid w-full gap-12 px-6 pt-12 pb-[15vh] md:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)] md:gap-14 md:pt-16 md:pb-[17vh] lg:gap-16 lg:pt-20",
+          "mx-auto grid w-full gap-12 px-4 pt-12 pb-[15vh] md:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.6fr)] md:gap-14 md:pt-16 md:pb-[17vh] lg:gap-16 lg:pt-20",
           DESKTOP_INSET
         )}
       >
-        <div className="space-y-14 md:space-y-16">
+        <div className="space-y-5 md:space-y-5">
           <section>
             <TourPlayer object={object} />
             {tourMeta ? (
               <Typography
                 variant="caption"
-                className="mt-3 block text-[12px] leading-relaxed text-[#8A8278]"
+                className="mt-3 block text-[16px] leading-relaxed text-[#8A8278]"
               >
                 {tourMeta}
               </Typography>
@@ -415,14 +415,14 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
             </Typography>
             <Typography
               variant="caption"
-              className="block text-[13px] tracking-wide text-[#8A8278]"
+              className="block text-[14px] tracking-wide text-[#8A8278]"
             >
               {locationLine}
             </Typography>
             <AuthorVerdict text={object.author.verdict} />
           </section>
-
-          <section className="mx-auto max-w-xl space-y-5 text-center">
+          
+          <section className="my-12 mx-auto max-w-xl space-y-5 text-center">
             <Typography
               variant="h2"
               className="font-sans text-lg font-bold uppercase tracking-[0.08em] text-[#1A241C] md:text-xl"

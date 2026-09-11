@@ -436,7 +436,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
   return (
     <div
       className={cn(
-        "px-6 pt-8 pb-[15vh] md:px-[10vw] md:pt-10 md:pb-[17vh]",
+        "px-4 pt-8 pb-[15vh] md:px-[5vw] md:pt-10 md:pb-[17vh]",
         viewMode === "map" && "pb-0 md:pb-0",
         isPending && "opacity-95"
       )}
