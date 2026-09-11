@@ -9,6 +9,8 @@ import { TourPlayer } from "@/components/base/tour-player";
 import { UI_CONFIG } from "@/config/uiConfig";
 import { assetPath } from "@/config/site";
 import { hasObjectPrice } from "@/lib/object-price";
+import { hasAmenityFlag } from "@/lib/object-flags";
+import { splitProseParagraphs } from "@/lib/format-prose";
 import type { BaseObject, PhotoConfig } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +26,7 @@ function gallerySources(object: BaseObject): PhotoConfig[] {
     items.push({ src, alt, caption });
   };
 
-  push(object.tour.preview, object.name, "3D-тур");
+  push(object.tour.preview || "", object.name, "3D-тур");
   for (const photo of object.photos) {
     push(photo.src, photo.alt, photo.caption);
   }
@@ -36,8 +38,11 @@ function amenityItems(object: BaseObject): { label: string; icon: IconName }[] {
   const labels = UI_CONFIG.base.amenityLabels;
   const items: { label: string; icon: IconName }[] = [];
 
-  if (object.amenities.food) {
-    items.push({ label: object.amenities.food, icon: "food" });
+  const food = object.amenities.food;
+  if (typeof food === "string" && food.trim()) {
+    items.push({ label: food, icon: "food" });
+  } else if (food === true) {
+    items.push({ label: UI_CONFIG.base.foodAmenityLabel, icon: "food" });
   }
 
   const iconByKey: Partial<Record<keyof typeof labels, IconName>> = {
@@ -53,7 +58,7 @@ function amenityItems(object: BaseObject): { label: string; icon: IconName }[] {
   };
 
   (Object.keys(labels) as (keyof typeof labels)[]).forEach((key) => {
-    if (object.amenities[key]) {
+    if (hasAmenityFlag(object.amenities[key] as boolean | null)) {
       items.push({ label: labels[key], icon: iconByKey[key] ?? "check" });
     }
   });
@@ -123,7 +128,8 @@ function PanelCard({
   );
 }
 
-function formatUnits(count: number) {
+function formatUnits(count: number | null) {
+  if (count == null || count <= 0) return null;
   const mod10 = count % 10;
   const mod100 = count % 100;
   if (mod10 === 1 && mod100 !== 11) {
@@ -135,9 +141,106 @@ function formatUnits(count: number) {
   return `${count} ${UI_CONFIG.base.unitsMany}`;
 }
 
+function formatGuests(min: number | null, max: number | null) {
+  if (min != null && max != null) {
+    return `${min}–${max} ${UI_CONFIG.base.guestsLabel}`;
+  }
+  if (max != null) return `до ${max} ${UI_CONFIG.base.guestsLabel}`;
+  if (min != null) return `от ${min} ${UI_CONFIG.base.guestsLabel}`;
+  return null;
+}
+
+function formatNights(count: number) {
+  const mod10 = count % 10;
+  const mod100 = count % 100;
+  if (mod10 === 1 && mod100 !== 11) {
+    return `${count} ${UI_CONFIG.base.nightsOne}`;
+  }
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+    return `${count} ${UI_CONFIG.base.nightsFew}`;
+  }
+  return `${count} ${UI_CONFIG.base.nightsMany}`;
+}
+
+function AuthorVerdict({ text }: { text: string }) {
+  if (!text.trim()) return null;
+
+  const paragraphs = splitProseParagraphs(text);
+
+  return (
+    <div className="space-y-4 pt-2 md:space-y-5">
+      {paragraphs.map((paragraph, index) => (
+        <p
+          key={index}
+          className={cn(
+            "font-serif text-[17px] font-normal not-italic leading-[1.75] tracking-[0.01em] text-[#2C3228] md:text-[1.125rem] md:leading-[1.8]",
+            index === 0 && "text-[#1A241C]"
+          )}
+        >
+          {paragraph}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+function bookingTermItems(object: BaseObject): { label: string; value: string }[] {
+  const { booking } = object;
+  const items: { label: string; value: string }[] = [];
+
+  if (booking.checkin) {
+    items.push({ label: UI_CONFIG.base.checkinLabel, value: booking.checkin });
+  }
+  if (booking.checkout) {
+    items.push({
+      label: UI_CONFIG.base.checkoutLabel,
+      value: booking.checkout,
+    });
+  }
+  if (booking.min_nights != null && booking.min_nights > 0) {
+    items.push({
+      label: UI_CONFIG.base.minNightsLabel,
+      value: formatNights(booking.min_nights),
+    });
+  }
+  if (
+    booking.min_nights_high_season != null &&
+    booking.min_nights_high_season > 0
+  ) {
+    items.push({
+      label: UI_CONFIG.base.minNightsHighSeasonLabel,
+      value: formatNights(booking.min_nights_high_season),
+    });
+  }
+  if (booking.prepayment) {
+    items.push({
+      label: UI_CONFIG.base.prepaymentLabel,
+      value: booking.prepayment,
+    });
+  }
+
+  return items;
+}
+
+function tourMetaLine(object: BaseObject): string | null {
+  const parts: string[] = [];
+  if (object.tour.scenes_count != null && object.tour.scenes_count > 0) {
+    parts.push(
+      `${object.tour.scenes_count} ${UI_CONFIG.base.tourScenesSuffix}`
+    );
+  }
+  if (object.tour.features?.trim()) {
+    parts.push(
+      `${UI_CONFIG.base.tourFeaturesLabel}: ${object.tour.features.trim()}`
+    );
+  }
+  return parts.length > 0 ? parts.join(" · ") : null;
+}
+
 function DetailColumns({ object }: { object: BaseObject }) {
   const amenities = amenityItems(object);
   const address = [
+    object.location.region,
     object.location.district,
     object.location.settlement,
     object.location.road,
@@ -145,18 +248,18 @@ function DetailColumns({ object }: { object: BaseObject }) {
     .filter(Boolean)
     .join(", ");
 
+  const guestsLabel = formatGuests(
+    object.capacity.min,
+    object.capacity.max
+  );
+  const unitsLabel = formatUnits(object.capacity.units_count);
+
   const details: { label: string; icon: IconName }[] = [
     { label: object.type, icon: "home" },
-    { label: address, icon: "map" },
-    {
-      label: `${object.capacity.min}–${object.capacity.max} ${UI_CONFIG.base.guestsLabel}`,
-      icon: "users",
-    },
-    {
-      label: formatUnits(object.capacity.units_count),
-      icon: "home",
-    },
   ];
+  if (address) details.push({ label: address, icon: "map" });
+  if (guestsLabel) details.push({ label: guestsLabel, icon: "users" });
+  if (unitsLabel) details.push({ label: unitsLabel, icon: "home" });
 
   return (
     <div className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-3 sm:gap-6">
@@ -268,6 +371,29 @@ function DetailColumns({ object }: { object: BaseObject }) {
               ) : null}
             </div>
 
+            {object.price.high_season.length > 0 ? (
+              <div className="mt-6">
+                <Typography
+                  variant="caption"
+                  className="mb-3 block text-[10px] font-semibold uppercase tracking-[0.12em] text-[#6B635A]"
+                >
+                  {UI_CONFIG.base.priceHighSeason}
+                </Typography>
+                <ul className="space-y-2">
+                  {object.price.high_season.map((item) => (
+                    <li key={item}>
+                      <Typography
+                        variant="body"
+                        className="text-[13px] leading-snug text-[#2C3228] md:text-sm"
+                      >
+                        {item}
+                      </Typography>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
             {object.price.note ? (
               <Typography
                 variant="caption"
@@ -292,11 +418,20 @@ function DetailColumns({ object }: { object: BaseObject }) {
 
 export function BasePageCanvas({ object }: { object: BaseObject }) {
   const photos = gallerySources(object);
+  const bookingTerms = bookingTermItems(object);
+  const tourMeta = tourMetaLine(object);
   const locationLine = [
-    object.location.district,
-    `${object.location.distance_gorno_altaysk_km} ${UI_CONFIG.base.distanceFromGorno}`,
-    `${object.location.distance_novosibirsk_km} ${UI_CONFIG.base.distanceFromNovosibirsk}`,
-  ].join(" · ");
+    object.location.region,
+    object.location.district || object.location.settlement,
+    object.location.distance_gorno_altaysk_km != null
+      ? `${object.location.distance_gorno_altaysk_km} ${UI_CONFIG.base.distanceFromGorno}`
+      : null,
+    object.location.distance_novosibirsk_km != null
+      ? `${object.location.distance_novosibirsk_km} ${UI_CONFIG.base.distanceFromNovosibirsk}`
+      : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
   const notForItems =
     object.author.not_for.length > 0
@@ -307,7 +442,7 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
     object.author.good_for.length > 0
       ? object.author.good_for
       : Object.values(object.suitability)
-          .filter((item) => item.fit === "high" || item.fit === "medium")
+          .filter((item) => item.fit === true)
           .map((item) => item.note);
 
   return (
@@ -323,10 +458,18 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
         <div className="space-y-14 md:space-y-16">
           <section>
             <TourPlayer object={object} />
+            {tourMeta ? (
+              <Typography
+                variant="caption"
+                className="mt-3 block text-[12px] leading-relaxed text-[#8A8278]"
+              >
+                {tourMeta}
+              </Typography>
+            ) : null}
             <PhotoThumbs photos={photos} />
           </section>
 
-          <section className="max-w-2xl space-y-5">
+          <section className="space-y-5">
             <Typography
               variant="h1"
               className="font-serif text-3xl font-normal tracking-[0.02em] text-[#1A241C] md:text-[2.75rem] md:leading-tight"
@@ -339,12 +482,7 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
             >
               {locationLine}
             </Typography>
-            <Typography
-              variant="lead"
-              className="pt-1 text-[17px] leading-relaxed text-[#2C3228] md:text-lg"
-            >
-              {object.author.verdict}
-            </Typography>
+            <AuthorVerdict text={object.author.verdict} />
           </section>
 
           <section className="mx-auto max-w-xl space-y-5 text-center">
@@ -407,7 +545,32 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
           <DetailColumns object={object} />
         </div>
 
-        <aside className="md:sticky md:top-10 md:self-start" id="booking">
+        <aside className="space-y-5 md:sticky md:top-10 md:self-start" id="booking">
+          {bookingTerms.length > 0 ? (
+            <div className="surface-card rounded-2xl px-5 py-6 md:px-6 md:py-7">
+              <Typography
+                variant="h3"
+                className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-[#6B635A] md:text-[13px]"
+              >
+                {UI_CONFIG.base.bookingTermsTitle}
+              </Typography>
+              <dl className="space-y-3">
+                {bookingTerms.map((item) => (
+                  <div
+                    key={item.label}
+                    className="flex items-start justify-between gap-4"
+                  >
+                    <dt className="shrink-0 font-sans text-[12px] text-[#8A8278]">
+                      {item.label}
+                    </dt>
+                    <dd className="text-right font-sans text-[13px] leading-snug text-[#2C3228] md:text-sm">
+                      {item.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          ) : null}
           <BookingForm objectName={object.name} objectSlug={object.slug} />
         </aside>
       </div>
