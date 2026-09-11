@@ -7,32 +7,13 @@ import { BasePageFooter, BasePageHeader } from "@/components/base/base-page-chro
 import { BookingForm } from "@/components/base/booking-form";
 import { TourPlayer } from "@/components/base/tour-player";
 import { UI_CONFIG } from "@/config/uiConfig";
-import { assetPath } from "@/config/site";
 import { hasObjectPrice } from "@/lib/object-price";
 import { hasAmenityFlag } from "@/lib/object-flags";
 import { splitProseParagraphs } from "@/lib/format-prose";
-import type { BaseObject, PhotoConfig } from "@/types";
+import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
 const DESKTOP_INSET = "md:px-[10vw]";
-
-function gallerySources(object: BaseObject): PhotoConfig[] {
-  const items: PhotoConfig[] = [];
-  const seen = new Set<string>();
-
-  const push = (src: string, alt: string, caption = "") => {
-    if (!src || seen.has(src)) return;
-    seen.add(src);
-    items.push({ src, alt, caption });
-  };
-
-  push(object.tour.preview || "", object.name, "3D-тур");
-  for (const photo of object.photos) {
-    push(photo.src, photo.alt, photo.caption);
-  }
-
-  return items;
-}
 
 function amenityItems(object: BaseObject): { label: string; icon: IconName }[] {
   const labels = UI_CONFIG.base.amenityLabels;
@@ -64,48 +45,6 @@ function amenityItems(object: BaseObject): { label: string; icon: IconName }[] {
   });
 
   return items;
-}
-
-function PhotoThumbs({ photos }: { photos: PhotoConfig[] }) {
-  if (photos.length === 0) return null;
-
-  const slotCount = Math.min(4, photos.length);
-  const hasOverflow = photos.length > 4;
-  const visible = photos.slice(0, slotCount);
-  const moreCount = photos.length - 3;
-
-  return (
-    <div
-      className="mt-4 grid gap-3"
-      style={{ gridTemplateColumns: `repeat(${slotCount}, minmax(0, 1fr))` }}
-    >
-      {visible.map((photo, index) => {
-        const isOverflowSlot = hasOverflow && index === slotCount - 1;
-
-        return (
-          <div
-            key={`${photo.src}-${index}`}
-            className="relative aspect-video overflow-hidden rounded-2xl surface-card shimmer bg-gradient-to-br from-[#E8E0D4] to-[#ddd6c8]"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={assetPath(photo.src)}
-              alt={photo.alt}
-              className={cn(
-                "h-full w-full object-cover",
-                isOverflowSlot && "brightness-[0.45]"
-              )}
-            />
-            {isOverflowSlot ? (
-              <span className="absolute inset-0 flex items-center justify-center font-sans text-sm font-medium text-white md:text-base">
-                {`${UI_CONFIG.base.morePhotosPrefix} ${moreCount}`}
-              </span>
-            ) : null}
-          </div>
-        );
-      })}
-    </div>
-  );
 }
 
 function PanelCard({
@@ -417,7 +356,6 @@ function DetailColumns({ object }: { object: BaseObject }) {
 }
 
 export function BasePageCanvas({ object }: { object: BaseObject }) {
-  const photos = gallerySources(object);
   const bookingTerms = bookingTermItems(object);
   const tourMeta = tourMetaLine(object);
   const locationLine = [
@@ -466,7 +404,6 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
                 {tourMeta}
               </Typography>
             ) : null}
-            <PhotoThumbs photos={photos} />
           </section>
 
           <section className="space-y-5">
