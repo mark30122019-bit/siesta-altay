@@ -4,12 +4,11 @@ import { Typography } from "@/components/ui/typography";
 import { CatalogCard } from "@/components/home/catalog-card";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { isObjectListed } from "@/lib/object-flags";
 import type { BaseObject } from "@/types";
 
 export function CatalogSection() {
-  const objects = GLOBAL_CONFIG.objects.filter(
-    (object) => object.status === "published"
-  );
+  const objects = GLOBAL_CONFIG.objects.filter(isObjectListed);
   const preferred = UI_CONFIG.home.featuredSlugs
     .map((slug) => objects.find((object) => object.slug === slug))
     .filter((object): object is BaseObject => Boolean(object));

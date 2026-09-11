@@ -1,5 +1,9 @@
 import type { SiteConfig } from "@/types";
 
+/**
+ * Витрина сайта. objects — поля как у заказчика (без маппера).
+ * Исходный JSON для сверки: data/objects.customer.json
+ */
 export const GLOBAL_CONFIG: SiteConfig = {
   companyName: "ООО «Сиеста Центр»",
   brandName: "Алтай изнутри",
@@ -13,12 +17,17 @@ export const GLOBAL_CONFIG: SiteConfig = {
       { label: "компанией", slug: "company" },
       { label: "корпоратив", slug: "corporate" },
     ],
+    regions: [
+      { label: "Республика Алтай", slug: "respublika-altay" },
+      { label: "Алтайский край", slug: "altayskiy-kray" },
+    ],
     districts: [
-      { label: "Чемал", slug: "cemal" },
-      { label: "Майминский", slug: "mayminsky" },
-      { label: "Турочакский", slug: "turouchaksky" },
-      { label: "Тогульский", slug: "togulsky" },
-      { label: "Барашский", slug: "barashsky" },
+      { label: "Чемал", slug: "cemal", region: "respublika-altay" },
+      { label: "Майминский", slug: "mayminsky", region: "respublika-altay" },
+      { label: "Алтайский", slug: "altaysky", region: "altayskiy-kray" },
+      { label: "Турочакский", slug: "turouchaksky", region: "respublika-altay" },
+      { label: "Тогульский", slug: "togulsky", region: "altayskiy-kray" },
+      { label: "Барашский", slug: "barashsky", region: "respublika-altay" },
     ],
     features: [
       { label: "баня", slug: "banya" },
@@ -64,705 +73,945 @@ export const GLOBAL_CONFIG: SiteConfig = {
     },
   ],
   objects: [
-    {
-      slug: "usadba-velvet",
-      name: "Усадьба Вельвет",
-      type: "усадьба",
-      verification: "shot",
-      verification_date: "2026-07-14",
-      consent: { signed: true, date: "2026-08-15" },
-      location: {
-        region: "Республика Алтай",
-        district: "Чемальский район",
-        settlement: "посёлок Усть-Сема",
-        coords: [51.0, 85.9],
-        distance_gorno_altaysk_km: 55,
-        distance_novosibirsk_km: 510,
-        road: "Чуйский тракт",
-        winter_access: true,
-      },
-      tour: {
-        url: "https://tridetur.ru/360/vozduh_3d/",
-        preview: "/media/usadba-velvet/tour-preview.jpg",
-        scenes_count: 8,
-      },
-      photos: [
-        {
-          src: "/media/usadba-velvet/01.jpg",
-          alt: "Вид на террасу усадьбы Вельвет",
-          caption: "Терраса у реки",
-        },
-        {
-          src: "/media/usadba-velvet/02.jpg",
-          alt: "Интерьер номера",
-          caption: "Спальня из кедра",
-        },
-      ],
-      capacity: { min: 2, max: 6, units_count: 3 },
-      amenities: {
-        banya: true,
-        pool: true,
-        wifi: true,
-        kitchen: false,
-        heating: true,
-        parking: true,
-        waterfront: true,
-        food: "Завтрак включен",
-        pets: false,
-        year_round: true,
-      },
-      suitability: {
-        family_kids: {
-          fit: "low",
-          note: "Неодобряемый уровень спален для маленьких детей. Высокие скалы у берега, большие расстояния и открытые проходы между номерами без ограждений.",
-        },
-        couples: {
-          fit: "high",
-          note: "Идеальная приватная атмосфера для двоих.",
-        },
-        company: { fit: "medium", note: "Подходит для спокойных компаний." },
-        corporate: {
-          fit: "low",
-          note: "Малая вместимость для крупных корпоративов.",
-        },
-      },
-      author: {
-        verdict:
-          "База подкупает своей приватностью и качеством отделки из кедра. Отличный вариант, если вы ищете тишину.",
-        good_for: ["Пары", "Любители уединенного отдыха"],
-        not_for: ["Семьи с детьми до 5 лет", "Шумные компании"],
-        honest_note:
-          "Я провел здесь два дня. Сервис ненавязчивый, но учитывайте ограничения по безопасности для детей.",
-      },
-      booking: {
-        min_nights: 1,
-        min_nights_high_season: 2,
-        prepayment: "30%",
-      },
-      seo: {
-        title: "Усадьба Вельвет — Честный обзор",
-        description: "Вся правда об усадьбе Вельвет на Алтае.",
-        og_image: "",
-      },
-      status: "published",
-      updated_at: "2026-08-10",
+  {
+    slug: "usadba-velvet",
+    name: "Усадьба «Вельвет»",
+    type: "усадьба",
+    verification: "shot",
+    verification_date: null,
+    consent: {
+      signed: false,
+      date: null
     },
-    {
-      slug: "glamping-vozduh",
-      name: "Глэмпинг «Воздух»",
-      type: "глэмпинг",
-      verification: "shot",
-      verification_date: "2026-07-01",
-      consent: { signed: true, date: "2026-07-20" },
-      location: {
-        region: "Республика Алтай",
-        district: "Чемальский район",
-        settlement: "посёлок Узнезя",
-        coords: [51.45, 86.05],
-        distance_gorno_altaysk_km: 90,
-        distance_novosibirsk_km: 530,
-        road: "Чемальский тракт",
-        winter_access: false,
-      },
-      tour: {
-        url: "https://tridetur.ru/360/vozduh_3d/",
-        preview: "/media/glamping-vozduh/tour-preview.jpg",
-        scenes_count: 5,
-      },
-      photos: [
-        {
-          src: "/media/glamping-vozduh/01.jpg",
-          alt: "Терраса глэмпинга Воздух",
-          caption: "Вид на Катунь",
-        },
-        {
-          src: "/media/glamping-vozduh/02.jpg",
-          alt: "Купол глэмпинга Воздух",
-          caption: "Номер",
-        },
-      ],
-      capacity: { min: 2, max: 4, units_count: 4 },
-      amenities: {
-        banya: true,
-        pool: false,
-        wifi: true,
-        kitchen: false,
-        heating: false,
-        parking: true,
-        waterfront: true,
-        food: "Завтрак включен",
-        pets: false,
-        year_round: false,
-      },
-      suitability: {
-        family_kids: {
-          fit: "low",
-          note: "Нет тепла, стук рок-музыки с соседних площадок, крутой рельеф без детских ограждений — отдых с детьми здесь затруднён.",
-        },
-        couples: {
-          fit: "high",
-          note: "Сильный вид и атмосфера для двоих.",
-        },
-        company: {
-          fit: "medium",
-          note: "Подходит для небольших взрослых компаний.",
-        },
-        corporate: { fit: "low", note: "Малая вместимость." },
-      },
-      author: {
-        verdict:
-          "Премиальный глэмпинг с сильным видом. Честно: место для взрослых, а не для семей с детьми.",
-        good_for: ["Пары", "Взрослые компании"],
-        not_for: ["Семьи с детьми", "Кто ищет тишину ночью"],
-        honest_note:
-          "Красиво, но шумно по вечерам и без нормального отопления в межсезонье.",
-      },
-      booking: {
-        min_nights: 2,
-        min_nights_high_season: 3,
-        prepayment: "30%",
-      },
-      seo: {
-        title: "Глэмпинг «Воздух» — честный обзор",
-        description: "Глэмпинг Воздух на Алтае: плюсы и ограничения.",
-        og_image: "",
-      },
-      status: "published",
-      updated_at: "2026-08-10",
+    location: {
+      region: "Республика Алтай",
+      district: "Майминский район",
+      settlement: "Манжерок",
+      coords: null,
+      distance_gorno_altaysk_km: null,
+      distance_novosibirsk_km: null,
+      road: null,
+      winter_access: null
     },
-    {
-      slug: "park-otel-skala",
-      name: "Парк-отель «Скала»",
-      type: "парк-отель",
-      verification: "shot",
-      verification_date: "2026-06-18",
-      consent: { signed: true, date: "2026-07-02" },
-      location: {
-        region: "Республика Алтай",
-        district: "Чемальский район",
-        settlement: "село Элекмонар",
-        coords: [51.47, 86.0],
-        distance_gorno_altaysk_km: 85,
-        distance_novosibirsk_km: 525,
-        road: "Чемальский тракт",
-        winter_access: true,
-      },
-      tour: {
-        url: "https://tridetur.ru/360/vozduh_3d/",
-        preview: "/media/park-otel-skala/tour-preview.jpg",
-        scenes_count: 7,
-      },
-      photos: [
-        {
-          src: "/media/park-otel-skala/01.jpg",
-          alt: "A-frame домики парк-отеля Скала",
-          caption: "Домики на лугу",
-        },
-      ],
-      capacity: { min: 2, max: 4, units_count: 8 },
-      amenities: {
-        banya: true,
-        pool: false,
-        wifi: true,
-        kitchen: true,
-        heating: true,
-        parking: true,
-        waterfront: false,
-        food: "Завтрак включен",
-        pets: false,
-        year_round: true,
-      },
-      suitability: {
-        family_kids: {
-          fit: "medium",
-          note: "Территория открытая, рядом склон — детям нужен постоянный контроль.",
-        },
-        couples: {
-          fit: "high",
-          note: "Панорамные окна и вид на хребет — сильный романтический сценарий.",
-        },
-        company: { fit: "high", note: "Несколько домиков рядом, удобно компаниям." },
-        corporate: {
-          fit: "medium",
-          note: "Можно собрать небольшую группу, но нет большого зала.",
-        },
-      },
-      author: {
-        verdict:
-          "Современные A-frame домики на фоне скал. Вид сильный, сервис аккуратный, без лишней показной роскоши.",
-        good_for: ["Пары", "Небольшие компании", "Фотографы"],
-        not_for: ["Кто боится ветра на открытом склоне"],
-        honest_note:
-          "Вечером на склоне ощутимо холоднее, чем в долине — берите тёплые вещи даже летом.",
-      },
-      booking: {
-        min_nights: 2,
-        min_nights_high_season: 3,
-        prepayment: "40%",
-      },
-      seo: {
-        title: "Парк-отель «Скала» — честный обзор",
-        description: "Парк-отель Скала на Алтае: плюсы и ограничения.",
-        og_image: "",
-      },
-      status: "published",
-      updated_at: "2026-08-11",
+    tour: {
+      url: "https://tridetur.ru/360/mgrv/",
+      preview: null,
+      scenes_count: 22,
+      features: "панорамы территории и части номерного фонда; интерактивное открытие/закрытие кухонных шкафов и штор"
     },
-    {
-      slug: "usadba-kruglovyh",
-      name: "Усадьба Кругловых",
-      type: "усадьба",
-      verification: "shot",
-      verification_date: "2026-05-28",
-      consent: { signed: true, date: "2026-06-15" },
-      location: {
-        region: "Республика Алтай",
-        district: "Майминский район",
-        settlement: "село Соузга",
-        coords: [51.75, 85.85],
-        distance_gorno_altaysk_km: 28,
-        distance_novosibirsk_km: 470,
-        road: "Чуйский тракт",
-        winter_access: true,
-      },
-      tour: {
-        url: "https://tridetur.ru/360/vozduh_3d/",
-        preview: "/media/usadba-kruglovyh/tour-preview.jpg",
-        scenes_count: 6,
-      },
-      photos: [
-        {
-          src: "/media/usadba-kruglovyh/01.jpg",
-          alt: "Территория усадьбы Кругловых",
-          caption: "Деревянные коттеджи",
-        },
+    photos: [],
+    price: {
+      from: null,
+      unit: "объект/сутки",
+      included: [
+        "шале целиком, 4 основных + 1 доп. место"
       ],
-      capacity: { min: 2, max: 8, units_count: 5 },
-      amenities: {
-        banya: true,
-        pool: false,
-        wifi: true,
-        kitchen: true,
-        heating: true,
-        parking: true,
-        waterfront: false,
-        food: "Кухня в доме",
-        pets: true,
-        year_round: true,
-      },
-      suitability: {
-        family_kids: {
-          fit: "high",
-          note: "Есть площадка и ровная территория — семьям с детьми здесь комфортно.",
-        },
-        couples: {
-          fit: "medium",
-          note: "Уютно, но рядом могут быть семьи — полной тишины не ждите.",
-        },
-        company: { fit: "high", note: "Несколько домов, удобно большим компаниям." },
-        corporate: {
-          fit: "medium",
-          note: "Подойдёт для небольшого выезда без строгой деловой программы.",
-        },
-      },
-      author: {
-        verdict:
-          "Семейная усадьба с ухоженным двором и понятным сервисом. Без вау-эффекта, но честно и тепло.",
-        good_for: ["Семьи", "Компании друзей"],
-        not_for: ["Кто ищет премиальный дизайн-отель"],
-        honest_note:
-          "Дома добротные, но мебель разного возраста — это жилая усадьба, а не глянцевый курорт.",
-      },
-      booking: {
-        min_nights: 1,
-        min_nights_high_season: 2,
-        prepayment: "30%",
-      },
-      seo: {
-        title: "Усадьба Кругловых — честный обзор",
-        description: "Усадьба Кругловых на Алтае: плюсы и ограничения.",
-        og_image: "",
-      },
-      status: "published",
-      updated_at: "2026-08-11",
-    },
-    {
-      slug: "eko-otel-grinlandiya",
-      name: "Эко-отель «Гринландия»",
-      type: "эко-отель",
-      verification: "shot",
-      verification_date: "2026-04-22",
-      consent: { signed: true, date: "2026-05-10" },
-      location: {
-        region: "Республика Алтай",
-        district: "Турочакский район",
-        settlement: "село Артыбаш",
-        coords: [51.79, 87.25],
-        distance_gorno_altaysk_km: 160,
-        distance_novosibirsk_km: 580,
-        road: "Чемал — Артыбаш",
-        winter_access: true,
-      },
-      tour: {
-        url: "https://tridetur.ru/360/vozduh_3d/",
-        preview: "/media/eko-otel-grinlandiya/tour-preview.jpg",
-        scenes_count: 9,
-      },
-      photos: [
-        {
-          src: "/media/eko-otel-grinlandiya/01.jpg",
-          alt: "Зимний вид эко-отеля Гринландия",
-          caption: "A-frame ночью",
-        },
+      extra: [
+        "кедровая баня",
+        "банный чан на 6 человек",
+        "экскурсии и туры хозяина"
       ],
-      capacity: { min: 2, max: 4, units_count: 10 },
-      amenities: {
-        banya: true,
-        pool: false,
-        wifi: true,
-        kitchen: false,
-        heating: true,
-        parking: true,
-        waterfront: false,
-        food: "Завтрак и ужин по меню",
-        pets: false,
-        year_round: true,
+      note: "Цена не публикуется. Уточняется по запросу — база меняет тарифы и запускает акции.",
+      high_season: [],
+      _reference_only: {
+        from: 8000,
+        source: "официальный сайт базы, 10.09.2026",
+        status: "ПРЕДВАРИТЕЛЬНО — НЕ ПУБЛИКОВАТЬ, сверять с базой"
       },
-      suitability: {
-        family_kids: {
-          fit: "medium",
-          note: "Зимой скользкие дорожки — с малышами нужна осторожность.",
-        },
-        couples: {
-          fit: "high",
-          note: "Тёплый свет, панорама и тишина — сильный формат для двоих.",
-        },
-        company: { fit: "medium", note: "Домики разнесены, компаниям придётся гулять." },
-        corporate: { fit: "low", note: "Нет инфраструктуры под деловые встречи." },
-      },
-      author: {
-        verdict:
-          "Аккуратный эко-отель с сильной атмосферой зимой. Дороговато, но вид и тепло внутри отрабатывают цену.",
-        good_for: ["Пары", "Зимний отдых"],
-        not_for: ["Кто хочет шумную анимацию"],
-        honest_note:
-          "Дорога до Артыбаша длинная. Если едете на 1 ночь — усталость от трансфера может съесть впечатление.",
-      },
-      booking: {
-        min_nights: 2,
-        min_nights_high_season: 3,
-        prepayment: "50%",
-      },
-      seo: {
-        title: "Эко-отель «Гринландия» — честный обзор",
-        description: "Эко-отель Гринландия на Алтае: плюсы и ограничения.",
-        og_image: "",
-      },
-      status: "published",
-      updated_at: "2026-08-11",
+      publish: false
     },
-    {
-      slug: "usadba-sokol",
-      name: "Усадьба «Сокол»",
-      type: "усадьба",
-      verification: "shot",
-      verification_date: "2026-03-15",
-      consent: { signed: true, date: "2026-04-01" },
-      location: {
-        region: "Республика Алтай",
-        district: "Чемальский район",
-        settlement: "село Чемал",
-        coords: [51.41, 86.0],
-        distance_gorno_altaysk_km: 100,
-        distance_novosibirsk_km: 545,
-        road: "Чемальский тракт",
-        winter_access: true,
+    capacity: {
+      min: 1,
+      max: 5,
+      units_count: 2
+    },
+    amenities: {
+      banya: true,
+      pool: false,
+      wifi: null,
+      kitchen: true,
+      heating: null,
+      parking: true,
+      waterfront: false,
+      food: false,
+      pets: null,
+      year_round: null
+    },
+    suitability: {
+      family_kids: {
+        fit: true,
+        note: "Две семьи заходят в разные дома и живут независимо, но гуляют и готовят вместе на общей территории. До магазинов пешком, детское питание и продукты докупаются без машины."
       },
-      tour: {
-        url: "https://tridetur.ru/360/vozduh_3d/",
-        preview: "/media/usadba-sokol/tour-preview.jpg",
-        scenes_count: 5,
+      couples: {
+        fit: null,
+        note: "Дом сдаётся целиком, поэтому вдвоём выходит дорого за объём."
       },
-      photos: [
-        {
-          src: "/media/usadba-sokol/01.jpg",
-          alt: "Сруб усадьбы Сокол зимой",
-          caption: "Дом у скал",
-        },
+      company: {
+        fit: true,
+        note: "Два дома целиком, мангалы, баня-бочка. Микроавтобус хозяина на 8–10 мест забирает и тех, кто живёт в другом месте."
+      },
+      corporate: {
+        fit: false,
+        note: "Нет конференц-зала и питания, размещение семейного формата."
+      }
+    },
+    author: {
+      verdict: "Два гостевых дома, каждый сдаётся целиком. Главное здесь — расположение: до центра Манжерока можно дойти пешком, там «Мария-Ра», «Пятёрочка», «Грильница» и магазины. Можно поужинать в посёлке, можно принести продукты и приготовить на мангале. Территория небольшая, но своя: мангалы, баня-бочка, место для прогулки. Хозяин с супругой живут в соседнем доме и подключаются к любому вопросу по ходу. У него микроавтобус на 8–10 мест, на котором он возит полноценные экскурсии, и взять его можно даже если часть вашей компании живёт на другой базе. До горнолыжного комплекса «Манжерок» рядом — доезжаете на такси за считанные минуты.",
+      good_for: [
+        "двум семьям, которым нужны отдельные дома и общий двор",
+        "тем, кто хочет обойтись без машины",
+        "поездке на ГЛК «Манжерок»"
       ],
-      capacity: { min: 2, max: 10, units_count: 2 },
-      amenities: {
-        banya: true,
-        pool: false,
-        wifi: true,
-        kitchen: true,
-        heating: true,
-        parking: true,
-        waterfront: false,
-        food: "Самостоятельно",
-        pets: true,
-        year_round: true,
-      },
-      suitability: {
-        family_kids: {
-          fit: "medium",
-          note: "Большой дом удобен, но рядом крутой рельеф без сетки.",
-        },
-        couples: {
-          fit: "medium",
-          note: "Формат скорее под семью или компанию, чем под двоих.",
-        },
-        company: { fit: "high", note: "Два дома — комфортно на 8–10 человек." },
-        corporate: { fit: "low", note: "Нет переговорной и стабильного интернета для созвонов." },
-      },
-      author: {
-        verdict:
-          "Массивный сруб у скал. Зимой выглядит мощно, летом — как классическая алтайская усадьба без лишнего пафоса.",
-        good_for: ["Компании", "Семьи побольше"],
-        not_for: ["Кто хочет отельный сервис all inclusive"],
-        honest_note:
-          "Хозяева отзывчивые, но всё «по-домашнему»: уточняйте мелочи заранее, а не по приезду.",
-      },
-      booking: {
-        min_nights: 2,
-        min_nights_high_season: 3,
-        prepayment: "30%",
-      },
-      seo: {
-        title: "Усадьба «Сокол» — честный обзор",
-        description: "Усадьба Сокол на Алтае: плюсы и ограничения.",
-        og_image: "",
-      },
-      status: "published",
-      updated_at: "2026-08-11",
-    },
-    {
-      slug: "turbaza-tihiy-bereg",
-      name: "Турбаза «Тихий Берег»",
-      type: "турбаза",
-      verification: "shot",
-      verification_date: "2026-06-05",
-      consent: { signed: true, date: "2026-06-20" },
-      location: {
-        region: "Республика Алтай",
-        district: "Чемальский район",
-        settlement: "посёлок Чепош",
-        coords: [51.52, 85.95],
-        distance_gorno_altaysk_km: 70,
-        distance_novosibirsk_km: 515,
-        road: "Чуйский тракт",
-        winter_access: false,
-      },
-      tour: {
-        url: "https://tridetur.ru/360/vozduh_3d/",
-        preview: "/media/turbaza-tihiy-bereg/tour-preview.jpg",
-        scenes_count: 4,
-      },
-      photos: [
-        {
-          src: "/media/turbaza-tihiy-bereg/01.jpg",
-          alt: "Бассейн турбазы Тихий Берег",
-          caption: "Бассейн и домики",
-        },
+      not_for: [
+        "тем, кому нужны завтраки и питание на месте — здесь этого нет вообще",
+        "тем, кто едет за большой территорией и уединением: участок компактный, посёлок вокруг",
+        "паре без компании — дом сдаётся целиком, платить придётся за весь объём"
       ],
-      capacity: { min: 2, max: 5, units_count: 12 },
-      amenities: {
-        banya: true,
-        pool: true,
-        wifi: true,
-        kitchen: true,
-        heating: false,
-        parking: true,
-        waterfront: false,
-        food: "Кафе на территории",
-        pets: false,
-        year_round: false,
-      },
-      suitability: {
-        family_kids: {
-          fit: "high",
-          note: "Бассейн и ровная территория — детям здесь обычно нравится.",
-        },
-        couples: {
-          fit: "medium",
-          note: "Летом шумно у воды, для романтики лучше вечер после 21:00.",
-        },
-        company: { fit: "high", note: "Много домиков, легко разместить компанию." },
-        corporate: {
-          fit: "medium",
-          note: "Можно собрать тимбилдинг летом, зимой база закрыта.",
-        },
-      },
-      author: {
-        verdict:
-          "Летняя турбаза с бассейном и понятной инфраструктурой. Не премиум, но для семейного заезда работает.",
-        good_for: ["Семьи", "Компании летом"],
-        not_for: ["Зимний отдых", "Кто ищет тишину утром"],
-        honest_note:
-          "Название «Тихий» — маркетинг. В пик сезона у бассейна бывает людно и громко.",
-      },
-      booking: {
-        min_nights: 2,
-        min_nights_high_season: 3,
-        prepayment: "30%",
-      },
-      seo: {
-        title: "Турбаза «Тихий Берег» — честный обзор",
-        description: "Турбаза Тихий Берег на Алтае: плюсы и ограничения.",
-        og_image: "",
-      },
-      status: "published",
-      updated_at: "2026-08-11",
+      honest_note: "Питание организуете сами. Это не недостаток базы, а её устройство: она рассчитана на тех, кто готовит сам или ходит есть в посёлок."
     },
-    {
-      slug: "turbaza-altair",
-      name: "Турбаза «Алтаир»",
-      type: "турбаза",
-      verification: "shot",
-      verification_date: "2026-05-02",
-      consent: { signed: true, date: "2026-05-18" },
-      location: {
-        region: "Республика Алтай",
-        district: "Онгудайский район",
-        settlement: "село Хабаровка",
-        coords: [50.75, 86.1],
-        distance_gorno_altaysk_km: 210,
-        distance_novosibirsk_km: 650,
-        road: "Чуйский тракт",
-        winter_access: true,
-      },
-      tour: {
-        url: "https://tridetur.ru/360/vozduh_3d/",
-        preview: "/media/turbaza-altair/tour-preview.jpg",
-        scenes_count: 3,
-      },
-      photos: [
-        {
-          src: "/media/turbaza-altair/01.jpg",
-          alt: "Территория турбазы Алтаир",
-          caption: "Домики у гор",
-        },
+    booking: {
+      min_nights: null,
+      min_nights_high_season: null,
+      prepayment: null,
+      checkin: "после 14:00",
+      checkout: "до 11:00"
+    },
+    seo: {
+      title: "Усадьба «Вельвет», Манжерок — 3D-тур и честный обзор | Алтай изнутри",
+      description: "Два гостевых дома целиком в Манжероке, пешком до магазинов и кафе. 22 панорамы изнутри, честный разбор: кому подойдёт и кому нет.",
+      og_image: null
+    },
+    status: "ready_for_review",
+    updated_at: "2026-09-10"
+  },
+  {
+    slug: "glamping-vozduh",
+    name: "Купольный глэмпинг «ВОЗДУХ»",
+    type: "глэмпинг",
+    verification: "shot",
+    verification_date: null,
+    consent: {
+      signed: false,
+      date: null
+    },
+    location: {
+      region: "Республика Алтай",
+      district: "Чемальский район",
+      settlement: "Усть-Сема",
+      coords: null,
+      distance_gorno_altaysk_km: null,
+      distance_novosibirsk_km: null,
+      road: null,
+      winter_access: null
+    },
+    tour: {
+      url: "https://tridetur.ru/360/vozduh_3d/",
+      preview: null,
+      scenes_count: 56,
+      features: "панорамы территории и всего номерного фонда; эффект день/ночь на территории и в номерах"
+    },
+    photos: [],
+    price: {
+      from: null,
+      unit: "объект/сутки",
+      included: [
+        "проживание в куполе"
       ],
-      capacity: { min: 2, max: 6, units_count: 9 },
-      amenities: {
-        banya: true,
-        pool: false,
-        wifi: false,
-        kitchen: true,
-        heating: true,
-        parking: true,
-        waterfront: false,
-        food: "Самостоятельно / по договорённости",
-        pets: true,
-        year_round: true,
-      },
-      suitability: {
-        family_kids: {
-          fit: "medium",
-          note: "Простая база без анимации — детям может быть скучно после дня прогулок.",
-        },
-        couples: {
-          fit: "high",
-          note: "Удалённость и звёздное небо — хороший формат для двоих.",
-        },
-        company: { fit: "high", note: "Недорого и вместительно для компаний." },
-        corporate: { fit: "low", note: "Слабый интернет и нет зала." },
-      },
-      author: {
-        verdict:
-          "Бюджетная точка на Чуйском тракте. Без глянца, зато честная цена и нормальная баня.",
-        good_for: ["Автопутешественники", "Компании"],
-        not_for: ["Кто ждёт ресторан и SPA"],
-        honest_note:
-          "Связь ловит через раз. Скачайте офлайн-карты заранее.",
-      },
-      booking: {
-        min_nights: 1,
-        min_nights_high_season: 2,
-        prepayment: "20%",
-      },
-      seo: {
-        title: "Турбаза «Алтаир» — честный обзор",
-        description: "Турбаза Алтаир на Алтае: плюсы и ограничения.",
-        og_image: "",
-      },
-      status: "published",
-      updated_at: "2026-08-11",
-    },
-    {
-      slug: "kottedzh-ust-muny",
-      name: "Коттедж в Усть-Муны",
-      type: "коттедж",
-      verification: "shot",
-      verification_date: "2026-07-08",
-      consent: { signed: true, date: "2026-07-25" },
-      location: {
-        region: "Республика Алтай",
-        district: "Майминский район",
-        settlement: "село Усть-Муны",
-        coords: [51.72, 85.78],
-        distance_gorno_altaysk_km: 40,
-        distance_novosibirsk_km: 490,
-        road: "Чуйский тракт",
-        winter_access: true,
-      },
-      tour: {
-        url: "https://tridetur.ru/360/vozduh_3d/",
-        preview: "/media/kottedzh-ust-muny/tour-preview.jpg",
-        scenes_count: 4,
-      },
-      photos: [
-        {
-          src: "/media/kottedzh-ust-muny/01.jpg",
-          alt: "Коттедж в Усть-Муны зимой",
-          caption: "Сруб у гор",
-        },
+      extra: [
+        "питание — оговаривается отдельно",
+        "выкуп базы целиком под мероприятие"
       ],
-      capacity: { min: 2, max: 7, units_count: 1 },
-      amenities: {
-        banya: true,
-        pool: false,
-        wifi: true,
-        kitchen: true,
-        heating: true,
-        parking: true,
-        waterfront: false,
-        food: "Самостоятельно",
-        pets: true,
-        year_round: true,
-      },
-      suitability: {
-        family_kids: {
-          fit: "high",
-          note: "Один дом на семью — удобно, двор закрытый.",
-        },
-        couples: {
-          fit: "medium",
-          note: "Для двоих дом великоват, но тихо и автономно.",
-        },
-        company: { fit: "high", note: "Идеально снять целиком на компанию друзей." },
-        corporate: { fit: "low", note: "Один объект — не формат под корпоратив." },
-      },
-      author: {
-        verdict:
-          "Отдельный коттедж без соседей за стенкой. Хороший вариант, если хотите жить «как дома», но с видом на Алтай.",
-        good_for: ["Семьи", "Компании до 7 человек"],
-        not_for: ["Кто хочет ресепшен и ежедневную уборку"],
-        honest_note:
-          "Это аренда дома, а не отель: мусор, посуда и порядок — на вас.",
-      },
-      booking: {
-        min_nights: 2,
-        min_nights_high_season: 3,
-        prepayment: "40%",
-      },
-      seo: {
-        title: "Коттедж в Усть-Муны — честный обзор",
-        description: "Коттедж в Усть-Муны на Алтае: плюсы и ограничения.",
-        og_image: "",
-      },
-      status: "published",
-      updated_at: "2026-08-11",
+      note: "Цена не публикуется. Уточняется по запросу — база меняет тарифы и запускает акции.",
+      high_season: [],
+      publish: false
     },
-  ],
+    capacity: {
+      min: null,
+      max: null,
+      units_count: 3
+    },
+    amenities: {
+      banya: null,
+      pool: false,
+      wifi: true,
+      kitchen: null,
+      heating: null,
+      parking: null,
+      waterfront: false,
+      food: false,
+      pets: null,
+      year_round: null
+    },
+    suitability: {
+      family_kids: {
+        fit: null,
+        note: "Купола можно взять по одному, но места вокруг — частный сектор, без выхода к реке. Атмосфера тихая, рассчитанная скорее на взрослых."
+      },
+      couples: {
+        fit: true,
+        note: "Три купола, каждый в своём стиле, виды на горы по периметру, тишина."
+      },
+      company: {
+        fit: true,
+        note: "База выкупается целиком — три купола и общий купол для сбора."
+      },
+      corporate: {
+        fit: true,
+        note: "Выкуп целиком под тренинг, ретрит или небольшое мероприятие. Общий купол для собраний, Wi-Fi."
+      }
+    },
+    author: {
+      verdict: "Мы снимали «Воздух» дважды — днём и ночью, потому что с вечерней подсветкой он выглядит совершенно иначе, и по одним дневным кадрам этого не понять. Стоит в глубине посёлка Усть-Сема, горы видно по всему периметру, и на рассвете и на закате отсюда очень хорошие виды. Размещение в трёх куполах: можно взять один, можно выкупить базу целиком и провести мероприятие, тренинг или свадьбу. Купола одинаковые по площади, но у каждого свой стиль. Есть общий купол — для собраний или для еды. Wi-Fi на территории. Атмосфера здесь спокойная, проходит много ретритов, и место одинаково годится и под мероприятие, и просто под отдых. Собственник всегда на связи и решает вопросы оперативно.",
+      good_for: [
+        "ретритам, тренингам и небольшим мероприятиям с выкупом базы целиком",
+        "парам — виды на горы, тишина, три разных по стилю купола",
+        "тем, кто хочет необычное жильё, а не стандартный номер"
+      ],
+      not_for: [
+        "тех, кто едет к воде: выхода к реке нет",
+        "тех, кому нужна большая своя территория — вокруг частный сектор",
+        "тех, кто рассчитывает на питание в стоимости: по умолчанию оно не входит"
+      ],
+      honest_note: "Выхода к реке отсюда нет, и территория граничит с частным сектором. Если едете купаться в Катуни и жить у воды — это не сюда. Если едете за тишиной, горами и рассветом — сюда."
+    },
+    booking: {
+      min_nights: null,
+      min_nights_high_season: null,
+      prepayment: null
+    },
+    seo: {
+      title: "Купольный глэмпинг «ВОЗДУХ», Усть-Сема — 3D-тур днём и ночью | Алтай изнутри",
+      description: "Три купола в глубине Усть-Семы, горы по периметру, тихое место под ретриты. 56 сцен с эффектом день/ночь.",
+      og_image: null
+    },
+    status: "ready_for_review",
+    updated_at: "2026-09-10"
+  },
+  {
+    slug: "park-otel-skala",
+    name: "Парк-отель SKALA",
+    type: "парк-отель",
+    verification: "shot",
+    verification_date: null,
+    consent: {
+      signed: false,
+      date: null
+    },
+    location: {
+      region: "Республика Алтай",
+      district: "Чемальский район",
+      settlement: "Барангол",
+      coords: null,
+      distance_gorno_altaysk_km: null,
+      distance_novosibirsk_km: null,
+      road: null,
+      winter_access: null
+    },
+    tour: {
+      url: "https://mysiesta.ru/360/skala-2023/tour2.html",
+      preview: null,
+      scenes_count: 108,
+      features: "панорамы большой территории и части номерного фонда; аэропанорама; меню по категориям номеров"
+    },
+    photos: [],
+    price: {
+      from: null,
+      unit: "номер/сутки",
+      included: [
+        "проживание",
+        "завтрак «шведский стол»"
+      ],
+      extra: [
+        "баня на дровах",
+        "бассейн",
+        "конференц-зал",
+        "хостел — экономичное размещение"
+      ],
+      note: "Цена не публикуется. Уточняется по запросу — база меняет тарифы и запускает акции.",
+      high_season: [],
+      publish: false
+    },
+    capacity: {
+      min: null,
+      max: null,
+      units_count: null
+    },
+    amenities: {
+      banya: true,
+      pool: true,
+      wifi: null,
+      kitchen: null,
+      heating: null,
+      parking: null,
+      waterfront: true,
+      food: true,
+      pets: null,
+      year_round: null
+    },
+    suitability: {
+      family_kids: {
+        fit: true,
+        note: "Батут, бассейн, завтрак «шведский стол» в стоимости, безопасные дорожки вокруг озера, «Магнит» рядом за продуктами и детским питанием."
+      },
+      couples: {
+        fit: true,
+        note: "Территория с озером и лесополосой, баня на дровах, кухня с локальными блюдами."
+      },
+      company: {
+        fit: true,
+        note: "Дома до трёх этажей, юниты по этажам, большая территория."
+      },
+      corporate: {
+        fit: true,
+        note: "Конференц-зал около 1000 м², один из крупнейших в регионе, плюс хостел под размещение персонала. Билайн проводит здесь мероприятия."
+      }
+    },
+    author: {
+      verdict: "«Скала» — наш первый большой парк-отель: тур мы делали ещё в 2023 году, начали с прогулки по территории и нескольких номеров, потом по заказу собственника доснимали остальные категории, а в 2024-м добавили аэропанорамы. Многие вещи, которые сейчас стали для нас обычными, мы впервые попробовали здесь. База стоит недалеко от трассы, съезд сразу, но жилые модули уведены в глубину, ближе к Катуни. Вдоль базы искусственное озеро, за ним лесополоса и река. Вокруг озера проложены бетонные дорожки для бега — управляющая базой сама бегает и делала их в том числе под себя. Бежать можно даже днём: фактически бежишь по лесу, не жарко. Дома из массивного дерева, брёвна сантиметров по сорок в диаметре, изнутри отшлифованы — выглядит это очень красиво. Здания до трёх этажей, и один юнит занимает часть этажа. Недавно построили бассейн, батут для детей был всегда. Завтрак входит в проживание, шведский стол сытный; в кафе есть локальная кухня — марал, пельмени из марала, свои авторские напитки. Баня на дровах сдаётся отдельно. Отдельно стоит здание у трассы: на втором этаже конференц-зал около тысячи квадратных метров, один из самых больших в регионе, а на первом «Магнит» — продукты и детское питание покупаются не выходя с базы, при этом магазин отделён, и покупатели на территорию не заходят.",
+      good_for: [
+        "семьям с детьми — бассейн, батут, завтраки в стоимости, магазин рядом",
+        "корпоративам: зал на тысячу метров плюс хостел под персонал",
+        "тем, кто бегает — дорожки вокруг озера в тени"
+      ],
+      not_for: [
+        "тех, кто едет за глушью и уединением: база большая и людная",
+        "тех, кому нужна кухня в номере и самостоятельная готовка",
+        "тех, кто хочет минимальный бюджет в основном корпусе — для этого есть хостел"
+      ],
+      honest_note: "Хостел на территории — это честный экономичный вариант: он рассчитан на персонал и обслуживание корпоративов, но доступен и тем, кто хочет сэкономить и при этом жить на большой интересной территории."
+    },
+    booking: {
+      min_nights: null,
+      min_nights_high_season: null,
+      prepayment: null
+    },
+    seo: {
+      title: "Парк-отель SKALA, Барангол — 3D-тур с аэропанорамой | Алтай изнутри",
+      description: "Большая территория с озером и беговыми дорожками, бассейн, завтраки в стоимости, зал на 1000 м². 108 сцен, включая аэропанорамы.",
+      og_image: null
+    },
+    status: "ready_for_review",
+    updated_at: "2026-09-10"
+  },
+  {
+    slug: "usadba-kruglovyh",
+    name: "Усадьба Кругловых",
+    type: "усадьба",
+    verification: "shot",
+    verification_date: null,
+    consent: {
+      signed: false,
+      date: null
+    },
+    location: {
+      region: "Республика Алтай",
+      district: "Чемальский район",
+      settlement: "Чепош",
+      coords: null,
+      distance_gorno_altaysk_km: null,
+      distance_novosibirsk_km: null,
+      road: null,
+      winter_access: null
+    },
+    tour: {
+      url: "https://tridetur.ru/360/usadba_kruglovyh/",
+      preview: null,
+      scenes_count: 17,
+      features: "панорамы территории и части номерного фонда"
+    },
+    photos: [],
+    price: {
+      from: null,
+      unit: "объект/сутки",
+      included: [
+        "проживание"
+      ],
+      extra: [
+        "питание в кафе на минус первом этаже"
+      ],
+      note: "Цена не публикуется. Уточняется по запросу — база меняет тарифы и запускает акции.",
+      high_season: [],
+      publish: false
+    },
+    capacity: {
+      min: null,
+      max: null,
+      units_count: null
+    },
+    amenities: {
+      banya: null,
+      pool: false,
+      wifi: null,
+      kitchen: null,
+      heating: null,
+      parking: null,
+      waterfront: true,
+      food: true,
+      pets: null,
+      year_round: null
+    },
+    suitability: {
+      family_kids: {
+        fit: true,
+        note: "Территория компактная и просматриваемая, беседки и мангальная зона общие, кафе на месте."
+      },
+      couples: {
+        fit: true,
+        note: "Домик с собственной небольшой террасой."
+      },
+      company: {
+        fit: true,
+        note: "Домик можно взять целиком, беседки для всех гостей."
+      },
+      corporate: {
+        fit: false,
+        note: "Семейный формат, без залов."
+      }
+    },
+    author: {
+      verdict: "Базой управляет семья Кругловых, и это тот случай, когда все вопросы решаются напрямую с собственником, без администратора и переписки. Домики можно брать по номерам или целиком, у каждого своя небольшая уютная терраса. Территория не огромная, но зелёная и просторная — хватает всем. Есть беседки в общем доступе: можно готовить, можно просто сидеть. Мангальная зона. Прямой выход к Катуни. В главном корпусе на минус первом этаже кафе, питание берётся отдельно. База стоит прямо в Чепоше, то есть вы живёте в деревне, а не на отшибе, и до экскурсионных программ отсюда близко.",
+      good_for: [
+        "тем, кто ценит прямой контакт с хозяевами",
+        "семьям — компактная территория, всё на виду",
+        "тем, кто хочет к Катуни и при этом быть в посёлке"
+      ],
+      not_for: [
+        "тех, кто едет за уединением: база в деревне, территория небольшая",
+        "тех, кому нужен отельный сервис и завтраки в стоимости",
+        "больших шумных компаний — территория общая, соседи рядом"
+      ],
+      honest_note: ""
+    },
+    booking: {
+      min_nights: null,
+      min_nights_high_season: null,
+      prepayment: null
+    },
+    seo: {
+      title: "Усадьба Кругловых, Чепош — 3D-тур и честный обзор | Алтай изнутри",
+      description: "Семейная усадьба в Чепоше: домики с террасами, беседки, кафе, прямой выход к Катуни. 17 панорам изнутри.",
+      og_image: null
+    },
+    status: "ready_for_review",
+    updated_at: "2026-09-10"
+  },
+  {
+    slug: "eko-otel-grinlandiya",
+    name: "Экоотель Green Ландия",
+    type: "эко-отель",
+    verification: "shot",
+    verification_date: null,
+    consent: {
+      signed: false,
+      date: null
+    },
+    location: {
+      region: "Алтайский край",
+      district: "Алтайский район",
+      settlement: "Бирюзовая Катунь",
+      coords: null,
+      distance_gorno_altaysk_km: null,
+      distance_novosibirsk_km: null,
+      road: null,
+      winter_access: null
+    },
+    tour: {
+      url: "https://tridetur.ru/360/grn_test/",
+      preview: null,
+      scenes_count: 29,
+      features: "панорамы территории и части номерного фонда"
+    },
+    photos: [],
+    price: {
+      from: null,
+      unit: "номер/сутки",
+      included: [
+        "проживание в номере с санузлом"
+      ],
+      extra: [
+        "спа и банный комплекс",
+        "ресторан «Вкусный Север»"
+      ],
+      note: "Цена не публикуется. Уточняется по запросу — база меняет тарифы и запускает акции.",
+      high_season: [],
+      _reference_only: {
+        from: 4900,
+        tiers: [
+          {
+            name: "Стандарт MINI",
+            from: 4900,
+            guests: 2,
+            area_m2: "13"
+          },
+          {
+            name: "Стандарт",
+            from: 7900,
+            guests: 4,
+            area_m2: "24–27"
+          },
+          {
+            name: "Полулюкс",
+            from: 9900,
+            guests: 4,
+            area_m2: "27–30"
+          },
+          {
+            name: "Семейный полулюкс",
+            from: 9900,
+            guests: 4,
+            area_m2: "24"
+          },
+          {
+            name: "Люкс",
+            from: 11900,
+            guests: 4,
+            area_m2: "50"
+          },
+          {
+            name: "VIP",
+            from: 12900,
+            guests: 4,
+            area_m2: "50"
+          }
+        ],
+        source: "официальный сайт базы, 10.09.2026",
+        status: "ПРЕДВАРИТЕЛЬНО — НЕ ПУБЛИКОВАТЬ, сверять с базой"
+      },
+      publish: false
+    },
+    capacity: {
+      min: 1,
+      max: 4,
+      units_count: null
+    },
+    amenities: {
+      banya: true,
+      pool: true,
+      wifi: null,
+      kitchen: false,
+      heating: null,
+      parking: null,
+      waterfront: false,
+      food: true,
+      pets: true,
+      year_round: null
+    },
+    suitability: {
+      family_kids: {
+        fit: null,
+        note: "Детская зона у ресторана есть, но в бассейне играет фоновая музыка и атмосфера чуть тусовочная — с маленькими детьми решайте сами."
+      },
+      couples: {
+        fit: true,
+        note: "Спа-центр в минус первом, ресторан внизу, номера разных категорий."
+      },
+      company: {
+        fit: true,
+        note: "Отельный формат, номера от эконома до VIP."
+      },
+      corporate: {
+        fit: null,
+        note: "Отель с рестораном и спа, но про залы данных нет."
+      }
+    },
+    author: {
+      verdict: "Единственный в нашем каталоге полноценный отель — всё остальное усадьбы, домики и купола. Стоит на Бирюзовой Катуни, по другую сторону реки от остальных баз, и это уже Алтайский край, а не Республика Алтай. Номера на верхних этажах, категории от эконома и комфорта до VIP, все с санузлами, подъём по винтовой лестнице. На первом этаже ресторан «Вкусный Север» — отдельный ресторан хорошего уровня, куда заезжают не только гости отеля. Локальная кухня и европейская. Рядом небольшая детская зона, где можно оставить детей поиграть. На минус первом спа-центр, и до него можно спуститься прямо из номера, по сути в халате: бассейн, сауна, массажные кабинеты, соляная пещера, пантовые ванны. Всё это оплачивается отдельно, но собрать вечер можно не выходя из здания.",
+      good_for: [
+        "тем, кому нужен отель с ресепшн, а не турбаза",
+        "парам — спа-центр в минус первом этаже",
+        "тем, кто хочет поесть хорошо и не искать где"
+      ],
+      not_for: [
+        "семей с маленькими детьми, если вы едете за тишиной — в бассейне играет музыка",
+        "тех, кто едет за мангалом, баней-бочкой и своим двором",
+        "тех, кому важен выход к воде и природа под окном"
+      ],
+      honest_note: "В бассейне играет фоновая музыка, атмосфера немного тусовочная. Если вы с маленькими детьми и локация в целом подходит — окей. Если нет — лучше взять более спокойную базу."
+    },
+    booking: {
+      min_nights: null,
+      min_nights_high_season: null,
+      prepayment: null,
+      checkin: "14:00",
+      checkout: "12:00"
+    },
+    seo: {
+      title: "Экоотель Green Ландия, Бирюзовая Катунь — 3D-тур и обзор | Алтай изнутри",
+      description: "Отель со спа-центром и рестораном «Вкусный Север» на Бирюзовой Катуни. 29 панорам изнутри, честный разбор.",
+      og_image: null
+    },
+    status: "ready_for_review",
+    updated_at: "2026-09-10"
+  },
+  {
+    slug: "usadba-sokol",
+    name: "Усадьба «Сокол»",
+    type: "усадьба",
+    verification: "shot",
+    verification_date: null,
+    consent: {
+      signed: false,
+      date: null
+    },
+    location: {
+      region: "Республика Алтай",
+      district: null,
+      settlement: null,
+      coords: null,
+      distance_gorno_altaysk_km: null,
+      distance_novosibirsk_km: null,
+      road: null,
+      winter_access: null
+    },
+    tour: {
+      url: null,
+      preview: null,
+      scenes_count: null
+    },
+    photos: [],
+    price: {
+      from: null,
+      unit: "чел./сутки",
+      included: [],
+      extra: [],
+      note: "Цена не публикуется. Уточняется по запросу — база меняет тарифы и запускает акции.",
+      high_season: [],
+      publish: false
+    },
+    capacity: {
+      min: null,
+      max: null,
+      units_count: null
+    },
+    amenities: {
+      banya: null,
+      pool: null,
+      wifi: null,
+      kitchen: null,
+      heating: null,
+      parking: null,
+      waterfront: null,
+      food: null,
+      pets: null,
+      year_round: null
+    },
+    suitability: {
+      family_kids: {
+        fit: null,
+        note: ""
+      },
+      couples: {
+        fit: null,
+        note: ""
+      },
+      company: {
+        fit: null,
+        note: ""
+      },
+      corporate: {
+        fit: null,
+        note: ""
+      }
+    },
+    author: {
+      verdict: "",
+      good_for: [],
+      not_for: [],
+      honest_note: ""
+    },
+    booking: {
+      min_nights: null,
+      min_nights_high_season: null,
+      prepayment: null
+    },
+    seo: {
+      title: "",
+      description: "",
+      og_image: null
+    },
+    status: "draft",
+    updated_at: "2026-08-10"
+  },
+  {
+    slug: "turbaza-tihiy-bereg",
+    name: "Турбаза «Тихий Берег»",
+    type: "турбаза",
+    verification: "shot",
+    verification_date: null,
+    consent: {
+      signed: false,
+      date: null
+    },
+    location: {
+      region: "Республика Алтай",
+      district: null,
+      settlement: null,
+      coords: null,
+      distance_gorno_altaysk_km: null,
+      distance_novosibirsk_km: null,
+      road: null,
+      winter_access: null
+    },
+    tour: {
+      url: null,
+      preview: null,
+      scenes_count: null
+    },
+    photos: [],
+    price: {
+      from: null,
+      unit: "чел./сутки",
+      included: [],
+      extra: [],
+      note: "Цена не публикуется. Уточняется по запросу — база меняет тарифы и запускает акции.",
+      high_season: [],
+      publish: false
+    },
+    capacity: {
+      min: null,
+      max: null,
+      units_count: null
+    },
+    amenities: {
+      banya: null,
+      pool: null,
+      wifi: null,
+      kitchen: null,
+      heating: null,
+      parking: null,
+      waterfront: null,
+      food: null,
+      pets: null,
+      year_round: null
+    },
+    suitability: {
+      family_kids: {
+        fit: null,
+        note: ""
+      },
+      couples: {
+        fit: null,
+        note: ""
+      },
+      company: {
+        fit: null,
+        note: ""
+      },
+      corporate: {
+        fit: null,
+        note: ""
+      }
+    },
+    author: {
+      verdict: "",
+      good_for: [],
+      not_for: [],
+      honest_note: ""
+    },
+    booking: {
+      min_nights: null,
+      min_nights_high_season: null,
+      prepayment: null
+    },
+    seo: {
+      title: "",
+      description: "",
+      og_image: null
+    },
+    status: "draft",
+    updated_at: "2026-08-10"
+  },
+  {
+    slug: "turbaza-altair",
+    name: "Турбаза «Алтаир»",
+    type: "турбаза",
+    verification: "shot",
+    verification_date: null,
+    consent: {
+      signed: false,
+      date: null
+    },
+    location: {
+      region: "Республика Алтай",
+      district: "Чемальский район",
+      settlement: "Чепош",
+      coords: null,
+      distance_gorno_altaysk_km: null,
+      distance_novosibirsk_km: null,
+      road: null,
+      winter_access: null
+    },
+    tour: {
+      url: "https://tridetur.ru/360/altair/",
+      preview: null,
+      scenes_count: 23,
+      features: "панорамы территории и части номерного фонда"
+    },
+    photos: [],
+    price: {
+      from: null,
+      unit: "объект/сутки",
+      included: [
+        "проживание в домике с санузлом"
+      ],
+      extra: [
+        "питание в кафе — по позициям",
+        "баня по часам"
+      ],
+      note: "Цена не публикуется. Уточняется по запросу — база меняет тарифы и запускает акции.",
+      high_season: [],
+      publish: false
+    },
+    capacity: {
+      min: 2,
+      max: 4,
+      units_count: null
+    },
+    amenities: {
+      banya: true,
+      pool: true,
+      wifi: true,
+      kitchen: null,
+      heating: null,
+      parking: true,
+      waterfront: true,
+      food: true,
+      pets: true,
+      year_round: false
+    },
+    suitability: {
+      family_kids: {
+        fit: true,
+        note: "Домики стоят далеко друг от друга, детям есть где бегать. Все домики с санузлами, что для эконом-сегмента редкость. Питание гибкое: можно взять только кашу."
+      },
+      couples: {
+        fit: true,
+        note: "Домики на удалении друг от друга, выход к Катуни."
+      },
+      company: {
+        fit: true,
+        note: "Несколько гектаров территории, бани по часам."
+      },
+      corporate: {
+        fit: false,
+        note: "Нет конференц-зала, сезонная работа."
+      }
+    },
+    author: {
+      verdict: "Несколько гектаров территории, и это чувствуется: домики из бруса-кругляка расставлены на комфортном удалении друг от друга, соседей вы не слышите. Выход к Катуни прямо с базы. Сегмент эконом, но все домики с санузлами — для этой цены на Алтае так бывает не всегда. В кафе домашняя кухня, и питание считается отдельно по позициям: можно взять только кашу или чашку кофе, можно позавтракать полноценно, обед выбираете из уже готовых блюд. Бани сдаются по часам. Цена по нынешним алтайским меркам адекватная.",
+      good_for: [
+        "семьям с детьми — простор между домиками и гибкое питание",
+        "тем, кто хочет к Катуни без переплаты за отель",
+        "тем, кому важен санузел в домике при эконом-цене"
+      ],
+      not_for: [
+        "зимней поездки — база не круглогодичная",
+        "тех, кому нужна стабильная связь для работы",
+        "тех, кто ждёт отельного сервиса: это турбаза, а не гостиница"
+      ],
+      honest_note: "Связь берёт нестабильно, и зависит от оператора — у «Мегафона» здесь плохо. Если вам нужно быть на связи, проверьте своего заранее."
+    },
+    booking: {
+      min_nights: null,
+      min_nights_high_season: null,
+      prepayment: null
+    },
+    seo: {
+      title: "Турбаза «Алтаир», Чепош — 3D-тур и честный обзор | Алтай изнутри",
+      description: "Несколько гектаров, домики из бруса на удалении друг от друга, выход к Катуни. 23 панорамы изнутри и разбор без прикрас.",
+      og_image: null
+    },
+    status: "ready_for_review",
+    updated_at: "2026-09-10"
+  },
+  {
+    slug: "kottedzh-ust-muny",
+    name: "Коттедж в Усть-Муны",
+    type: "коттедж",
+    verification: "shot",
+    verification_date: null,
+    consent: {
+      signed: false,
+      date: null
+    },
+    location: {
+      region: "Республика Алтай",
+      district: null,
+      settlement: "Усть-Муны",
+      coords: null,
+      distance_gorno_altaysk_km: null,
+      distance_novosibirsk_km: null,
+      road: null,
+      winter_access: null
+    },
+    tour: {
+      url: null,
+      preview: null,
+      scenes_count: null
+    },
+    photos: [],
+    price: {
+      from: null,
+      unit: "объект/сутки",
+      included: [],
+      extra: [],
+      note: "Цена не публикуется. Уточняется по запросу — база меняет тарифы и запускает акции.",
+      high_season: [],
+      publish: false
+    },
+    capacity: {
+      min: null,
+      max: null,
+      units_count: 1
+    },
+    amenities: {
+      banya: null,
+      pool: null,
+      wifi: null,
+      kitchen: null,
+      heating: null,
+      parking: null,
+      waterfront: null,
+      food: null,
+      pets: null,
+      year_round: null
+    },
+    suitability: {
+      family_kids: {
+        fit: null,
+        note: ""
+      },
+      couples: {
+        fit: null,
+        note: ""
+      },
+      company: {
+        fit: null,
+        note: ""
+      },
+      corporate: {
+        fit: null,
+        note: ""
+      }
+    },
+    author: {
+      verdict: "",
+      good_for: [],
+      not_for: [],
+      honest_note: ""
+    },
+    booking: {
+      min_nights: null,
+      min_nights_high_season: null,
+      prepayment: null
+    },
+    seo: {
+      title: "",
+      description: "",
+      og_image: null
+    },
+    status: "draft",
+    updated_at: "2026-08-10"
+  }
+],
 };

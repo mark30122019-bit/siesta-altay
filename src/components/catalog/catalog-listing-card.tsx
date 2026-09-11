@@ -9,6 +9,7 @@ import { Typography } from "@/components/ui/typography";
 import { UI_CONFIG } from "@/config/uiConfig";
 import { assetPath } from "@/config/site";
 import { formatObjectPrice } from "@/lib/object-price";
+import { hasAmenityFlag } from "@/lib/object-flags";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -56,8 +57,8 @@ export function CatalogListingCard({
   const src = coverSrc(object);
   const hasTour = Boolean(object.tour?.url);
   const [tourOpen, setTourOpen] = useState(false);
-  const amenities = AMENITY_ICONS.filter(
-    (item) => object.amenities[item.key] === true
+  const amenities = AMENITY_ICONS.filter((item) =>
+    hasAmenityFlag(object.amenities[item.key] as boolean | null)
   ).slice(0, 5);
   const notFor =
     object.author.not_for[0] || object.suitability.family_kids.note;
@@ -98,7 +99,7 @@ export function CatalogListingCard({
             </button>
           ) : null}
 
-          {isMap && tourOpen && hasTour ? (
+          {isMap && tourOpen && hasTour && object.tour.url ? (
             <iframe
               src={object.tour.url}
               title={`${object.name} — ${UI_CONFIG.common.tourBadge}`}

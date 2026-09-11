@@ -164,7 +164,9 @@ export function CatalogMap({ objects, className }: CatalogMapProps) {
         setError(null);
 
         objectsRef.current.forEach((object) => {
-          const [lat, lng] = object.location.coords;
+          const coords = object.location.coords;
+          if (!coords) return;
+          const [lat, lng] = coords;
           if (
             typeof lat !== "number" ||
             typeof lng !== "number" ||

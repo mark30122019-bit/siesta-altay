@@ -2,13 +2,12 @@ import type { MetadataRoute } from "next";
 
 import { GLOBAL_CONFIG } from "@/config/global";
 import { absoluteUrl } from "@/config/site";
+import { isObjectListed } from "@/lib/object-flags";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const published = GLOBAL_CONFIG.objects.filter(
-    (object) => object.status === "published"
-  );
+  const published = GLOBAL_CONFIG.objects.filter(isObjectListed);
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {

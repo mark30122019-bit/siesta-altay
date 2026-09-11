@@ -44,6 +44,7 @@ export function lodgingJsonLd(object: BaseObject): JsonLd {
     SITE_SEO.ogImage;
 
   const priceRange = formatObjectPrice(object);
+  const coords = object.location.coords;
 
   return {
     "@context": "https://schema.org",
@@ -54,15 +55,21 @@ export function lodgingJsonLd(object: BaseObject): JsonLd {
     image: absoluteAssetUrl(image),
     address: {
       "@type": "PostalAddress",
-      addressLocality: object.location.settlement,
-      addressRegion: object.location.district,
+      addressLocality:
+        object.location.settlement || object.location.district || undefined,
+      addressRegion:
+        object.location.region || object.location.district || undefined,
       addressCountry: "RU",
     },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: object.location.coords[0],
-      longitude: object.location.coords[1],
-    },
+    ...(coords
+      ? {
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: coords[0],
+            longitude: coords[1],
+          },
+        }
+      : {}),
     ...(priceRange ? { priceRange } : {}),
   };
 }

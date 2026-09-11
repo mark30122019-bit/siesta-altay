@@ -8,19 +8,20 @@ import { UI_CONFIG } from "@/config/uiConfig";
 import { SITE_SEO, absoluteAssetUrl, absoluteUrl } from "@/config/site";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { lodgingJsonLd } from "@/lib/seo";
+import { isObjectListed } from "@/lib/object-flags";
 
 type BaseDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-function findPublishedObject(slug: string) {
+function findListedObject(slug: string) {
   return GLOBAL_CONFIG.objects.find(
-    (object) => object.slug === slug && object.status === "published"
+    (object) => object.slug === slug && isObjectListed(object)
   );
 }
 
 function objectOgImage(slug: string) {
-  const object = findPublishedObject(slug);
+  const object = findListedObject(slug);
   if (!object) return SITE_SEO.ogImage;
   return (
     object.seo.og_image ||
@@ -32,7 +33,7 @@ function objectOgImage(slug: string) {
 
 export function generateStaticParams() {
   return GLOBAL_CONFIG.objects
-    .filter((object) => object.status === "published")
+    .filter(isObjectListed)
     .map((object) => ({ slug: object.slug }));
 }
 
@@ -40,7 +41,7 @@ export async function generateMetadata({
   params,
 }: BaseDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const object = findPublishedObject(slug);
+  const object = findListedObject(slug);
 
   if (!object) {
     return {
@@ -83,7 +84,7 @@ export async function generateMetadata({
 
 export default async function BaseDetailPage({ params }: BaseDetailPageProps) {
   const { slug } = await params;
-  const object = findPublishedObject(slug);
+  const object = findListedObject(slug);
 
   if (!object) {
     return (

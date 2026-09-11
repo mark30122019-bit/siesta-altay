@@ -6,6 +6,7 @@ import { SiteFooter, SiteHeader } from "@/components/ui";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
 import { absoluteUrl } from "@/config/site";
+import { isObjectListed } from "@/lib/object-flags";
 
 const catalogDescription =
   "Каталог проверенных баз отдыха на Алтае: фильтры по району и удобствам, карта объектов и честные 3D-туры изнутри.";
@@ -24,9 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default function CatalogPage() {
-  const objects = GLOBAL_CONFIG.objects.filter(
-    (object) => object.status === "published"
-  );
+  const objects = GLOBAL_CONFIG.objects.filter(isObjectListed);
 
   return (
     <main className="min-h-screen bg-[#F4F0E8]">
