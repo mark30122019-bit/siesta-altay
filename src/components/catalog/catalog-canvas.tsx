@@ -23,18 +23,24 @@ import {
   buildCatalogHref,
   catalogHrefMatchesSearchParams,
   defaultCatalogFilterState,
+  defaultRegionSlugs,
+  districtsForRegions,
+  isDefaultRegions,
   loadCatalogFilterState,
   parseCatalogSearchParams,
   persistCatalogFilterState,
+  pruneDistrictsForRegions,
   type CatalogViewMode,
 } from "@/lib/catalog-filter-state";
 import { hasObjectPrice } from "@/lib/object-price";
+import { hasAmenityFlag, isSuitableFit } from "@/lib/object-flags";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
 type ViewMode = CatalogViewMode;
 
 type FilterSnapshot = {
+  regions: string[];
   audiences: string[];
   districts: string[];
   features: string[];
@@ -64,11 +70,11 @@ function FilterCard({
   return (
     <div
       className={cn(
-        "surface-glass catalog-filter-cursor flex h-full flex-col px-3.5 py-3 md:px-4 md:py-3.5",
+        "surface-glass catalog-filter-cursor flex flex-col px-3 py-2.5 md:px-3.5 md:py-2.5",
         className
       )}
     >
-      <div className="mb-1.5 flex items-center justify-between gap-2">
+      <div className="mb-3 flex items-center justify-between gap-2">
         <Typography
           variant="caption"
           className="text-[13px] font-bold tracking-wide text-[#1A241C] md:text-xs"
@@ -77,7 +83,7 @@ function FilterCard({
         </Typography>
         {action}
       </div>
-      <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+      <div className="flex min-h-0 flex-col">{children}</div>
     </div>
   );
 }
@@ -104,6 +110,35 @@ function FilterLink({
     >
       {label}
     </button>
+  );
+}
+
+function FilterCheckbox({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <label className="catalog-filter-cursor flex cursor-pointer items-start gap-2">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className="mt-0.5 size-3.5 shrink-0 accent-[#BC5434]"
+      />
+      <span
+        className={cn(
+          "font-sans text-[13px] leading-snug md:text-xs",
+          checked ? "font-semibold text-[#1A241C]" : "text-[#555]"
+        )}
+      >
+        {label}
+      </span>
+    </label>
   );
 }
 
@@ -141,9 +176,21 @@ function toggleValue(list: string[], value: string) {
     : [...list, value];
 }
 
+function matchesRegion(object: BaseObject, regions: string[]) {
+  if (regions.length === 0) return false;
+  if (isDefaultRegions(regions)) return true;
+  const regionName = object.location.region;
+  if (!regionName) return false;
+  return regions.some((slug) => {
+    const filter = GLOBAL_CONFIG.filters.regions.find((item) => item.slug === slug);
+    return filter ? regionName === filter.label : false;
+  });
+}
+
 function matchesDistrict(object: BaseObject, districts: string[]) {
   if (districts.length === 0) return true;
-  const hay = object.location.district.toLowerCase();
+  const hay = (object.location.district || "").toLowerCase();
+  if (!hay) return false;
   return districts.some((slug) => {
     const filter = GLOBAL_CONFIG.filters.districts.find((d) => d.slug === slug);
     if (!filter) return false;
@@ -154,12 +201,15 @@ function matchesDistrict(object: BaseObject, districts: string[]) {
 function matchesFeature(object: BaseObject, features: string[]) {
   if (features.length === 0) return true;
   return features.some((slug) => {
-    if (slug === "banya") return object.amenities.banya;
-    if (slug === "pool") return object.amenities.pool;
-    if (slug === "waterfront") return object.amenities.waterfront;
+    if (slug === "banya") return hasAmenityFlag(object.amenities.banya);
+    if (slug === "pool") return hasAmenityFlag(object.amenities.pool);
+    if (slug === "waterfront") return hasAmenityFlag(object.amenities.waterfront);
     if (slug === "winter")
-      return object.amenities.year_round || object.location.winter_access;
-    if (slug === "pets") return object.amenities.pets;
+      return (
+        hasAmenityFlag(object.amenities.year_round) ||
+        object.location.winter_access === true
+      );
+    if (slug === "pets") return hasAmenityFlag(object.amenities.pets);
     return true;
   });
 }
@@ -167,10 +217,14 @@ function matchesFeature(object: BaseObject, features: string[]) {
 function matchesAudience(object: BaseObject, audiences: string[]) {
   if (audiences.length === 0) return true;
   return audiences.some((slug) => {
-    if (slug === "with-kids") return object.suitability.family_kids.fit !== "low";
-    if (slug === "in-couple") return object.suitability.couples.fit !== "low";
-    if (slug === "company") return object.suitability.company.fit !== "low";
-    if (slug === "corporate") return object.suitability.corporate.fit !== "low";
+    if (slug === "with-kids")
+      return isSuitableFit(object.suitability.family_kids.fit);
+    if (slug === "in-couple")
+      return isSuitableFit(object.suitability.couples.fit);
+    if (slug === "company")
+      return isSuitableFit(object.suitability.company.fit);
+    if (slug === "corporate")
+      return isSuitableFit(object.suitability.corporate.fit);
     return true;
   });
 }
@@ -189,6 +243,7 @@ function matchesFilters(
     }
   }
   if (!matchesAudience(object, filters.audiences)) return false;
+  if (!matchesRegion(object, filters.regions)) return false;
   if (!matchesDistrict(object, filters.districts)) return false;
   if (!matchesFeature(object, filters.features)) return false;
   return true;
@@ -225,6 +280,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
     [searchParams]
   );
 
+  const [regions, setRegions] = useState(parsedFromUrl.regions);
   const [audiences, setAudiences] = useState(parsedFromUrl.audiences);
   const [districts, setDistricts] = useState(parsedFromUrl.districts);
   const [features, setFeatures] = useState(parsedFromUrl.features);
@@ -236,6 +292,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
   const [priceHydrated, setPriceHydrated] = useState(false);
 
   const [appliedFilters, setAppliedFilters] = useState<FilterSnapshot>({
+    regions: parsedFromUrl.regions,
     audiences: parsedFromUrl.audiences,
     districts: parsedFromUrl.districts,
     features: parsedFromUrl.features,
@@ -260,11 +317,13 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
 
   useEffect(() => {
     startTransition(() => {
+      setRegions(parsedFromUrl.regions);
       setAudiences(parsedFromUrl.audiences);
       setDistricts(parsedFromUrl.districts);
       setFeatures(parsedFromUrl.features);
       setViewMode(parsedFromUrl.viewMode);
       setAppliedFilters((prev) => ({
+        regions: parsedFromUrl.regions,
         audiences: parsedFromUrl.audiences,
         districts: parsedFromUrl.districts,
         features: parsedFromUrl.features,
@@ -284,18 +343,20 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
   useEffect(() => {
     startTransition(() => {
       setAppliedFilters({
+        regions,
         audiences,
         districts,
         features,
         priceRange: debouncedPriceRange,
       });
     });
-  }, [audiences, districts, features, debouncedPriceRange]);
+  }, [regions, audiences, districts, features, debouncedPriceRange]);
 
   useEffect(() => {
     if (!priceHydrated) return;
 
     const href = buildCatalogHref({
+      regions,
       audiences,
       districts,
       features,
@@ -304,6 +365,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
 
     persistCatalogFilterState(
       {
+        regions,
         audiences,
         districts,
         features,
@@ -317,6 +379,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
       router.replace(href, { scroll: false });
     }
   }, [
+    regions,
     audiences,
     districts,
     features,
@@ -336,6 +399,11 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
     [objects, appliedFilters, priceFilterEnabled]
   );
 
+  const visibleDistricts = useMemo(
+    () => districtsForRegions(regions),
+    [regions]
+  );
+
   const visibleSlugSet = useMemo(
     () => new Set(filtered.map((object) => object.slug)),
     [filtered]
@@ -343,7 +411,17 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
 
   const visibleCount = filtered.length;
 
+  function toggleRegion(slug: string) {
+    setRegions((prev) => {
+      const next = toggleValue(prev, slug);
+      setDistricts((current) => pruneDistrictsForRegions(current, next));
+      return next;
+    });
+  }
+
   function resetFilters() {
+    const nextRegions = defaultRegionSlugs();
+    setRegions(nextRegions);
     setAudiences([]);
     setDistricts([]);
     setFeatures([]);
@@ -360,9 +438,9 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
         isPending && "opacity-95"
       )}
     >
-      <div className="grid grid-cols-1 items-stretch gap-2.5 sm:grid-cols-2 lg:grid-cols-5 lg:gap-3">
+      <div className="grid grid-cols-1 items-start gap-2 sm:grid-cols-2 lg:grid-cols-5 lg:gap-2.5">
         <FilterCard title={UI_CONFIG.filters.forWhom}>
-          <div className="flex flex-wrap content-start gap-1.5">
+          <div className="flex min-h-[80px] flex-wrap content-start gap-1.5">
             {GLOBAL_CONFIG.filters.forWhom.map((item) => (
               <Chip
                 key={item.slug}
@@ -374,30 +452,53 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
                 className={cn(
                   "catalog-filter-cursor rounded-full px-3 py-1.5 text-[13px] md:px-2.5 md:py-1 md:text-xs",
                   !audiences.includes(item.slug) &&
-                    "border-transparent bg-[#F0EBE3] text-[#6B635A] hover:bg-[#E8E0D4]"
+                  "border-transparent bg-[#F0EBE3] text-[#6B635A] hover:bg-[#E8E0D4]"
                 )}
               />
             ))}
           </div>
         </FilterCard>
 
-        <FilterCard title={UI_CONFIG.filters.district}>
-          <div className="grid grid-cols-2 content-start gap-x-3 gap-y-1">
-            {GLOBAL_CONFIG.filters.districts.map((item) => (
-              <FilterLink
+
+        <FilterCard title={UI_CONFIG.filters.region}>
+          <div className="flex min-h-[80px] flex-col gap-3">
+            {GLOBAL_CONFIG.filters.regions.map((item) => (
+              <FilterCheckbox
                 key={item.slug}
                 label={item.label}
-                active={districts.includes(item.slug)}
-                onClick={() =>
-                  setDistricts((prev) => toggleValue(prev, item.slug))
-                }
+                checked={regions.includes(item.slug)}
+                onChange={() => toggleRegion(item.slug)}
               />
             ))}
           </div>
         </FilterCard>
 
+        <FilterCard title={UI_CONFIG.filters.district}>
+          {visibleDistricts.length > 0 ? (
+            <div className="grid min-h-[80px] grid-cols-2 content-start gap-x-3 gap-y-2">
+              {visibleDistricts.map((item) => (
+                <FilterLink
+                  key={item.slug}
+                  label={item.label}
+                  active={districts.includes(item.slug)}
+                  onClick={() =>
+                    setDistricts((prev) => toggleValue(prev, item.slug))
+                  }
+                />
+              ))}
+            </div>
+          ) : (
+            <Typography
+              variant="caption"
+              className="text-[12px] text-[#8A8278] md:text-[11px]"
+            >
+              {UI_CONFIG.catalog.selectRegionHint}
+            </Typography>
+          )}
+        </FilterCard>
+
         <FilterCard title={UI_CONFIG.filters.features}>
-          <div className="grid grid-cols-2 content-start gap-x-3 gap-y-1">
+          <div className="grid min-h-[80px] grid-cols-2 content-start gap-x-3 gap-y-3">
             {GLOBAL_CONFIG.filters.features.map((item) => (
               <FilterLink
                 key={item.slug}
@@ -413,7 +514,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
 
         {priceFilterEnabled ? (
           <FilterCard title={UI_CONFIG.filters.price}>
-            <div className="catalog-filter-cursor flex flex-1 flex-col justify-center gap-2.5">
+            <div className="catalog-filter-cursor flex min-h-[80px] flex-col justify-center gap-2">
               <Slider
                 min={priceBounds.min}
                 max={priceBounds.max}
@@ -463,7 +564,7 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
           <button
             type="button"
             onClick={() => setViewMode("map")}
-            className="catalog-filter-cursor relative mt-0.5 h-[120px] w-full overflow-hidden rounded-xl bg-gradient-to-br from-[#d4cfc4] via-[#c5bfb2] to-[#a8b0a4] transition-all duration-300 hover:opacity-95 hover:shadow-[var(--shadow-card-hover)] md:h-[132px]"
+            className="catalog-filter-cursor relative mt-0.5 h-[72px] w-full overflow-hidden rounded-xl bg-linear-to-br from-[#d4cfc4] via-[#c5bfb2] to-[#a8b0a4] transition-all duration-300 hover:opacity-95 hover:shadow-[var(--shadow-card-hover)] md:h-[80px]"
             aria-label={UI_CONFIG.filters.map}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}

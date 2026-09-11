@@ -8,6 +8,7 @@ export const CATALOG_STATE_KEY = "altai:catalog-filter-state";
 export type CatalogViewMode = "list" | "map";
 
 export type CatalogFilterState = {
+  regions: string[];
   audiences: string[];
   districts: string[];
   features: string[];
@@ -17,7 +18,7 @@ export type CatalogFilterState = {
 
 export type CatalogUrlState = Pick<
   CatalogFilterState,
-  "audiences" | "districts" | "features" | "viewMode"
+  "regions" | "audiences" | "districts" | "features" | "viewMode"
 >;
 
 type PriceBounds = { min: number; max: number };
@@ -25,12 +26,25 @@ type PriceBounds = { min: number; max: number };
 const VALID_AUDIENCES = new Set(
   GLOBAL_CONFIG.filters.forWhom.map((item) => item.slug)
 );
+const ALL_REGION_SLUGS = GLOBAL_CONFIG.filters.regions.map((item) => item.slug);
+const VALID_REGIONS = new Set(ALL_REGION_SLUGS);
 const VALID_DISTRICTS = new Set(
   GLOBAL_CONFIG.filters.districts.map((item) => item.slug)
 );
 const VALID_FEATURES = new Set(
   GLOBAL_CONFIG.filters.features.map((item) => item.slug)
 );
+
+export function defaultRegionSlugs() {
+  return [...ALL_REGION_SLUGS];
+}
+
+export function isDefaultRegions(regions: string[]) {
+  return (
+    regions.length === ALL_REGION_SLUGS.length &&
+    ALL_REGION_SLUGS.every((slug) => regions.includes(slug))
+  );
+}
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -60,7 +74,12 @@ function normalizePriceRange(
 export function parseCatalogSearchParams(
   searchParams: URLSearchParams
 ): CatalogUrlState {
+  const regionsRaw = searchParams.get("regions");
   return {
+    regions:
+      regionsRaw === null
+        ? defaultRegionSlugs()
+        : parseSlugList(regionsRaw, VALID_REGIONS),
     audiences: parseSlugList(searchParams.get("audiences"), VALID_AUDIENCES),
     districts: parseSlugList(searchParams.get("districts"), VALID_DISTRICTS),
     features: parseSlugList(searchParams.get("features"), VALID_FEATURES),
@@ -71,6 +90,9 @@ export function parseCatalogSearchParams(
 export function buildCatalogHref(state: CatalogUrlState): string {
   const params = new URLSearchParams();
 
+  if (!isDefaultRegions(state.regions)) {
+    params.set("regions", state.regions.join(","));
+  }
   if (state.audiences.length > 0) {
     params.set("audiences", state.audiences.join(","));
   }
@@ -103,6 +125,7 @@ export function persistCatalogFilterState(
   if (typeof window === "undefined") return;
 
   const normalized: CatalogFilterState = {
+    regions: state.regions,
     audiences: state.audiences,
     districts: state.districts,
     features: state.features,
@@ -141,7 +164,10 @@ export function loadCatalogFilterState(
       return null;
     }
 
+    const regions = parseStoredSlugList(parsed.regions, VALID_REGIONS);
+
     return {
+      regions: regions.length > 0 ? regions : defaultRegionSlugs(),
       audiences: parseStoredSlugList(parsed.audiences, VALID_AUDIENCES),
       districts: parseStoredSlugList(parsed.districts, VALID_DISTRICTS),
       features: parseStoredSlugList(parsed.features, VALID_FEATURES),
@@ -167,6 +193,7 @@ export function defaultCatalogFilterState(
   priceBounds: PriceBounds
 ): CatalogFilterState {
   return {
+    regions: defaultRegionSlugs(),
     audiences: [],
     districts: [],
     features: [],
@@ -174,4 +201,18 @@ export function defaultCatalogFilterState(
     priceRange: [priceBounds.min, priceBounds.max],
     viewMode: "list",
   };
+}
+
+export function districtsForRegions(regions: string[]) {
+  return GLOBAL_CONFIG.filters.districts.filter((item) =>
+    regions.includes(item.region)
+  );
+}
+
+export function pruneDistrictsForRegions(
+  districts: string[],
+  regions: string[]
+) {
+  const allowed = new Set(districtsForRegions(regions).map((item) => item.slug));
+  return districts.filter((slug) => allowed.has(slug));
 }
