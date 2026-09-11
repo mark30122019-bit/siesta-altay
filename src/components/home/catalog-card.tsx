@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Typography } from "@/components/ui/typography";
 import { UI_CONFIG } from "@/config/uiConfig";
 import { assetPath } from "@/config/site";
+import { formatObjectPrice } from "@/lib/object-price";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -15,10 +16,6 @@ type CatalogCardProps = {
   variant?: CatalogCardVariant;
   className?: string;
 };
-
-function formatPrice(object: BaseObject) {
-  return `${UI_CONFIG.base.pricePrefix} ${object.price.from.toLocaleString("ru-RU")} ₽/${object.price.unit}`;
-}
 
 function coverSrc(object: BaseObject) {
   return object.tour.preview || object.photos[0]?.src || "";
@@ -51,6 +48,7 @@ function CatalogCard({
 }: CatalogCardProps) {
   const src = coverSrc(object);
   const hasTour = Boolean(object.tour?.url);
+  const priceLabel = formatObjectPrice(object);
 
   if (variant === "short") {
     return (
@@ -104,12 +102,14 @@ function CatalogCard({
           >
             {object.name}
           </Typography>
-          <Typography
-            variant="caption"
-            className="mt-1 block text-xs font-semibold text-[#1A241C]"
-          >
-            {formatPrice(object)}
-          </Typography>
+          {priceLabel ? (
+            <Typography
+              variant="caption"
+              className="mt-1 block text-xs font-semibold text-[#1A241C]"
+            >
+              {priceLabel}
+            </Typography>
+          ) : null}
           <span className="btn-tactile mt-2.5 inline-flex h-8 w-fit items-center justify-center rounded-xl border border-[#BC5434]/20 bg-gradient-to-b from-[#c86648] to-[#a8482c] px-4 text-[11px] leading-none text-white shadow-[0_3px_12px_rgba(188,84,52,0.24)] md:text-xs">
             {UI_CONFIG.common.bookCta}
           </span>

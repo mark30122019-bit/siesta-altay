@@ -28,6 +28,7 @@ import {
   persistCatalogFilterState,
   type CatalogViewMode,
 } from "@/lib/catalog-filter-state";
+import { hasObjectPrice } from "@/lib/object-price";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -174,12 +175,18 @@ function matchesAudience(object: BaseObject, audiences: string[]) {
   });
 }
 
-function matchesFilters(object: BaseObject, filters: FilterSnapshot) {
-  if (
-    object.price.from < filters.priceRange[0] ||
-    object.price.from > filters.priceRange[1]
-  ) {
-    return false;
+function matchesFilters(
+  object: BaseObject,
+  filters: FilterSnapshot,
+  priceFilterEnabled: boolean
+) {
+  if (priceFilterEnabled && hasObjectPrice(object)) {
+    if (
+      object.price.from < filters.priceRange[0] ||
+      object.price.from > filters.priceRange[1]
+    ) {
+      return false;
+    }
   }
   if (!matchesAudience(object, filters.audiences)) return false;
   if (!matchesDistrict(object, filters.districts)) return false;
@@ -192,7 +199,12 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
   const searchParams = useSearchParams();
 
   const priceBounds = useMemo(() => {
-    const prices = objects.map((object) => object.price.from);
+    const prices = objects
+      .filter(hasObjectPrice)
+      .map((object) => object.price.from);
+    if (prices.length === 0) {
+      return { min: 0, max: 0 };
+    }
     const min = Math.min(...prices);
     const max = Math.max(...prices);
     return {
@@ -200,6 +212,8 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
       max: Math.ceil(max / 1000) * 1000,
     };
   }, [objects]);
+
+  const priceFilterEnabled = priceBounds.max > priceBounds.min;
 
   const defaultState = useMemo(
     () => defaultCatalogFilterState(priceBounds),
@@ -315,8 +329,11 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
   ]);
 
   const filtered = useMemo(
-    () => objects.filter((object) => matchesFilters(object, appliedFilters)),
-    [objects, appliedFilters]
+    () =>
+      objects.filter((object) =>
+        matchesFilters(object, appliedFilters, priceFilterEnabled)
+      ),
+    [objects, appliedFilters, priceFilterEnabled]
   );
 
   const visibleSlugSet = useMemo(
@@ -394,31 +411,33 @@ export function CatalogCanvas({ objects }: { objects: BaseObject[] }) {
           </div>
         </FilterCard>
 
-        <FilterCard title={UI_CONFIG.filters.price}>
-          <div className="catalog-filter-cursor flex flex-1 flex-col justify-center gap-2.5">
-            <Slider
-              min={priceBounds.min}
-              max={priceBounds.max}
-              step={500}
-              value={priceRange}
-              onValueChange={setPriceRange}
-            />
-            <div className="flex items-baseline justify-between gap-2">
-              <Typography
-                variant="caption"
-                className="text-[12px] text-[#888] md:text-[10px]"
-              >
-                {`от ${priceRange[0].toLocaleString("ru-RU")} ₽`}
-              </Typography>
-              <Typography
-                variant="caption"
-                className="text-[12px] text-[#888] md:text-[10px]"
-              >
-                {`до ${priceRange[1].toLocaleString("ru-RU")} ₽`}
-              </Typography>
+        {priceFilterEnabled ? (
+          <FilterCard title={UI_CONFIG.filters.price}>
+            <div className="catalog-filter-cursor flex flex-1 flex-col justify-center gap-2.5">
+              <Slider
+                min={priceBounds.min}
+                max={priceBounds.max}
+                step={500}
+                value={priceRange}
+                onValueChange={setPriceRange}
+              />
+              <div className="flex items-baseline justify-between gap-2">
+                <Typography
+                  variant="caption"
+                  className="text-[12px] text-[#888] md:text-[10px]"
+                >
+                  {`от ${priceRange[0].toLocaleString("ru-RU")} ₽`}
+                </Typography>
+                <Typography
+                  variant="caption"
+                  className="text-[12px] text-[#888] md:text-[10px]"
+                >
+                  {`до ${priceRange[1].toLocaleString("ru-RU")} ₽`}
+                </Typography>
+              </div>
             </div>
-          </div>
-        </FilterCard>
+          </FilterCard>
+        ) : null}
 
         <FilterCard
           title={UI_CONFIG.filters.viewMode}

@@ -8,6 +8,7 @@ import { BookingForm } from "@/components/base/booking-form";
 import { TourPlayer } from "@/components/base/tour-player";
 import { UI_CONFIG } from "@/config/uiConfig";
 import { assetPath } from "@/config/site";
+import { hasObjectPrice } from "@/lib/object-price";
 import type { BaseObject, PhotoConfig } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -195,84 +196,95 @@ function DetailColumns({ object }: { object: BaseObject }) {
       </PanelCard>
 
       <PanelCard title={UI_CONFIG.base.priceTitle}>
-        <div className="flex items-baseline gap-1.5">
-          <span className="font-sans text-[12px] text-[#8A8278]">
-            {UI_CONFIG.base.pricePrefix}
-          </span>
-          <span className="font-serif text-[1.5rem] leading-none tracking-wide text-[#1A241C] md:text-[1.65rem]">
-            {`${object.price.from.toLocaleString("ru-RU")} ₽`}
-          </span>
-          <span className="font-sans text-[12px] text-[#8A8278]">
-            /{object.price.unit}
-          </span>
-        </div>
+        {hasObjectPrice(object) ? (
+          <>
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-sans text-[12px] text-[#8A8278]">
+                {UI_CONFIG.base.pricePrefix}
+              </span>
+              <span className="font-serif text-[1.5rem] leading-none tracking-wide text-[#1A241C] md:text-[1.65rem]">
+                {`${object.price.from.toLocaleString("ru-RU")} ₽`}
+              </span>
+              <span className="font-sans text-[12px] text-[#8A8278]">
+                /{object.price.unit}
+              </span>
+            </div>
 
-        <div className="mt-7 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-5">
-          {object.price.included.length > 0 ? (
-            <div>
+            <div className="mt-7 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-5">
+              {object.price.included.length > 0 ? (
+                <div>
+                  <Typography
+                    variant="caption"
+                    className="mb-3 block text-[10px] font-semibold uppercase tracking-[0.12em] text-[#6B635A]"
+                  >
+                    {UI_CONFIG.base.priceIncluded}
+                  </Typography>
+                  <ul className="space-y-2.5">
+                    {object.price.included.map((item) => (
+                      <li key={item} className="flex items-start gap-2">
+                        <Icon
+                          name="check"
+                          size={14}
+                          className="mt-0.5 shrink-0 text-[#6B635A]"
+                        />
+                        <Typography
+                          variant="body"
+                          className="text-[13px] leading-snug text-[#2C3228] md:text-sm"
+                        >
+                          {item}
+                        </Typography>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
+              {object.price.extra.length > 0 ? (
+                <div>
+                  <Typography
+                    variant="caption"
+                    className="mb-3 block text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8F5A4A]"
+                  >
+                    {UI_CONFIG.base.priceExtra}
+                  </Typography>
+                  <ul className="space-y-2.5">
+                    {object.price.extra.map((item) => (
+                      <li key={item} className="flex items-start gap-2">
+                        <Icon
+                          name="plus"
+                          size={14}
+                          className="mt-0.5 shrink-0 text-[#8F5A4A]"
+                        />
+                        <Typography
+                          variant="body"
+                          className="text-[13px] leading-snug text-[#2C3228] md:text-sm"
+                        >
+                          {item}
+                        </Typography>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+            </div>
+
+            {object.price.note ? (
               <Typography
                 variant="caption"
-                className="mb-3 block text-[10px] font-semibold uppercase tracking-[0.12em] text-[#6B635A]"
+                className="mt-auto pt-6 text-[11px] leading-relaxed text-[#8A8278]"
               >
-                Включено
+                {object.price.note}
               </Typography>
-              <ul className="space-y-2.5">
-                {object.price.included.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <Icon
-                      name="check"
-                      size={14}
-                      className="mt-0.5 shrink-0 text-[#6B635A]"
-                    />
-                    <Typography
-                      variant="body"
-                      className="text-[13px] leading-snug text-[#2C3228] md:text-sm"
-                    >
-                      {item}
-                    </Typography>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-
-          {object.price.extra.length > 0 ? (
-            <div>
-              <Typography
-                variant="caption"
-                className="mb-3 block text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8F5A4A]"
-              >
-                Дополнительно
-              </Typography>
-              <ul className="space-y-2.5">
-                {object.price.extra.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <Icon
-                      name="plus"
-                      size={14}
-                      className="mt-0.5 shrink-0 text-[#8F5A4A]"
-                    />
-                    <Typography
-                      variant="body"
-                      className="text-[13px] leading-snug text-[#2C3228] md:text-sm"
-                    >
-                      {item}
-                    </Typography>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-        </div>
-
-        {object.price.note ? (
+            ) : null}
+          </>
+        ) : (
           <Typography
-            variant="caption"
-            className="mt-auto pt-6 text-[11px] leading-relaxed text-[#8A8278]"
+            variant="body"
+            className="text-[13px] leading-relaxed text-[#2C3228] md:text-sm"
           >
-            {object.price.note}
+            {UI_CONFIG.base.priceNote}
           </Typography>
-        ) : null}
+        )}
       </PanelCard>
     </div>
   );

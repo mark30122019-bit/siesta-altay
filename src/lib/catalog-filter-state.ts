@@ -170,6 +170,7 @@ export function defaultCatalogFilterState(
     audiences: [],
     districts: [],
     features: [],
+    // По умолчанию оба ползунка справа (макс): сужаем диапазон, двигая «от» влево.
     priceRange: [priceBounds.min, priceBounds.max],
     viewMode: "list",
   };

@@ -8,6 +8,7 @@ import { Icon, type IconName } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
 import { UI_CONFIG } from "@/config/uiConfig";
 import { assetPath } from "@/config/site";
+import { formatObjectPrice } from "@/lib/object-price";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -62,6 +63,7 @@ export function CatalogListingCard({
     object.author.not_for[0] || object.suitability.family_kids.note;
   const href = `/base/${object.slug}`;
   const isMap = mode === "map";
+  const priceLabel = formatObjectPrice(object);
 
   function handleTourClick(event: MouseEvent) {
     if (!isMap || !hasTour) return;
@@ -169,18 +171,20 @@ export function CatalogListingCard({
           </Typography>
           <Typography
             variant="caption"
-            className="mt-1 block text-[13px] text-[#888] md:text-[11px]"
+            className="mt-1 block text-[14px] text-[#888] md:text-[13px]"
           >
             {object.location.district}
           </Typography>
         </Link>
 
-        <Typography
-          variant="body"
-          className="mt-2.5 text-[15px] font-semibold text-[#1A241C] md:text-sm"
-        >
-          {`${UI_CONFIG.base.pricePrefix} ${object.price.from.toLocaleString("ru-RU")} ₽/${object.price.unit}`}
-        </Typography>
+        {priceLabel ? (
+          <Typography
+            variant="body"
+            className="mt-2.5 text-[15px] font-semibold text-[#1A241C] md:text-sm"
+          >
+            {priceLabel}
+          </Typography>
+        ) : null}
 
         {amenities.length > 0 ? (
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2.5 border-t border-stone-100 pt-3">

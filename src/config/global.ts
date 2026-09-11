@@ -3,7 +3,8 @@ import type { SiteConfig } from "@/types";
 export const GLOBAL_CONFIG: SiteConfig = {
   companyName: "ООО «Сиеста Центр»",
   brandName: "Алтай изнутри",
-  phone: "+7 (923) 227-94-60",
+  /** Временно не публикуем на сайте (ТЗ п.1). */
+  phone: "",
   commissionRate: "10%",
   filters: {
     forWhom: [
@@ -97,14 +98,6 @@ export const GLOBAL_CONFIG: SiteConfig = {
           caption: "Спальня из кедра",
         },
       ],
-      price: {
-        from: 2500,
-        unit: "чел./сутки",
-        included: ["Пользование мангалом", "Парковка"],
-        extra: ["Дрова для бани"],
-        note: "Цена ориентировочная, уточняется при заявке.",
-        high_season: ["июнь", "июль", "август", "31 декабря – 8 января"],
-      },
       capacity: { min: 2, max: 6, units_count: 3 },
       amenities: {
         banya: true,
@@ -188,14 +181,6 @@ export const GLOBAL_CONFIG: SiteConfig = {
           caption: "Номер",
         },
       ],
-      price: {
-        from: 29000,
-        unit: "сут",
-        included: ["Завтрак", "Парковка"],
-        extra: ["Баня"],
-        note: "Цена ориентировочная, уточняется при заявке.",
-        high_season: ["июнь", "июль", "август"],
-      },
       capacity: { min: 2, max: 4, units_count: 4 },
       amenities: {
         banya: true,
@@ -274,14 +259,6 @@ export const GLOBAL_CONFIG: SiteConfig = {
           caption: "Домики на лугу",
         },
       ],
-      price: {
-        from: 14500,
-        unit: "ночь",
-        included: ["Завтрак", "Парковка", "Wi-Fi"],
-        extra: ["Баня", "Трансфер"],
-        note: "Цена ориентировочная, уточняется при заявке.",
-        high_season: ["июнь", "июль", "август", "новогодние праздники"],
-      },
       capacity: { min: 2, max: 4, units_count: 8 },
       amenities: {
         banya: true,
@@ -360,14 +337,6 @@ export const GLOBAL_CONFIG: SiteConfig = {
           caption: "Деревянные коттеджи",
         },
       ],
-      price: {
-        from: 8500,
-        unit: "ночь",
-        included: ["Парковка", "Мангал", "Детская площадка"],
-        extra: ["Баня", "Питание"],
-        note: "Цена ориентировочная, уточняется при заявке.",
-        high_season: ["июнь", "июль", "август"],
-      },
       capacity: { min: 2, max: 8, units_count: 5 },
       amenities: {
         banya: true,
@@ -446,14 +415,6 @@ export const GLOBAL_CONFIG: SiteConfig = {
           caption: "A-frame ночью",
         },
       ],
-      price: {
-        from: 18000,
-        unit: "ночь",
-        included: ["Завтрак", "Wi-Fi", "Парковка"],
-        extra: ["Ужин", "Сауна"],
-        note: "Цена ориентировочная, уточняется при заявке.",
-        high_season: ["июль", "август", "новогодние праздники"],
-      },
       capacity: { min: 2, max: 4, units_count: 10 },
       amenities: {
         banya: true,
@@ -529,14 +490,6 @@ export const GLOBAL_CONFIG: SiteConfig = {
           caption: "Дом у скал",
         },
       ],
-      price: {
-        from: 11000,
-        unit: "ночь",
-        included: ["Парковка", "Баня 1 час"],
-        extra: ["Доп. час бани", "Питание"],
-        note: "Цена ориентировочная, уточняется при заявке.",
-        high_season: ["июнь", "июль", "август", "новогодние праздники"],
-      },
       capacity: { min: 2, max: 10, units_count: 2 },
       amenities: {
         banya: true,
@@ -612,14 +565,6 @@ export const GLOBAL_CONFIG: SiteConfig = {
           caption: "Бассейн и домики",
         },
       ],
-      price: {
-        from: 6500,
-        unit: "ночь",
-        included: ["Парковка", "Пользование бассейном"],
-        extra: ["Баня", "Завтрак"],
-        note: "Цена ориентировочная, уточняется при заявке.",
-        high_season: ["июнь", "июль", "август"],
-      },
       capacity: { min: 2, max: 5, units_count: 12 },
       amenities: {
         banya: true,
@@ -698,14 +643,6 @@ export const GLOBAL_CONFIG: SiteConfig = {
           caption: "Домики у гор",
         },
       ],
-      price: {
-        from: 4800,
-        unit: "ночь",
-        included: ["Парковка", "Мангал"],
-        extra: ["Баня", "Питание"],
-        note: "Цена ориентировочная, уточняется при заявке.",
-        high_season: ["июль", "август"],
-      },
       capacity: { min: 2, max: 6, units_count: 9 },
       amenities: {
         banya: true,
@@ -781,14 +718,6 @@ export const GLOBAL_CONFIG: SiteConfig = {
           caption: "Сруб у гор",
         },
       ],
-      price: {
-        from: 9500,
-        unit: "ночь",
-        included: ["Вся кухня", "Парковка", "Постельное бельё"],
-        extra: ["Баня", "Уборка"],
-        note: "Цена за весь дом, уточняется при заявке.",
-        high_season: ["июнь", "июль", "август", "новогодние праздники"],
-      },
       capacity: { min: 2, max: 7, units_count: 1 },
       amenities: {
         banya: true,

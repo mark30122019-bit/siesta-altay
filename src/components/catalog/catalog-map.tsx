@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
 import { YANDEX_MAPS_API_KEY } from "@/config/maps";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { formatObjectPrice } from "@/lib/object-price";
 import { loadYandexMaps } from "@/lib/load-yandex-maps";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
@@ -178,7 +179,12 @@ export function CatalogMap({ objects, className }: CatalogMapProps) {
             {
               hintContent: object.name,
               balloonContentHeader: object.name,
-              balloonContentBody: `${object.location.district}<br/>от ${object.price.from.toLocaleString("ru-RU")} ₽`,
+              balloonContentBody: [
+                object.location.district,
+                formatObjectPrice(object),
+              ]
+                .filter(Boolean)
+                .join("<br/>"),
             },
             {
               preset: "islands#brownIcon",

@@ -86,7 +86,8 @@ export interface BaseObject {
     location: LocationConfig;
     tour: TourConfig;
     photos: PhotoConfig[];
-    price: PriceConfig;
+    /** Если нет — цены на сайте не показываем, только пояснение при заявке. */
+    price?: PriceConfig;
     capacity: { min: number; max: number; units_count: number };
     amenities: {
         banya: boolean; pool: boolean; wifi: boolean; kitchen: boolean;

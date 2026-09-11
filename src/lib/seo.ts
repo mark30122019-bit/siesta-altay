@@ -4,6 +4,7 @@ import {
   absoluteAssetUrl,
   absoluteUrl,
 } from "@/config/site";
+import { formatObjectPrice } from "@/lib/object-price";
 import type { BaseObject } from "@/types";
 
 type JsonLd = Record<string, unknown>;
@@ -42,6 +43,8 @@ export function lodgingJsonLd(object: BaseObject): JsonLd {
     object.photos[0]?.src ||
     SITE_SEO.ogImage;
 
+  const priceRange = formatObjectPrice(object);
+
   return {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
@@ -60,6 +63,6 @@ export function lodgingJsonLd(object: BaseObject): JsonLd {
       latitude: object.location.coords[0],
       longitude: object.location.coords[1],
     },
-    priceRange: `от ${object.price.from.toLocaleString("ru-RU")} ₽/${object.price.unit}`,
+    ...(priceRange ? { priceRange } : {}),
   };
 }
