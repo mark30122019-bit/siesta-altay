@@ -21,7 +21,7 @@ export const UI_CONFIG = {
   home: {
     heroTitle: "Алтай изнутри",
     catalogTitle: "Каталог баз отдыха",
-    cultureTitle: "Что ждёт вас на базах отдыха?",
+    cultureTitle: "Кому подходят наши базы отдыха?",
     cultureMore: "Подробнее ›",
     thumbAltFallback: "Локация на Алтае",
     heroImage: "/media/hero/home.webp",
@@ -65,6 +65,7 @@ export const UI_CONFIG = {
       "Приём заявок временно недоступен. Оставьте заявку позже или напишите через форму, когда она снова заработает.",
     enter360: "360° Зайти внутрь",
     tourLoading: "Загрузка...",
+    openTourFullscreen: "Открыть на весь экран",
     expandFullscreen: "Развернуть",
     exitFullscreen: "Свернуть",
     unitsOne: "домик",

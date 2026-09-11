@@ -389,13 +389,22 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
 
       <div
         className={cn(
-          "mx-auto grid w-full gap-12 px-4 pt-12 pb-[15vh] md:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.6fr)] md:gap-14 md:pt-16 md:pb-[17vh] lg:gap-16 lg:pt-20",
+          "mx-auto grid w-full gap-12 px-4 pt-12 pb-[15vh] md:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.6fr)] md:gap-14 md:pt-16 md:pb-[17vh] lg:gap-16 lg:pt-14",
           DESKTOP_INSET
         )}
       >
         <div className="space-y-5 md:space-y-5">
           <section>
-            <TourPlayer object={object} />
+            <Typography
+              variant="h1"
+              className="font-serif text-3xl font-normal tracking-[0.02em] text-[#1A241C] md:text-[2.75rem] md:leading-tight"
+            >
+              {object.name}
+            </Typography>
+          </section>
+
+          <section>
+            <TourPlayer object={object} locationLine={locationLine} />
             {tourMeta ? (
               <Typography
                 variant="caption"
@@ -406,19 +415,7 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
             ) : null}
           </section>
 
-          <section className="space-y-5">
-            <Typography
-              variant="h1"
-              className="font-serif text-3xl font-normal tracking-[0.02em] text-[#1A241C] md:text-[2.75rem] md:leading-tight"
-            >
-              {object.name}
-            </Typography>
-            <Typography
-              variant="caption"
-              className="block text-[14px] tracking-wide text-[#8A8278]"
-            >
-              {locationLine}
-            </Typography>
+          <section>
             <AuthorVerdict text={object.author.verdict} />
           </section>
           
