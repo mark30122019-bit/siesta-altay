@@ -1,23 +1,17 @@
 import type { MetadataRoute } from "next";
 
-import { SITE_BASE_PATH, SITE_URL, absoluteUrl } from "@/config/site";
+import { SITE_BASE_PATH } from "@/config/site";
 
 export const dynamic = "force-static";
 
+/** Сайт временно закрыт от индексации (контент до наполнения реальными данными). */
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: "*",
-        allow: `${SITE_BASE_PATH}/`,
-        disallow: [
-          `${SITE_BASE_PATH}/test-ui`,
-          `${SITE_BASE_PATH}/test-typography`,
-          `${SITE_BASE_PATH}/spasibo`,
-        ],
+        disallow: `${SITE_BASE_PATH}/`,
       },
     ],
-    sitemap: `${SITE_URL}/sitemap.xml`,
-    host: absoluteUrl("/"),
   };
 }

@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
-import { HeroPhoneLink } from "@/components/home/hero-phone-link";
 import { Icon } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
 import { GLOBAL_CONFIG } from "@/config/global";
@@ -144,22 +143,8 @@ export function SpasiboCanvas() {
             </Button>
           </div>
 
-          <div className="relative mt-10 flex flex-col items-center gap-2 border-t border-[#E8E0D4]/90 pt-7">
-            <Typography
-              variant="caption"
-              className="text-[12px] tracking-wide text-[#8A8278]"
-            >
-              {copy.phoneHint}
-            </Typography>
-            <HeroPhoneLink
-              phone={GLOBAL_CONFIG.phone}
-              className="static font-sans text-base font-semibold tracking-wide text-[#BC5434] md:text-lg"
-              linkClassName="hover:text-[#a0482c]"
-            />
-          </div>
-
           <div
-            className="relative mt-8 flex items-center justify-center gap-3 text-[#C4BBB0]"
+            className="relative mt-10 flex items-center justify-center gap-3 border-t border-[#E8E0D4]/90 pt-7 text-[#C4BBB0]"
             aria-hidden
           >
             <span className="h-px w-10 bg-current" />

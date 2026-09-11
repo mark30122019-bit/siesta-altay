@@ -3,7 +3,6 @@ import { Typography } from "@/components/ui/typography";
 import { POLITIKA_SECTIONS } from "@/config/politikaContent";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
-import { HeroPhoneLink } from "@/components/home/hero-phone-link";
 
 export function PolitikaCanvas() {
   const copy = UI_CONFIG.politika;
@@ -133,11 +132,6 @@ export function PolitikaCanvas() {
           >
             {GLOBAL_CONFIG.companyName}
           </Typography>
-          <HeroPhoneLink
-            phone={GLOBAL_CONFIG.phone}
-            className="static font-sans text-base font-semibold tracking-wide text-[#BC5434] md:text-lg"
-            linkClassName="hover:text-[#a0482c]"
-          />
 
           <div
             className="mt-8 flex items-center justify-center gap-3 text-[#C4BBB0]"

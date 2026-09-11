@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { HeroBackground } from "@/components/home/hero-background";
-import { HeroPhoneLink } from "@/components/home/hero-phone-link";
 import { HeroScrollDown, HERO_ID } from "@/components/home/hero-scroll-down";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
@@ -18,15 +17,10 @@ export function HeroSection() {
       <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-3 px-4 pt-5 sm:gap-6 sm:px-8 sm:pt-8 md:left-0 md:right-0 md:px-10 md:pt-10">
         <Typography
           variant="caption"
-          className="min-w-0 max-w-[58%] font-sans text-xl font-bold leading-snug tracking-[0.02em] text-white/95 sm:max-w-none"
+          className="min-w-0 font-sans text-xl font-bold leading-snug tracking-[0.02em] text-white/95"
         >
           {GLOBAL_CONFIG.companyName}
         </Typography>
-
-        <HeroPhoneLink
-          phone={GLOBAL_CONFIG.phone}
-          className="static shrink-0 text-right font-sans text-xl font-medium tracking-[0.02em] text-white/95"
-        />
       </div>
 
       <div className="relative z-10 flex flex-col items-center px-6 text-center">

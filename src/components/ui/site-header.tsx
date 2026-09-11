@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { HeroPhoneLink } from "@/components/home/hero-phone-link";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { cn } from "@/lib/utils";
 
@@ -139,12 +138,6 @@ export function SiteHeader({
             {backLabel}
           </Button>
         </div>
-
-        <HeroPhoneLink
-          phone={GLOBAL_CONFIG.phone}
-          className="static shrink-0 self-center font-sans text-[15px] font-semibold tracking-wide text-[#D4A24A] md:text-base"
-          linkClassName="hover:text-[#E8B85C]"
-        />
       </div>
     </header>
   );

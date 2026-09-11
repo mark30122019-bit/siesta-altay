@@ -22,7 +22,7 @@ export const POLITIKA_SECTIONS: PolitikaSection[] = [
     title: "2. Оператор персональных данных",
     paragraphs: [
       `Оператором персональных данных является ${GLOBAL_CONFIG.companyName}.`,
-      `По вопросам обработки персональных данных можно связаться по телефону ${GLOBAL_CONFIG.phone}.`,
+      "По вопросам обработки персональных данных можно связаться с Оператором через форму заявки на сайте.",
     ],
   },
   {
@@ -126,7 +126,7 @@ export const POLITIKA_SECTIONS: PolitikaSection[] = [
     id: "contacts",
     title: "13. Контакты",
     paragraphs: [
-      `По всем вопросам, связанным с персональными данными, обращайтесь к Оператору: ${GLOBAL_CONFIG.companyName}, телефон ${GLOBAL_CONFIG.phone}.`,
+      `По всем вопросам, связанным с персональными данными, обращайтесь к Оператору: ${GLOBAL_CONFIG.companyName}. Связь — через форму заявки на сайте.`,
     ],
   },
 ];
