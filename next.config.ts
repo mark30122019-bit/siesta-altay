@@ -11,6 +11,17 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   reactCompiler: true,
+  /** Локально `localhost:3000/` → `/siesta-altay/` (иначе 404 из‑за basePath). */
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: SITE_BASE_PATH,
+        permanent: false,
+        basePath: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
