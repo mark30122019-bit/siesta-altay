@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { TourIframe } from "@/components/base/tour-iframe";
 import { CatalogListingCard } from "@/components/catalog/catalog-listing-card";
 import { Icon } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
@@ -378,14 +379,10 @@ export function CatalogMap({ objects, className }: CatalogMapProps) {
                 </div>
               </div>
               <div className="relative min-h-[52dvh] flex-1 bg-[#121812] sm:min-h-0">
-                <iframe
+                <TourIframe
                   src={tourUrl}
                   title={`${selected.name} — ${UI_CONFIG.common.tourBadge}`}
-                  className="absolute inset-0 h-full w-full border-0"
-                  allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
+                  className="absolute inset-0"
                 />
               </div>
             </div>
