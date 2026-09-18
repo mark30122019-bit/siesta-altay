@@ -50,6 +50,85 @@ export interface SuitabilityItem {
   note: string;
 }
 
+/** Площадка под мероприятие: вместимость по форматам рассадки. */
+export interface EventsVenue {
+  name: string;
+  type: string;
+  indoor: boolean | null;
+  area_m2: number | null;
+  capacity: {
+    theatre: number | null;
+    banquet: number | null;
+    buffet: number | null;
+    classroom: number | null;
+  };
+  heated: boolean | null;
+  note: string;
+}
+
+/** B2B-блок: корпоративы / свадьбы. Пустые поля — null / []. */
+export interface EventsConfig {
+  suitable: boolean | null;
+  buyout: {
+    available: boolean | null;
+    min_guests: number | null;
+    min_nights: number | null;
+    note: string;
+  };
+  sleeping: {
+    beds_total: number | null;
+    beds_single_occupancy: number | null;
+    note: string;
+  };
+  venues: EventsVenue[];
+  catering: {
+    own_kitchen: boolean | null;
+    banquet_menu: boolean | null;
+    external_catering_allowed: boolean | null;
+    note: string;
+  };
+  equipment: {
+    projector: boolean | null;
+    screen: boolean | null;
+    sound: boolean | null;
+    microphones: boolean | null;
+    stage: boolean | null;
+    outdoor_power: boolean | null;
+    wifi_for_conference: boolean | null;
+    note: string;
+  };
+  logistics: {
+    bus_access: boolean | null;
+    bus_turnaround: boolean | null;
+    parking_cars: number | null;
+    road_quality: string | null;
+    from_novosibirsk_hours: number | null;
+    note: string;
+  };
+  season: {
+    year_round: boolean | null;
+    winter_events: boolean | null;
+    heated_venues: boolean | null;
+  };
+  wedding: {
+    ceremony_spot: boolean | null;
+    ceremony_rain_plan: boolean | null;
+    bride_room: boolean | null;
+    noise_curfew: string | null;
+    external_vendors_allowed: boolean | null;
+    photo_spots: string;
+    exclusive_date: boolean | null;
+  };
+  legal: {
+    works_with_legal_entity: boolean | null;
+    cashless: boolean | null;
+    vat: boolean | null;
+    closing_documents: boolean | null;
+  };
+  activities: string[];
+  contact_manager: boolean | null;
+}
+
 export interface ManifestConfig {
   title: string;
   subtitle: string;
@@ -142,4 +221,6 @@ export interface BaseObject {
   /** draft — скрыт; ready_for_review / published — на витрине (пока сайт в noindex). */
   status: "draft" | "published" | "ready_for_review";
   updated_at: string;
+  /** Корпоративы / свадьбы. На B2B-витрине только suitable === true. */
+  events?: EventsConfig;
 }

@@ -3,6 +3,7 @@ import type { SiteConfig } from "@/types";
 /**
  * Витрина сайта. objects — поля как у заказчика (без маппера).
  * Исходный JSON для сверки: data/objects.customer.json
+ * Events (B2B): data/objects.customer.events.json → поле events у объектов.
  */
 export const GLOBAL_CONFIG: SiteConfig = {
   companyName: "ООО «Сиеста Центр»",
@@ -188,7 +189,68 @@ export const GLOBAL_CONFIG: SiteConfig = {
       og_image: null
     },
     status: "ready_for_review",
-    updated_at: "2026-09-10"
+    updated_at: "2026-09-10",
+    events: {
+      suitable: null,
+      buyout: {
+        available: null,
+        min_guests: null,
+        min_nights: null,
+        note: ""
+      },
+      sleeping: {
+        beds_total: null,
+        beds_single_occupancy: null,
+        note: ""
+      },
+      venues: [],
+      catering: {
+        own_kitchen: null,
+        banquet_menu: null,
+        external_catering_allowed: null,
+        note: ""
+      },
+      equipment: {
+        projector: null,
+        screen: null,
+        sound: null,
+        microphones: null,
+        stage: null,
+        outdoor_power: null,
+        wifi_for_conference: null,
+        note: ""
+      },
+      logistics: {
+        bus_access: null,
+        bus_turnaround: null,
+        parking_cars: null,
+        road_quality: null,
+        from_novosibirsk_hours: null,
+        note: ""
+      },
+      season: {
+        year_round: null,
+        winter_events: null,
+        heated_venues: null
+      },
+      wedding: {
+        ceremony_spot: null,
+        ceremony_rain_plan: null,
+        bride_room: null,
+        noise_curfew: null,
+        external_vendors_allowed: null,
+        photo_spots: "",
+        exclusive_date: null
+      },
+      legal: {
+        works_with_legal_entity: null,
+        cashless: null,
+        vat: null,
+        closing_documents: null
+      },
+      activities: [],
+      contact_manager: null
+    }
   },
   {
     slug: "glamping-vozduh",
@@ -297,7 +359,83 @@ export const GLOBAL_CONFIG: SiteConfig = {
       og_image: null
     },
     status: "ready_for_review",
-    updated_at: "2026-09-10"
+    updated_at: "2026-09-10",
+    events: {
+      suitable: null,
+      buyout: {
+        available: true,
+        min_guests: null,
+        min_nights: null,
+        note: ""
+      },
+      sleeping: {
+        beds_total: null,
+        beds_single_occupancy: null,
+        note: "Три купола. Число мест уточнить."
+      },
+      venues: [
+        {
+          name: "Общий купол",
+          type: "dome",
+          indoor: true,
+          area_m2: null,
+          capacity: {
+            theatre: null,
+            banquet: null,
+            buffet: null,
+            classroom: null
+          },
+          heated: null,
+          note: "Для собраний и приёма пищи."
+        }
+      ],
+      catering: {
+        own_kitchen: false,
+        banquet_menu: null,
+        external_catering_allowed: null,
+        note: "Питание оговаривается отдельно, по умолчанию не входит."
+      },
+      equipment: {
+        projector: null,
+        screen: null,
+        sound: null,
+        microphones: null,
+        stage: null,
+        outdoor_power: null,
+        wifi_for_conference: null,
+        note: ""
+      },
+      logistics: {
+        bus_access: null,
+        bus_turnaround: null,
+        parking_cars: null,
+        road_quality: null,
+        from_novosibirsk_hours: null,
+        note: ""
+      },
+      season: {
+        year_round: null,
+        winter_events: null,
+        heated_venues: null
+      },
+      wedding: {
+        ceremony_spot: null,
+        ceremony_rain_plan: null,
+        bride_room: null,
+        noise_curfew: null,
+        external_vendors_allowed: null,
+        photo_spots: "Горы по периметру, рассвет и закат. Вечерняя подсветка куполов.",
+        exclusive_date: null
+      },
+      legal: {
+        works_with_legal_entity: null,
+        cashless: null,
+        vat: null,
+        closing_documents: null
+      },
+      activities: [],
+      contact_manager: null
+    }
   },
   {
     slug: "park-otel-skala",
@@ -409,7 +547,90 @@ export const GLOBAL_CONFIG: SiteConfig = {
       og_image: null
     },
     status: "ready_for_review",
-    updated_at: "2026-09-10"
+    updated_at: "2026-09-10",
+    events: {
+      suitable: null,
+      buyout: {
+        available: null,
+        min_guests: null,
+        min_nights: null,
+        note: ""
+      },
+      sleeping: {
+        beds_total: null,
+        beds_single_occupancy: null,
+        note: "Есть хостел — размещение персонала и водителей. Число мест уточнить."
+      },
+      venues: [
+        {
+          name: "Конференц-зал",
+          type: "conference_hall",
+          indoor: true,
+          area_m2: 1000,
+          capacity: {
+            theatre: null,
+            banquet: null,
+            buffet: null,
+            classroom: null
+          },
+          heated: null,
+          note: "Один из крупнейших в регионе. 2-й этаж отдельно стоящего здания у трассы. Залов два — уточнить второй."
+        }
+      ],
+      catering: {
+        own_kitchen: null,
+        banquet_menu: null,
+        external_catering_allowed: null,
+        note: ""
+      },
+      equipment: {
+        projector: null,
+        screen: null,
+        sound: null,
+        microphones: null,
+        stage: null,
+        outdoor_power: null,
+        wifi_for_conference: null,
+        note: ""
+      },
+      logistics: {
+        bus_access: null,
+        bus_turnaround: null,
+        parking_cars: null,
+        road_quality: null,
+        from_novosibirsk_hours: null,
+        note: ""
+      },
+      season: {
+        year_round: true,
+        winter_events: null,
+        heated_venues: null
+      },
+      wedding: {
+        ceremony_spot: null,
+        ceremony_rain_plan: null,
+        bride_room: null,
+        noise_curfew: null,
+        external_vendors_allowed: null,
+        photo_spots: "",
+        exclusive_date: null
+      },
+      legal: {
+        works_with_legal_entity: null,
+        cashless: null,
+        vat: null,
+        closing_documents: null
+      },
+      activities: [
+        "баня на дровах",
+        "бассейн",
+        "прокат лодок",
+        "квадроциклы",
+        "беговые дорожки",
+        "каток зимой"
+      ],
+      contact_manager: null
+    }
   },
   {
     slug: "usadba-kruglovyh",
@@ -517,7 +738,68 @@ export const GLOBAL_CONFIG: SiteConfig = {
       og_image: null
     },
     status: "ready_for_review",
-    updated_at: "2026-09-10"
+    updated_at: "2026-09-10",
+    events: {
+      suitable: null,
+      buyout: {
+        available: null,
+        min_guests: null,
+        min_nights: null,
+        note: ""
+      },
+      sleeping: {
+        beds_total: null,
+        beds_single_occupancy: null,
+        note: ""
+      },
+      venues: [],
+      catering: {
+        own_kitchen: null,
+        banquet_menu: null,
+        external_catering_allowed: null,
+        note: ""
+      },
+      equipment: {
+        projector: null,
+        screen: null,
+        sound: null,
+        microphones: null,
+        stage: null,
+        outdoor_power: null,
+        wifi_for_conference: null,
+        note: ""
+      },
+      logistics: {
+        bus_access: null,
+        bus_turnaround: null,
+        parking_cars: null,
+        road_quality: null,
+        from_novosibirsk_hours: null,
+        note: ""
+      },
+      season: {
+        year_round: null,
+        winter_events: null,
+        heated_venues: null
+      },
+      wedding: {
+        ceremony_spot: null,
+        ceremony_rain_plan: null,
+        bride_room: null,
+        noise_curfew: null,
+        external_vendors_allowed: null,
+        photo_spots: "",
+        exclusive_date: null
+      },
+      legal: {
+        works_with_legal_entity: null,
+        cashless: null,
+        vat: null,
+        closing_documents: null
+      },
+      activities: [],
+      contact_manager: null
+    }
   },
   {
     slug: "eko-otel-grinlandiya",
@@ -671,7 +953,68 @@ export const GLOBAL_CONFIG: SiteConfig = {
       og_image: null
     },
     status: "ready_for_review",
-    updated_at: "2026-09-10"
+    updated_at: "2026-09-10",
+    events: {
+      suitable: null,
+      buyout: {
+        available: null,
+        min_guests: null,
+        min_nights: null,
+        note: ""
+      },
+      sleeping: {
+        beds_total: null,
+        beds_single_occupancy: null,
+        note: ""
+      },
+      venues: [],
+      catering: {
+        own_kitchen: null,
+        banquet_menu: null,
+        external_catering_allowed: null,
+        note: ""
+      },
+      equipment: {
+        projector: null,
+        screen: null,
+        sound: null,
+        microphones: null,
+        stage: null,
+        outdoor_power: null,
+        wifi_for_conference: null,
+        note: ""
+      },
+      logistics: {
+        bus_access: null,
+        bus_turnaround: null,
+        parking_cars: null,
+        road_quality: null,
+        from_novosibirsk_hours: null,
+        note: ""
+      },
+      season: {
+        year_round: null,
+        winter_events: null,
+        heated_venues: null
+      },
+      wedding: {
+        ceremony_spot: null,
+        ceremony_rain_plan: null,
+        bride_room: null,
+        noise_curfew: null,
+        external_vendors_allowed: null,
+        photo_spots: "",
+        exclusive_date: null
+      },
+      legal: {
+        works_with_legal_entity: null,
+        cashless: null,
+        vat: null,
+        closing_documents: null
+      },
+      activities: [],
+      contact_manager: null
+    }
   },
   {
     slug: "usadba-sokol",
@@ -760,7 +1103,68 @@ export const GLOBAL_CONFIG: SiteConfig = {
       og_image: null
     },
     status: "draft",
-    updated_at: "2026-08-10"
+    updated_at: "2026-08-10",
+    events: {
+      suitable: null,
+      buyout: {
+        available: null,
+        min_guests: null,
+        min_nights: null,
+        note: ""
+      },
+      sleeping: {
+        beds_total: null,
+        beds_single_occupancy: null,
+        note: ""
+      },
+      venues: [],
+      catering: {
+        own_kitchen: null,
+        banquet_menu: null,
+        external_catering_allowed: null,
+        note: ""
+      },
+      equipment: {
+        projector: null,
+        screen: null,
+        sound: null,
+        microphones: null,
+        stage: null,
+        outdoor_power: null,
+        wifi_for_conference: null,
+        note: ""
+      },
+      logistics: {
+        bus_access: null,
+        bus_turnaround: null,
+        parking_cars: null,
+        road_quality: null,
+        from_novosibirsk_hours: null,
+        note: ""
+      },
+      season: {
+        year_round: null,
+        winter_events: null,
+        heated_venues: null
+      },
+      wedding: {
+        ceremony_spot: null,
+        ceremony_rain_plan: null,
+        bride_room: null,
+        noise_curfew: null,
+        external_vendors_allowed: null,
+        photo_spots: "",
+        exclusive_date: null
+      },
+      legal: {
+        works_with_legal_entity: null,
+        cashless: null,
+        vat: null,
+        closing_documents: null
+      },
+      activities: [],
+      contact_manager: null
+    }
   },
   {
     slug: "turbaza-tihiy-bereg",
@@ -849,7 +1253,68 @@ export const GLOBAL_CONFIG: SiteConfig = {
       og_image: null
     },
     status: "draft",
-    updated_at: "2026-08-10"
+    updated_at: "2026-08-10",
+    events: {
+      suitable: null,
+      buyout: {
+        available: null,
+        min_guests: null,
+        min_nights: null,
+        note: ""
+      },
+      sleeping: {
+        beds_total: null,
+        beds_single_occupancy: null,
+        note: ""
+      },
+      venues: [],
+      catering: {
+        own_kitchen: null,
+        banquet_menu: null,
+        external_catering_allowed: null,
+        note: ""
+      },
+      equipment: {
+        projector: null,
+        screen: null,
+        sound: null,
+        microphones: null,
+        stage: null,
+        outdoor_power: null,
+        wifi_for_conference: null,
+        note: ""
+      },
+      logistics: {
+        bus_access: null,
+        bus_turnaround: null,
+        parking_cars: null,
+        road_quality: null,
+        from_novosibirsk_hours: null,
+        note: ""
+      },
+      season: {
+        year_round: null,
+        winter_events: null,
+        heated_venues: null
+      },
+      wedding: {
+        ceremony_spot: null,
+        ceremony_rain_plan: null,
+        bride_room: null,
+        noise_curfew: null,
+        external_vendors_allowed: null,
+        photo_spots: "",
+        exclusive_date: null
+      },
+      legal: {
+        works_with_legal_entity: null,
+        cashless: null,
+        vat: null,
+        closing_documents: null
+      },
+      activities: [],
+      contact_manager: null
+    }
   },
   {
     slug: "turbaza-altair",
@@ -958,7 +1423,68 @@ export const GLOBAL_CONFIG: SiteConfig = {
       og_image: null
     },
     status: "ready_for_review",
-    updated_at: "2026-09-10"
+    updated_at: "2026-09-10",
+    events: {
+      suitable: null,
+      buyout: {
+        available: null,
+        min_guests: null,
+        min_nights: null,
+        note: ""
+      },
+      sleeping: {
+        beds_total: null,
+        beds_single_occupancy: null,
+        note: ""
+      },
+      venues: [],
+      catering: {
+        own_kitchen: null,
+        banquet_menu: null,
+        external_catering_allowed: null,
+        note: ""
+      },
+      equipment: {
+        projector: null,
+        screen: null,
+        sound: null,
+        microphones: null,
+        stage: null,
+        outdoor_power: null,
+        wifi_for_conference: null,
+        note: ""
+      },
+      logistics: {
+        bus_access: null,
+        bus_turnaround: null,
+        parking_cars: null,
+        road_quality: null,
+        from_novosibirsk_hours: null,
+        note: ""
+      },
+      season: {
+        year_round: null,
+        winter_events: null,
+        heated_venues: null
+      },
+      wedding: {
+        ceremony_spot: null,
+        ceremony_rain_plan: null,
+        bride_room: null,
+        noise_curfew: null,
+        external_vendors_allowed: null,
+        photo_spots: "",
+        exclusive_date: null
+      },
+      legal: {
+        works_with_legal_entity: null,
+        cashless: null,
+        vat: null,
+        closing_documents: null
+      },
+      activities: [],
+      contact_manager: null
+    }
   },
   {
     slug: "kottedzh-ust-muny",
@@ -1047,7 +1573,68 @@ export const GLOBAL_CONFIG: SiteConfig = {
       og_image: null
     },
     status: "draft",
-    updated_at: "2026-08-10"
+    updated_at: "2026-08-10",
+    events: {
+      suitable: null,
+      buyout: {
+        available: null,
+        min_guests: null,
+        min_nights: null,
+        note: ""
+      },
+      sleeping: {
+        beds_total: null,
+        beds_single_occupancy: null,
+        note: ""
+      },
+      venues: [],
+      catering: {
+        own_kitchen: null,
+        banquet_menu: null,
+        external_catering_allowed: null,
+        note: ""
+      },
+      equipment: {
+        projector: null,
+        screen: null,
+        sound: null,
+        microphones: null,
+        stage: null,
+        outdoor_power: null,
+        wifi_for_conference: null,
+        note: ""
+      },
+      logistics: {
+        bus_access: null,
+        bus_turnaround: null,
+        parking_cars: null,
+        road_quality: null,
+        from_novosibirsk_hours: null,
+        note: ""
+      },
+      season: {
+        year_round: null,
+        winter_events: null,
+        heated_venues: null
+      },
+      wedding: {
+        ceremony_spot: null,
+        ceremony_rain_plan: null,
+        bride_room: null,
+        noise_curfew: null,
+        external_vendors_allowed: null,
+        photo_spots: "",
+        exclusive_date: null
+      },
+      legal: {
+        works_with_legal_entity: null,
+        cashless: null,
+        vat: null,
+        closing_documents: null
+      },
+      activities: [],
+      contact_manager: null
+    }
   }
 ],
 };
