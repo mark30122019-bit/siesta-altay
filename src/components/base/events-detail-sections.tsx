@@ -19,6 +19,55 @@ import {
 import type { BaseObject, EventsConfig, EventsVenue } from "@/types";
 import { cn } from "@/lib/utils";
 
+const FACT_HINTS: Record<string, string> = {
+  "Выкуп целиком": "Можно ли забронировать базу или площадку целиком под ваше мероприятие.",
+  "Мин. гостей": "Минимальное число гостей для выкупа или тарифа.",
+  "Мин. ночей": "Сколько ночей нужно забронировать минимум.",
+  "Всего спальных мест": "Сколько человек можно разместить на ночёвку.",
+  "По одному в номере": "Есть ли размещение по одному человеку в номере или домике.",
+  "Своя кухня": "Можно ли готовить самостоятельно на территории.",
+  "Банкетное меню": "Есть ли готовое банкетное или фуршетное меню от базы.",
+  "Внешний кейтеринг": "Можно ли привезти своего кейтерера.",
+  Проектор: "Есть ли проектор для презентаций и показов.",
+  Экран: "Есть ли экран для проекции.",
+  Звук: "Есть ли звуковая система в зале.",
+  Микрофоны: "Есть ли микрофоны для выступлений.",
+  Сцена: "Есть ли сцена или подиум.",
+  "Питание на улице": "Можно ли организовать питание на открытом воздухе.",
+  "Wi‑Fi для конференции": "Достаточно ли стабильный интернет для онлайн-подключений.",
+  "Подъезд автобуса": "Может ли автобус подъехать к территории.",
+  "Разворот автобуса": "Есть ли место для разворота большого транспорта.",
+  "Парковка (авто)": "Сколько машин помещается на парковке.",
+  Дорога: "Какой подъезд к базе — асфальт, грунт и т.п.",
+  "От Новосибирска, ч": "Примерное время в пути от Новосибирска.",
+  "Круглый год": "Работает ли площадка зимой и летом.",
+  "Зимние мероприятия": "Подходит ли база для зимних выездов.",
+  "Отапливаемые залы": "Есть ли отопление в залах в холодный сезон.",
+  "Работа с юрлицом": "Можно ли заключить договор с компанией.",
+  Безнал: "Принимают ли безналичную оплату.",
+  НДС: "Работает ли база с НДС.",
+  "Закрывающие документы": "Выдают ли акты и закрывающие документы.",
+  [UI_CONFIG.weddings.ceremonySpot]: "Есть ли место для выездной церемонии.",
+  [UI_CONFIG.weddings.rainPlan]: "Есть ли запасной вариант, если пойдёт дождь.",
+  [UI_CONFIG.weddings.brideRoom]: "Есть ли отдельная комната для сборов невесты.",
+  "Свои подрядчики": "Можно ли привести своих фотографа, ведущего, кейтеринг.",
+  "Эксклюзивная дата": "Можно ли выкупить дату только под вашу свадьбу.",
+  "Комендантский час": "До скольки можно шуметь музыкой вечером.",
+};
+
+const SUMMARY_HINTS: Record<string, string> = {
+  Зал: "Главный зал или площадка для мероприятия.",
+  Спальные: "Сколько гостей можно разместить на ночь.",
+  Выкуп: "Доступен ли выкуп объекта целиком.",
+  Безнал: "Принимают ли оплату по безналу.",
+  Автобус: "Удобен ли подъезд автобуса.",
+  Сезон: "В какие сезоны площадка принимает гостей.",
+};
+
+function factHint(label: string): string {
+  return FACT_HINTS[label] ?? `Подробности по пункту «${label}».`;
+}
+
 const UNKNOWN = UI_CONFIG.corporate.capacityUnknown;
 
 const FACT_ICONS: Record<string, IconName> = {
@@ -79,24 +128,25 @@ export function EventsSummaryBar({ object }: { object: BaseObject }) {
 
   return (
     <section
-      className="rounded-2xl border border-[#E6E1D8] bg-[#FBF9F5] px-3 py-3 shadow-[0_1px_2px_rgba(42,36,28,0.04)] md:px-4 md:py-3.5"
+      className="events-summary px-3 py-3 md:px-4 md:py-3.5"
       aria-label="Ключевые факты"
     >
-      <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6 lg:gap-0 lg:divide-x lg:divide-[#EEEAE3]">
+      <ul className="events-summary-grid grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6 lg:gap-0">
         {items.map((item) => (
           <li
             key={item.label}
-            className="flex min-w-0 flex-col gap-0.5 rounded-xl px-2.5 py-2 lg:rounded-none lg:px-3"
+            title={SUMMARY_HINTS[item.label] ?? item.label}
+            className="flex min-w-0 flex-col gap-1 rounded-xl px-2.5 py-2.5 lg:rounded-none lg:px-3.5"
           >
-            <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.1em] text-[#8A8278]">
+            <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.12em] text-neutral-700">
               {item.label}
             </span>
             <span
               className={cn(
                 "truncate font-sans text-[14px] leading-snug md:text-[15px]",
                 item.known
-                  ? "font-semibold text-[#2F2D2A]"
-                  : "font-normal text-[#9A9288]"
+                  ? "font-semibold tracking-[-0.01em] text-[#1A241C]"
+                  : "font-normal text-neutral-600"
               )}
             >
               {item.value}
@@ -138,30 +188,39 @@ function Tile({
   children,
   className,
   icon,
+  tone = "default",
 }: {
   title: string;
   children: ReactNode;
   className?: string;
   icon?: IconName;
+  tone?: "default" | "wedding";
 }) {
   const sectionIcon = icon ?? SECTION_ICONS[title];
+  const isWedding = tone === "wedding";
 
   return (
     <section
       className={cn(
-        "rounded-2xl border border-[#E6E1D8] bg-[#FBF9F5] px-5 py-5 shadow-[0_1px_2px_rgba(42,36,28,0.04)] md:px-6 md:py-6",
+        "events-tile flex h-full flex-col px-5 py-5 md:px-6 md:py-6",
+        isWedding && "events-tile--wedding",
         className
       )}
     >
-      <h3 className="mb-4 flex items-center gap-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8A8278] md:mb-5 md:text-[12px]">
+      <h3
+        className={cn(
+          "relative mb-5 flex items-center gap-3 font-serif text-[1.05rem] font-normal tracking-wide md:mb-6 md:text-[1.15rem]",
+          isWedding ? "text-[#6B3A32]" : "text-[#1A241C]"
+        )}
+      >
         {sectionIcon ? (
-          <span className="flex size-11 items-center justify-center rounded-xl bg-[#F0EBE3] text-[#6B635A]">
+          <span className="events-tile-icon">
             <Icon name={sectionIcon} size={22} />
           </span>
         ) : null}
-        {title}
+        <span className="min-w-0 leading-snug">{title}</span>
       </h3>
-      {children}
+      <div className="relative flex min-h-0 flex-1 flex-col">{children}</div>
     </section>
   );
 }
@@ -171,10 +230,10 @@ function FactValue({ value }: { value: string }) {
   return (
     <span
       className={cn(
-        "text-right font-sans text-[13px] leading-snug md:text-[14px]",
+        "block text-right font-sans text-[13px] leading-snug md:text-[14px]",
         unknown
-          ? "font-normal text-[#9A9288]"
-          : "font-medium text-[#3A3834]"
+          ? "font-normal text-neutral-400"
+          : "font-semibold tracking-[-0.01em] text-[#1A241C]"
       )}
     >
       {value}
@@ -192,26 +251,25 @@ function FactList({
   icons?: Record<string, IconName>;
 }) {
   return (
-    <div className="space-y-0">
-      <dl className="divide-y divide-[#EEEAE3]">
+    <div className="flex min-h-0 flex-1 flex-col">
+      <dl className="events-fact-list -mx-1.5">
         {facts.map((fact) => {
           const icon = icons?.[fact.label] ?? FACT_ICONS[fact.label];
           return (
             <div
               key={fact.label}
-              className="flex items-center justify-between gap-4 py-2.5 first:pt-0 last:pb-0"
+              title={factHint(fact.label)}
+              className="events-fact-row flex items-center justify-between gap-4 py-3 first:pt-1.5 last:pb-1.5"
             >
-              <dt className="flex min-w-0 items-center gap-2.5 font-sans text-[13px] leading-snug text-[#5C574F] md:text-[14px]">
+              <dt className="flex min-w-0 flex-1 items-center gap-2.5 font-sans text-[13px] leading-none text-[#5C574F] md:text-[14px]">
                 {icon ? (
-                  <Icon
-                    name={icon}
-                    size={18}
-                    className="shrink-0 text-[#8A8278]"
-                  />
+                  <span className="fact-icon size-8 shrink-0">
+                    <Icon name={icon} size={16} />
+                  </span>
                 ) : null}
-                <span className="min-w-0">{fact.label}</span>
+                <span className="min-w-0 text-left">{fact.label}</span>
               </dt>
-              <dd className="shrink-0">
+              <dd className="shrink-0 self-center">
                 <FactValue value={fact.value} />
               </dd>
             </div>
@@ -219,7 +277,7 @@ function FactList({
         })}
       </dl>
       {note?.trim() ? (
-        <p className="mt-4 border-t border-[#EEEAE3] pt-4 font-sans text-[13px] leading-relaxed text-[#7A746C] md:text-[14px]">
+        <p className="mt-auto pt-4 font-sans text-[13px] leading-relaxed text-[#5C574F] md:text-[14px]">
           {note.trim()}
         </p>
       ) : null}
@@ -267,7 +325,7 @@ function venueMetaLine(venue: EventsVenue): string {
 
 function VenueIndexBadge({ index }: { index: number }) {
   return (
-    <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-[#F0EBE3] font-sans text-[13px] font-semibold tabular-nums text-[#2F2D2A] md:text-[14px]">
+    <span className="fact-icon size-9 font-sans text-[13px] font-semibold tabular-nums md:text-[14px]">
       {index + 1}
     </span>
   );
@@ -290,24 +348,31 @@ function VenueCard({
       <div className="flex items-start gap-3.5">
         <VenueIndexBadge index={index} />
         <div className="min-w-0 pt-0.5">
-          <h4 className="font-sans text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[#2F2D2A] md:text-[20px]">
+          <h4 className="font-serif text-[1.15rem] font-normal leading-snug tracking-wide text-[#1A241C] md:text-[1.25rem]">
             {venue.name}
           </h4>
           {meta ? (
-            <p className="mt-1 font-sans text-[13px] leading-relaxed text-[#8A8278] md:text-[14px]">
+            <p className="mt-1 font-sans text-[13px] leading-relaxed text-[#5C574F] md:text-[14px]">
               {meta}
             </p>
           ) : null}
         </div>
       </div>
 
-      <div className="flex items-center gap-2.5 font-sans text-[13px] leading-relaxed text-[#8A8278] md:text-[14px]">
-        <Icon name="thermometer" size={18} className="shrink-0 text-[#8A8278]" />
+      <div
+        title="Отопление в зале — важно для межсезонья и зимы."
+        className="flex items-center gap-2.5 font-sans text-[13px] leading-relaxed text-[#5C574F] md:text-[14px]"
+      >
+        <span className="fact-icon size-8">
+          <Icon name="thermometer" size={16} />
+        </span>
         <span>
           {copy.heatedLabel}:{" "}
           <span
             className={cn(
-              isUnknownValue(heated) ? "text-[#9A9288]" : "text-[#5C574F]"
+              isUnknownValue(heated)
+                ? "font-normal text-neutral-400"
+                : "font-semibold text-[#1A241C]"
             )}
           >
             {heated}
@@ -316,14 +381,19 @@ function VenueCard({
       </div>
 
       {capacity.length > 0 ? (
-        <div className="flex items-start gap-2.5 font-sans text-[13px] leading-relaxed text-[#5C574F] md:text-[14px]">
-          <Icon name="users" size={18} className="mt-0.5 shrink-0 text-[#8A8278]" />
+        <div
+          title="Вместимость по форматам рассадки: театр, банкет, фуршет."
+          className="flex items-start gap-2.5 font-sans text-[13px] leading-relaxed text-[#5C574F] md:text-[14px]"
+        >
+          <span className="fact-icon mt-0.5 size-8">
+            <Icon name="users" size={16} />
+          </span>
           <span>Рассадка: {capacity.join(" · ")}</span>
         </div>
       ) : null}
 
       {venue.note.trim() ? (
-        <p className="mt-1 border-t border-[#EEEAE3] pt-4 font-sans text-[13px] leading-relaxed text-[#7A746C] md:text-[14px] md:leading-[1.65]">
+        <p className="mt-1 font-sans text-[13px] leading-relaxed text-[#5C574F] md:text-[14px] md:leading-[1.65]">
           {venue.note.trim()}
         </p>
       ) : null}
@@ -345,7 +415,7 @@ function VenuesBlock({ events }: { events: EventsConfig }) {
       {events.venues.map((venue, index) => (
         <li
           key={`${venue.name}-${index}`}
-          className={cn(index > 0 && "border-t border-[#EEEAE3] pt-6")}
+          className={cn(index > 0 && "border-t border-[rgba(120,72,40,0.1)] pt-6")}
         >
           <VenueCard venue={venue} index={index} />
         </li>
@@ -397,16 +467,17 @@ function WeddingBlock({ events }: { events: EventsConfig }) {
 
 function ActivitiesChips({ activities }: { activities: string[] }) {
   return (
-    <div className="flex flex-wrap content-start gap-3">
+    <div className="flex flex-wrap content-start gap-2.5">
       {activities.map((item) => (
         <span
           key={item}
-          className="inline-flex h-12 items-center gap-2.5 rounded-xl bg-[#F0EBE3] px-3.5 font-sans text-[14px] leading-none text-[#2C3228] md:text-[15px]"
+          title={item}
+          className="inline-flex h-12 items-center gap-2.5 rounded-xl border border-[rgba(120,72,40,0.18)] bg-[linear-gradient(180deg,#f7f4ec_0%,#efebe2_100%)] px-3.5 font-sans text-[14px] leading-none text-[#2C3228] md:text-[15px]"
         >
           <Icon
             name={activityIcon(item)}
-            size={22}
-            className="text-[#6B635A]"
+            size={20}
+            className="text-[#5a4638]"
           />
           {item}
         </span>
@@ -443,12 +514,12 @@ export function EventsDetailSections({
   return (
     <div className="space-y-4 md:space-y-5">
       {showWedding ? (
-        <Tile title={UI_CONFIG.weddings.page.weddingTitle}>
+        <Tile title={UI_CONFIG.weddings.page.weddingTitle} tone="wedding">
           <WeddingBlock events={events} />
         </Tile>
       ) : null}
 
-      <Tile title={copy.venuesTitle} className="md:px-7 md:py-7">
+      <Tile title={copy.venuesTitle}>
         <VenuesBlock events={events} />
       </Tile>
 

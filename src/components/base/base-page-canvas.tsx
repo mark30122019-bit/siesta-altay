@@ -63,10 +63,10 @@ function PanelCard({
   children: ReactNode;
 }) {
   return (
-    <div className="surface-card flex h-full flex-col rounded-2xl px-5 py-7 md:px-7 md:py-8">
+    <div className="surface-card flex h-full flex-col rounded-2xl px-5 py-6 md:px-6 md:py-7">
       <Typography
         variant="h3"
-        className="mb-5 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-[#6B635A] md:mb-6 md:text-[13px]"
+        className="mb-5 font-serif text-[1.05rem] font-normal tracking-wide text-[#1A241C] md:mb-6 md:text-[1.15rem]"
       >
         {title}
       </Typography>
@@ -218,8 +218,12 @@ function DetailColumns({ object }: { object: BaseObject }) {
       <PanelCard title={UI_CONFIG.base.detailsTitle}>
         <ul className="space-y-4">
           {details.map((item) => (
-            <li key={item.label} className="flex items-start gap-3.5">
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#F0EBE3] text-[#6B635A]">
+            <li
+              key={item.label}
+              title={item.label}
+              className="detail-fact-row flex items-start gap-3.5 py-2"
+            >
+              <span className="fact-icon size-9">
                 <Icon name={item.icon} size={16} />
               </span>
               <Typography
@@ -239,9 +243,10 @@ function DetailColumns({ object }: { object: BaseObject }) {
             {amenities.map((item) => (
               <span
                 key={item.label}
-                className="inline-flex h-11 items-center gap-2.5 rounded-xl bg-[#F0EBE3] px-3.5 font-sans text-[14px] leading-none text-[#2C3228] md:text-[15px]"
+                title={item.label}
+                className="inline-flex h-11 items-center gap-2.5 rounded-xl border border-[rgba(120,72,40,0.18)] bg-[#F0EBE3] px-3.5 font-sans text-[14px] leading-none text-[#2C3228] md:text-[15px]"
               >
-                <Icon name={item.icon} size={19} className="text-[#6B635A]" />
+                <Icon name={item.icon} size={19} className="text-[#5a4638]" />
                 {item.label}
               </span>
             ))}
@@ -566,15 +571,16 @@ export function BasePageCanvas({
             <div className="surface-card rounded-2xl px-5 py-6 md:px-6 md:py-7">
               <Typography
                 variant="h3"
-                className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-[#6B635A] md:text-[13px]"
+                className="mb-4 font-serif text-[1.05rem] font-normal tracking-wide text-[#1A241C] md:text-[1.15rem]"
               >
                 {UI_CONFIG.base.bookingTermsTitle}
               </Typography>
-              <dl className="space-y-3">
+              <dl className="-mx-0.5 space-y-1">
                 {bookingTerms.map((item) => (
                   <div
                     key={item.label}
-                    className="flex items-start justify-between gap-4"
+                    title={`${item.label}: ${item.value}`}
+                    className="detail-fact-row flex items-start justify-between gap-4 py-2.5"
                   >
                     <dt className="shrink-0 font-sans text-[12px] text-[#8A8278]">
                       {item.label}

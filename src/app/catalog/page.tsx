@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { CatalogCanvas } from "@/components/catalog/catalog-canvas";
+import { CatalogStaticShell } from "@/components/catalog/catalog-static-shell";
 import { SiteFooter, SiteHeader } from "@/components/ui";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
@@ -35,7 +36,7 @@ export default function CatalogPage() {
         backHref={UI_CONFIG.routing.home.href}
         backLabel={UI_CONFIG.routing.home.backLabel}
       />
-      <Suspense fallback={<div className="min-h-[50vh]" aria-hidden />}>
+      <Suspense fallback={<CatalogStaticShell objects={objects} />}>
         <CatalogCanvas objects={objects} />
       </Suspense>
       <SiteFooter />

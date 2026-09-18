@@ -20,7 +20,7 @@ export function HeroSection() {
         <HeroBackground />
         <div className="absolute inset-0 z-[1] bg-black/40" aria-hidden />
 
-        <header className="absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-4 px-6 pt-8 sm:px-10 sm:pt-10 md:px-12 md:pt-12">
+        <header className="absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-4 px-6 pt-8 sm:px-10 sm:pt-10 md:px-18 md:pt-24">
           <Link
             href={UI_CONFIG.routing.home.href}
             className="group min-w-0 max-w-[58%] text-left"

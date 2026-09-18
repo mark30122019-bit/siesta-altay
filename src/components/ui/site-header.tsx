@@ -148,7 +148,7 @@ export function SiteHeader({
         <div className="flex min-w-0 flex-col gap-2.5">
           <Link
             href="/"
-            className="cursor-pointer font-serif text-lg font-normal tracking-[0.06em] text-[#F5EFE0] transition-colors hover:text-white md:text-xl"
+            className="cursor-pointer font-serif text-lg font-normal tracking-[0.06em] text-white transition-colors hover:text-white md:text-xl"
           >
             {GLOBAL_CONFIG.brandName}
           </Link>
@@ -159,7 +159,7 @@ export function SiteHeader({
                 <Button
                   variant="ghost"
                   href={backHref}
-                  className="w-fit px-0 py-0 font-sans text-[13px] font-medium tracking-wide text-white/80 hover:bg-transparent hover:text-white md:text-sm"
+                  className="w-fit px-0 py-0 font-sans text-[13px] font-medium tracking-wide text-[#d1dad2] transition-colors hover:bg-transparent hover:text-white md:text-sm"
                 >
                   {backLabel}
                 </Button>
@@ -170,7 +170,7 @@ export function SiteHeader({
                   {backHref && backLabel ? (
                     <span
                       aria-hidden
-                      className="hidden h-3 w-px bg-white/25 sm:block"
+                      className="hidden h-3 w-px bg-white/20 sm:block"
                     />
                   ) : null}
                   <nav
@@ -185,10 +185,10 @@ export function SiteHeader({
                           href={item.href}
                           aria-current={active ? "page" : undefined}
                           className={cn(
-                            "font-sans text-[13px] font-medium tracking-wide transition-colors md:text-sm",
+                            "font-sans text-[14px] tracking-wide transition-colors duration-200 md:text-[16px]",
                             active
-                              ? "text-white"
-                              : "text-white/70 hover:text-white"
+                              ? "font-semibold text-white"
+                              : "font-medium text-white/80 hover:text-white"
                           )}
                         >
                           {item.label}
