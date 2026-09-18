@@ -28,7 +28,6 @@ export const UI_CONFIG = {
   },
   common: {
     copyright: "©",
-    bookCta: "Забронировать",
     openObject: "Оставить заявку",
     tourBadge: "3D-тур",
     aerialBadge: "Аэропанорама",
@@ -92,7 +91,7 @@ export const UI_CONFIG = {
   },
   catalog: {
     monogram: "АИ",
-    notForLabel: "Кому не подойдёт:",
+    notForLabel: "Кому скорее всего не подойдёт",
     empty: "По выбранным фильтрам ничего не найдено",
     emptySubtitle:
       "Попробуйте изменить регион, район или удобства — возможно, подходящая база есть чуть шире по критериям.",
@@ -106,7 +105,9 @@ export const UI_CONFIG = {
     openTour: "3D-тур",
   },
   base: {
-    notSuitableTitle: "КОМУ НЕ ПОДОЙДЁТ",
+    notSuitableTitle: "Кому скорее всего не подойдёт",
+    notSuitableLead:
+      "Не отговариваем — просто честно про ограничения, чтобы ожидания совпали с местом.",
     bookingTitle: "Оставить заявку",
     submitCta: "Оставить заявку",
     submittingCta: "Отправляем…",
@@ -123,8 +124,8 @@ export const UI_CONFIG = {
     unitsFew: "домика",
     unitsMany: "домиков",
     guestsLabel: "гостей",
-    goodForTitle: "КОМУ ПОДОЙДЁТ",
-    honestNoteTitle: "ЧЕСТНО ОТ АВТОРА",
+    goodForTitle: "Кому подойдёт",
+    honestNoteTitle: "Честно от автора",
     distanceFromGorno: "км от Горно-Алтайска",
     distanceFromNovosibirsk: "км от Новосибирска",
     morePhotosPrefix: "ещё",
@@ -147,7 +148,7 @@ export const UI_CONFIG = {
     nightsOne: "ночь",
     nightsFew: "ночи",
     nightsMany: "ночей",
-    tourScenesSuffix: "панорам в туре",
+    tourScenesSuffix: "сцен в туре",
     tourFeaturesLabel: "В туре",
     purposeLine: "место для вашего отдыха",
     placeholders: {

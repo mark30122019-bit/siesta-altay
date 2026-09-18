@@ -66,8 +66,7 @@ export function CatalogListingCard({
   const amenities = AMENITY_ICONS.filter((item) =>
     hasAmenityFlag(object.amenities[item.key] as boolean | null)
   ).slice(0, 5);
-  const notFor =
-    object.author.not_for[0] || object.suitability.family_kids.note;
+  const notFor = object.author.not_for[0] || null;
   const href = `/base/${object.slug}`;
   const isMap = mode === "map";
   const priceLabel = formatObjectPrice(object);
@@ -201,20 +200,22 @@ export function CatalogListingCard({
           </div>
         ) : null}
 
-        <div className="mt-3 rounded-xl border border-black/[0.06] bg-gradient-to-br from-[#FCEEE8] to-[#F8E9E4]/80 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]">
-          <Typography
-            variant="caption"
-            className="mb-1 block text-[13px] font-semibold text-[#BC5434] md:text-[11px]"
-          >
-            {UI_CONFIG.catalog.notForLabel}
-          </Typography>
-          <Typography
-            variant="body"
-            className="line-clamp-3 text-[14px] leading-relaxed text-[#555] md:text-[12px]"
-          >
-            {notFor}
-          </Typography>
-        </div>
+        {notFor ? (
+          <div className="mt-3 rounded-xl border border-black/[0.06] bg-gradient-to-br from-[#FCEEE8] to-[#F8E9E4]/80 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]">
+            <Typography
+              variant="caption"
+              className="mb-1 block text-[13px] font-semibold text-[#BC5434] md:text-[11px]"
+            >
+              {UI_CONFIG.catalog.notForLabel}
+            </Typography>
+            <Typography
+              variant="body"
+              className="line-clamp-3 text-[14px] leading-relaxed text-[#555] md:text-[12px]"
+            >
+              {notFor}
+            </Typography>
+          </div>
+        ) : null}
 
         <div className="mt-auto pt-4">
           <Link

@@ -209,7 +209,12 @@ function DetailColumns({ object }: { object: BaseObject }) {
   if (unitsLabel) details.push({ label: unitsLabel, icon: "home" });
 
   return (
-    <div className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-3 sm:gap-6">
+    <div
+      className={cn(
+        "grid grid-cols-1 items-stretch gap-5 sm:gap-6",
+        amenities.length >= 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"
+      )}
+    >
       <PanelCard title={UI_CONFIG.base.detailsTitle}>
         <ul className="space-y-4">
           {details.map((item) => (
@@ -228,22 +233,21 @@ function DetailColumns({ object }: { object: BaseObject }) {
         </ul>
       </PanelCard>
 
-      <PanelCard title={UI_CONFIG.base.amenitiesTitle}>
-        <div className="flex flex-wrap content-start gap-3">
-          {(amenities.length > 0
-            ? amenities
-            : [{ label: "—", icon: "check" as const }]
-          ).map((item) => (
-            <span
-              key={item.label}
-              className="inline-flex h-11 items-center gap-2.5 rounded-xl bg-[#F0EBE3] px-3.5 font-sans text-[14px] leading-none text-[#2C3228] md:text-[15px]"
-            >
-              <Icon name={item.icon} size={19} className="text-[#6B635A]" />
-              {item.label}
-            </span>
-          ))}
-        </div>
-      </PanelCard>
+      {amenities.length >= 3 ? (
+        <PanelCard title={UI_CONFIG.base.amenitiesTitle}>
+          <div className="flex flex-wrap content-start gap-3">
+            {amenities.map((item) => (
+              <span
+                key={item.label}
+                className="inline-flex h-11 items-center gap-2.5 rounded-xl bg-[#F0EBE3] px-3.5 font-sans text-[14px] leading-none text-[#2C3228] md:text-[15px]"
+              >
+                <Icon name={item.icon} size={19} className="text-[#6B635A]" />
+                {item.label}
+              </span>
+            ))}
+          </div>
+        </PanelCard>
+      ) : null}
 
       <PanelCard title={UI_CONFIG.base.priceTitle}>
         {hasObjectPrice(object) ? (
@@ -364,17 +368,15 @@ function DetailColumns({ object }: { object: BaseObject }) {
 }
 
 function LeisureBody({ object }: { object: BaseObject }) {
-  const notForItems =
-    object.author.not_for.length > 0
-      ? object.author.not_for
-      : [object.suitability.family_kids.note];
+  const notForItems = object.author.not_for.filter(Boolean);
 
   const goodForItems =
     object.author.good_for.length > 0
       ? object.author.good_for
       : Object.values(object.suitability)
           .filter((item) => item.fit === true)
-          .map((item) => item.note);
+          .map((item) => item.note)
+          .filter(Boolean);
 
   return (
     <>
@@ -385,7 +387,7 @@ function LeisureBody({ object }: { object: BaseObject }) {
       <section className="my-12 mx-auto max-w-xl space-y-5 text-center">
         <Typography
           variant="h2"
-          className="font-sans text-lg font-bold uppercase tracking-[0.08em] text-[#1A241C] md:text-xl"
+          className="font-sans text-lg font-semibold tracking-wide text-[#1A241C] md:text-xl"
         >
           {UI_CONFIG.base.honestNoteTitle}
         </Typography>
@@ -397,46 +399,52 @@ function LeisureBody({ object }: { object: BaseObject }) {
         </Typography>
       </section>
 
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
-        <AlertBox
-          variant="info"
-          title={UI_CONFIG.base.goodForTitle}
-          className="h-full"
-        >
-          <ul className="mt-1 list-disc space-y-2.5 pl-5">
-            {goodForItems.map((item) => (
-              <li
-                key={item}
-                className="text-sm leading-relaxed text-[#F7F3ED]/88 md:text-[15px]"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </AlertBox>
+      <div
+        className={cn(
+          "grid grid-cols-1 gap-5 md:gap-6",
+          goodForItems.length > 0 && notForItems.length > 0
+            ? "md:grid-cols-2"
+            : "md:grid-cols-1"
+        )}
+      >
+        {goodForItems.length > 0 ? (
+          <AlertBox
+            variant="info"
+            title={UI_CONFIG.base.goodForTitle}
+            className="h-full"
+          >
+            <ul className="mt-1 list-disc space-y-2.5 pl-5">
+              {goodForItems.map((item) => (
+                <li
+                  key={item}
+                  className="text-sm leading-relaxed text-[#F7F3ED]/88 md:text-[15px]"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </AlertBox>
+        ) : null}
 
-        <AlertBox
-          variant="danger"
-          title={UI_CONFIG.base.notSuitableTitle}
-          className="h-full"
-        >
-          <ul className="mt-1 list-disc space-y-2.5 pl-5">
-            {notForItems.map((item) => (
-              <li
-                key={item}
-                className="text-sm leading-relaxed text-[#3D3832]/85 md:text-[15px]"
-              >
-                {item}
-              </li>
-            ))}
-            {object.suitability.family_kids.note &&
-            !notForItems.includes(object.suitability.family_kids.note) ? (
-              <li className="text-sm leading-relaxed text-[#3D3832]/85 md:text-[15px]">
-                {object.suitability.family_kids.note}
-              </li>
-            ) : null}
-          </ul>
-        </AlertBox>
+        {notForItems.length > 0 ? (
+          <AlertBox
+            variant="danger"
+            title={UI_CONFIG.base.notSuitableTitle}
+            lead={UI_CONFIG.base.notSuitableLead}
+            className="h-full"
+          >
+            <ul className="mt-1 list-disc space-y-2.5 pl-5">
+              {notForItems.map((item) => (
+                <li
+                  key={item}
+                  className="text-sm leading-relaxed text-[#3D3832]/85 md:text-[15px]"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </AlertBox>
+        ) : null}
       </div>
 
       <DetailColumns object={object} />
