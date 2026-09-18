@@ -1,32 +1,43 @@
 "use client";
 
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { cn } from "@/lib/utils";
 
 const HERO_ID = "hero";
+const NEXT_SECTION_ID = "about";
 
-export function HeroScrollDown() {
+export function HeroScrollDown({ className }: { className?: string }) {
+  const [hidden, setHidden] = useState(false);
+
   function handleClick() {
-    const hero = document.getElementById(HERO_ID);
-    if (!hero) return;
+    const next = document.getElementById(NEXT_SECTION_ID);
+    if (!next) return;
 
-    window.scrollTo({
-      top: hero.offsetTop + hero.offsetHeight,
-      behavior: "smooth",
-    });
+    setHidden(true);
+    next.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  if (hidden) return null;
+
   return (
-    <Button
-      variant="ghost"
-      type="button"
-      onClick={handleClick}
-      aria-label={UI_CONFIG.home.scrollDownAria}
-      className="btn-tactile absolute bottom-8 left-1/2 z-10 h-12 w-12 -translate-x-1/2 rounded-full border border-white/60 bg-white/10 p-0 text-white shadow-[0_4px_16px_rgba(0,0,0,0.2)] backdrop-blur-sm hover:border-white hover:bg-white hover:text-[#1A241C]"
-    >
-      <Icon name="chevronDown" size={22} />
-    </Button>
+    <div className="flex items-center justify-center bg-[#FFFbf7] py-3">
+      <Button
+        variant="ghost"
+        type="button"
+        onClick={handleClick}
+        aria-label={UI_CONFIG.home.scrollDownAria}
+        className={cn(
+          "btn-tactile h-12 w-12 rounded-full border border-[#1A241C]/25 bg-white/70 p-0 text-[#1A241C] shadow-[0_4px_16px_rgba(26,36,28,0.1)] backdrop-blur-sm transition-colors hover:border-[#1A241C]/45 hover:bg-white hover:text-[#BC5434]",
+          className
+        )}
+      >
+        <Icon name="chevronDown" size={22} />
+      </Button>
+    </div>
   );
 }
 

@@ -162,7 +162,22 @@ export function EventsCatalogCanvas({
         ) : null}
       </div>
 
-      {filtered.length === 0 ? (
+      {objects.length === 0 ? (
+        <div className="rounded-xl border border-dashed border-[#1A241C]/15 bg-white/60 px-6 py-14 text-center">
+          <Typography
+            variant="h3"
+            className="font-sans text-lg font-semibold text-[#1A241C]"
+          >
+            {copy.emptyCatalog}
+          </Typography>
+          <Typography
+            variant="body"
+            className="mx-auto mt-2 max-w-md text-[14px] text-[#5A635C]"
+          >
+            {copy.emptyCatalogSubtitle}
+          </Typography>
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="rounded-xl border border-dashed border-[#1A241C]/15 bg-white/60 px-6 py-14 text-center">
           <Typography
             variant="h3"

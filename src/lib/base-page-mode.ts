@@ -48,6 +48,110 @@ export function venueCapacityLines(venue: EventsVenue): string[] {
 
 export type EventsFact = { label: string; value: string };
 
+export type EventsSummaryItem = {
+  label: string;
+  value: string;
+  known: boolean;
+};
+
+/** Короткая шапка для быстрого сравнения баз. */
+export function eventsSummaryItems(
+  object: Pick<BaseObject, "events">
+): EventsSummaryItem[] {
+  const events = object.events;
+  const unknown = UI_CONFIG.corporate.capacityUnknown;
+
+  if (!events) {
+    return [
+      { label: "Зал", value: unknown, known: false },
+      { label: "Спальные", value: unknown, known: false },
+      { label: "Выкуп", value: unknown, known: false },
+      { label: "Безнал", value: unknown, known: false },
+      { label: "Автобус", value: unknown, known: false },
+      { label: "Сезон", value: unknown, known: false },
+    ];
+  }
+
+  let maxArea: number | null = null;
+  for (const venue of events.venues) {
+    if (typeof venue.area_m2 === "number" && venue.area_m2 > 0) {
+      maxArea = maxArea == null ? venue.area_m2 : Math.max(maxArea, venue.area_m2);
+    }
+  }
+
+  const capacityMax = (() => {
+    let venueMax: number | null = null;
+    for (const venue of events.venues) {
+      for (const value of [
+        venue.capacity.theatre,
+        venue.capacity.banquet,
+        venue.capacity.buffet,
+        venue.capacity.classroom,
+      ]) {
+        if (typeof value === "number" && value > 0) {
+          venueMax = venueMax == null ? value : Math.max(venueMax, value);
+        }
+      }
+    }
+    return venueMax;
+  })();
+
+  const hallValue =
+    maxArea != null
+      ? `${maxArea.toLocaleString("ru-RU")} м²`
+      : capacityMax != null
+        ? `до ${capacityMax}`
+        : events.venues.length > 0
+          ? `${events.venues.length} ${events.venues.length === 1 ? "зал" : "зала"}`
+          : unknown;
+
+  const beds = events.sleeping.beds_total ?? events.sleeping.beds_single_occupancy;
+  const bedsValue = beds != null ? String(beds) : unknown;
+
+  const buyoutValue = formatEventsBool(events.buyout.available);
+  const cashlessValue = formatEventsBool(events.legal.cashless);
+  const busValue = formatEventsBool(events.logistics.bus_access);
+  const seasonValue =
+    events.season.year_round === true
+      ? "Круглый год"
+      : events.season.year_round === false
+        ? "Сезонно"
+        : unknown;
+
+  return [
+    {
+      label: "Зал",
+      value: hallValue,
+      known: hallValue !== unknown,
+    },
+    {
+      label: "Спальные",
+      value: bedsValue,
+      known: bedsValue !== unknown,
+    },
+    {
+      label: "Выкуп",
+      value: buyoutValue,
+      known: buyoutValue !== unknown,
+    },
+    {
+      label: "Безнал",
+      value: cashlessValue,
+      known: cashlessValue !== unknown,
+    },
+    {
+      label: "Автобус",
+      value: busValue,
+      known: busValue !== unknown,
+    },
+    {
+      label: "Сезон",
+      value: seasonValue,
+      known: seasonValue !== unknown,
+    },
+  ];
+}
+
 export function sleepingFacts(events: EventsConfig): EventsFact[] {
   return [
     {

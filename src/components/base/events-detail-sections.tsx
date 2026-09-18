@@ -6,6 +6,7 @@ import {
   buyoutFacts,
   cateringFacts,
   equipmentFacts,
+  eventsSummaryItems,
   formatEventsBool,
   formatEventsNullable,
   legalFacts,
@@ -71,6 +72,40 @@ const SECTION_ICONS: Record<string, IconName> = {
 
 function isUnknownValue(value: string) {
   return value === UNKNOWN;
+}
+
+export function EventsSummaryBar({ object }: { object: BaseObject }) {
+  const items = eventsSummaryItems(object);
+
+  return (
+    <section
+      className="rounded-2xl border border-[#E6E1D8] bg-[#FBF9F5] px-3 py-3 shadow-[0_1px_2px_rgba(42,36,28,0.04)] md:px-4 md:py-3.5"
+      aria-label="Ключевые факты"
+    >
+      <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6 lg:gap-0 lg:divide-x lg:divide-[#EEEAE3]">
+        {items.map((item) => (
+          <li
+            key={item.label}
+            className="flex min-w-0 flex-col gap-0.5 rounded-xl px-2.5 py-2 lg:rounded-none lg:px-3"
+          >
+            <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.1em] text-[#8A8278]">
+              {item.label}
+            </span>
+            <span
+              className={cn(
+                "truncate font-sans text-[14px] leading-snug md:text-[15px]",
+                item.known
+                  ? "font-semibold text-[#2F2D2A]"
+                  : "font-normal text-[#9A9288]"
+              )}
+            >
+              {item.value}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 }
 
 function activityIcon(label: string): IconName {
@@ -383,28 +418,41 @@ function ActivitiesChips({ activities }: { activities: string[] }) {
 export function EventsDetailSections({
   object,
   showWedding = false,
+  afterVenues,
 }: {
   object: BaseObject;
   showWedding?: boolean;
+  afterVenues?: ReactNode;
 }) {
   const events = object.events;
   const copy = UI_CONFIG.corporate.page;
 
   if (!events) {
     return (
-      <Tile title={copy.venuesTitle}>
-        <p className="font-sans text-[14px] leading-relaxed text-[#8A8278]">
-          {copy.emptyEvents}
-        </p>
-      </Tile>
+      <div className="space-y-4 md:space-y-5">
+        <Tile title={copy.venuesTitle}>
+          <p className="font-sans text-[14px] leading-relaxed text-[#8A8278]">
+            {copy.emptyEvents}
+          </p>
+        </Tile>
+        {afterVenues}
+      </div>
     );
   }
 
   return (
     <div className="space-y-4 md:space-y-5">
+      {showWedding ? (
+        <Tile title={UI_CONFIG.weddings.page.weddingTitle}>
+          <WeddingBlock events={events} />
+        </Tile>
+      ) : null}
+
       <Tile title={copy.venuesTitle} className="md:px-7 md:py-7">
         <VenuesBlock events={events} />
       </Tile>
+
+      {afterVenues}
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
         <Tile title={copy.buyoutTitle}>
@@ -440,14 +488,6 @@ export function EventsDetailSections({
         <Tile title={copy.legalTitle} className="md:col-span-2">
           <FactList facts={legalFacts(events)} />
         </Tile>
-        {showWedding ? (
-          <Tile
-            title={UI_CONFIG.weddings.page.weddingTitle}
-            className="md:col-span-2"
-          >
-            <WeddingBlock events={events} />
-          </Tile>
-        ) : null}
         {events.activities.length > 0 ? (
           <Tile title="Активности на базе" className="md:col-span-2">
             <ActivitiesChips activities={events.activities} />

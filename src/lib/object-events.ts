@@ -98,6 +98,19 @@ export function isObjectListedForEvents(
   return hasEventsPreviewSignal(object.events);
 }
 
+/**
+ * «Заполненный» events для SEO/sitemap:
+ * suitable === true или есть хотя бы один зал/площадка.
+ * Черновики с одним флагом (безнал и т.п.) в индекс не попадают.
+ */
+export function isObjectIndexedForEvents(
+  object: Pick<BaseObject, "status" | "events">
+): boolean {
+  if (!isObjectListedForEvents(object)) return false;
+  if (object.events?.suitable === true) return true;
+  return (object.events?.venues.length ?? 0) > 0;
+}
+
 /** Корзина вместимости (взаимоисключающие диапазоны). */
 export function matchesEventsCapacityFilter(
   capacity: number | null,
@@ -167,6 +180,18 @@ export function isObjectListedForWeddings(
   if (suitable === false) return false;
   if (hasWeddingPreviewSignal(object.events)) return true;
   return hasEventsPreviewSignal(object.events);
+}
+
+/**
+ * Свадебные URL в sitemap: есть wedding-сигнал
+ * или уже заполненный events (залы / suitable).
+ */
+export function isObjectIndexedForWeddings(
+  object: Pick<BaseObject, "status" | "events">
+): boolean {
+  if (!isObjectListedForWeddings(object)) return false;
+  if (hasWeddingPreviewSignal(object.events)) return true;
+  return isObjectIndexedForEvents(object);
 }
 
 export function matchesWeddingFeatureFilters(

@@ -8,7 +8,7 @@ export function ExpeditionSection() {
   const { promoTour } = GLOBAL_CONFIG;
 
   return (
-    <Card className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border-0 p-0 shadow-none md:aspect-[2/1]">
+    <Card className="relative aspect-[5/4] w-full overflow-hidden rounded-2xl border-0 p-0 shadow-none md:aspect-[4/3]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={assetPath(promoTour.image)}

@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
 import { GLOBAL_CONFIG } from "@/config/global";
 import { UI_CONFIG } from "@/config/uiConfig";
+import { assetPath } from "@/config/site";
 import { isObjectListed } from "@/lib/object-flags";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
@@ -22,24 +23,47 @@ function firstGoodFor(object: BaseObject) {
   return raw.charAt(0).toLocaleUpperCase("ru-RU") + raw.slice(1);
 }
 
+function coverSrc(object: BaseObject) {
+  return object.tour.preview || object.photos[0]?.src || "";
+}
+
 function BaseAudienceCard({ object }: { object: BaseObject }) {
   const line = firstGoodFor(object);
+  const src = coverSrc(object);
 
   return (
     <Link
       href={`/base/${object.slug}`}
-      className="flex h-full min-h-[230px] flex-col items-center justify-center gap-3 rounded-2xl border border-[#E0D8CC] bg-[#F0EBE3] px-3.5 py-5 text-center [box-shadow:none] transition-colors hover:bg-[#EBE4DA] sm:px-4 sm:py-6"
+      className="group relative flex h-full min-h-[230px] flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl px-3.5 py-5 text-center sm:px-4 sm:py-6"
     >
+      {src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={assetPath(src)}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+        />
+      ) : (
+        <div
+          className="absolute inset-0 bg-[linear-gradient(145deg,#c5bfb2_0%,#8a9a8e_50%,#5c6b6e_100%)]"
+          aria-hidden
+        />
+      )}
+      <div
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(18,24,18,0.42)_0%,rgba(18,24,18,0.58)_45%,rgba(18,24,18,0.78)_100%)] transition-[opacity] duration-300 group-hover:opacity-95"
+        aria-hidden
+      />
+
       <Typography
         variant="h3"
-        className="font-serif text-[14px] font-bold leading-snug tracking-wide text-[#1A241C] sm:text-[15px]"
+        className="relative z-10 font-serif text-[14px] font-bold leading-snug tracking-wide text-white sm:text-[15px]"
       >
         {object.name}
       </Typography>
 
       <Typography
         variant="body"
-        className="font-sans text-[13px] font-medium leading-snug text-[#4A453F] sm:text-[14px]"
+        className="relative z-10 font-sans text-[13px] font-medium leading-snug text-white/90 sm:text-[14px]"
       >
         {line}
       </Typography>

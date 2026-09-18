@@ -4,16 +4,18 @@ import { GLOBAL_CONFIG } from "@/config/global";
 import { absoluteUrl } from "@/config/site";
 import { isObjectListed } from "@/lib/object-flags";
 import {
-  isObjectListedForEvents,
-  isObjectListedForWeddings,
+  isObjectIndexedForEvents,
+  isObjectIndexedForWeddings,
 } from "@/lib/object-events";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const published = GLOBAL_CONFIG.objects.filter(isObjectListed);
-  const eventsListed = GLOBAL_CONFIG.objects.filter(isObjectListedForEvents);
-  const weddingsListed = GLOBAL_CONFIG.objects.filter(isObjectListedForWeddings);
+  const eventsIndexed = GLOBAL_CONFIG.objects.filter(isObjectIndexedForEvents);
+  const weddingsIndexed = GLOBAL_CONFIG.objects.filter(
+    isObjectIndexedForWeddings
+  );
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -57,7 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const eventRoutes: MetadataRoute.Sitemap = eventsListed.map((object) => ({
+  const eventRoutes: MetadataRoute.Sitemap = eventsIndexed.map((object) => ({
     url: absoluteUrl(`/events/${object.slug}`),
     lastModified: object.updated_at
       ? new Date(object.updated_at)
@@ -66,7 +68,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const weddingRoutes: MetadataRoute.Sitemap = weddingsListed.map((object) => ({
+  const weddingRoutes: MetadataRoute.Sitemap = weddingsIndexed.map((object) => ({
     url: absoluteUrl(`/weddings/${object.slug}`),
     lastModified: object.updated_at
       ? new Date(object.updated_at)

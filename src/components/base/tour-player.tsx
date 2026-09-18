@@ -22,7 +22,8 @@ export function TourPlayer({
   const tourUrl = object.tour.url;
   const cover = object.tour.preview || object.photos[0]?.src || "";
   const title = `${object.name} — ${UI_CONFIG.common.tourBadge}`;
-  const showAerialPriority = preferAerial && hasAerialPanorama(object);
+  const hasAerial = hasAerialPanorama(object);
+  const showAerialPriority = preferAerial && hasAerial;
 
   const stageRef = useRef<HTMLDivElement>(null);
   const [started, setStarted] = useState(false);
@@ -108,9 +109,9 @@ export function TourPlayer({
         </div>
       ) : null}
 
-      {showAerialPriority ? (
+      {hasAerial ? (
         <p className="font-sans text-[13px] leading-relaxed text-[#6B635A] md:text-[14px]">
-          {UI_CONFIG.corporate.page.aerialHint}
+          {UI_CONFIG.common.aerialHint}
         </p>
       ) : null}
 
@@ -140,11 +141,6 @@ export function TourPlayer({
               />
             )}
             <div className="absolute inset-0 bg-black/20" aria-hidden />
-            {showAerialPriority ? (
-              <span className="absolute left-3 top-3 z-10 rounded-lg bg-black/55 px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wide text-white md:text-[12px]">
-                {UI_CONFIG.corporate.aerialBadge}
-              </span>
-            ) : null}
             <div className="absolute inset-0 flex items-center justify-center p-4">
               <button
                 type="button"

@@ -34,8 +34,9 @@ export function SiteFooter({ tone = "chrome", className }: SiteFooterProps) {
 
   return (
     <footer
+      id="contacts"
       className={cn(
-        "w-full",
+        "w-full scroll-mt-8",
         tone === "chrome" && "site-chrome border-t",
         tone === "plain" && "border-t border-transparent bg-transparent",
         className

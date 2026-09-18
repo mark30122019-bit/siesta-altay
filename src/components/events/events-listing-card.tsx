@@ -206,18 +206,21 @@ export function EventsListingCard({
             )}
           </Link>
 
-          {aerial ? (
-            <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-md border border-white/25 bg-[#1A241C]/70 px-2.5 py-1 font-sans text-[11px] font-semibold tracking-wide text-white backdrop-blur-[2px]">
-              {copy.aerialBadge}
-            </span>
-          ) : null}
-
-          {hasTour ? (
-            <Badge
-              variant="tour"
-              text={UI_CONFIG.common.tourBadge}
-              className="absolute bottom-2.5 right-2.5 z-10"
-            />
+          {aerial || hasTour ? (
+            <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1.5">
+              {aerial ? (
+                <Badge
+                  variant="tour"
+                  text={copy.aerialBadge}
+                />
+              ) : null}
+              {hasTour ? (
+                <Badge
+                  variant="tour"
+                  text={UI_CONFIG.common.tourBadge}
+                />
+              ) : null}
+            </div>
           ) : null}
         </div>
       </div>

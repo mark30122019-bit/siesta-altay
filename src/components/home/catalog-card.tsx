@@ -6,6 +6,7 @@ import { Typography } from "@/components/ui/typography";
 import { UI_CONFIG } from "@/config/uiConfig";
 import { assetPath } from "@/config/site";
 import { formatObjectPrice } from "@/lib/object-price";
+import { hasAerialPanorama } from "@/lib/object-events";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -48,6 +49,7 @@ function CatalogCard({
 }: CatalogCardProps) {
   const src = coverSrc(object);
   const hasTour = Boolean(object.tour?.url);
+  const aerial = hasAerialPanorama(object);
   const priceLabel = formatObjectPrice(object);
 
   if (variant === "short") {
@@ -86,12 +88,21 @@ function CatalogCard({
       >
         <div className="relative h-[120px] overflow-hidden bg-gradient-to-br from-[#d4cfc4] via-[#c5bfb2] to-[#a8b0a4] shimmer md:h-[132px]">
           <CoverImage object={object} src={src} />
-          {hasTour ? (
-            <Badge
-              variant="tour"
-              text={UI_CONFIG.common.tourBadge}
-              className="absolute bottom-2 right-2 z-10 scale-90"
-            />
+          {aerial || hasTour ? (
+            <div className="absolute bottom-2 right-2 z-10 flex scale-90 items-center gap-1">
+              {aerial ? (
+                <Badge
+                  variant="tour"
+                  text={UI_CONFIG.common.aerialBadge}
+                />
+              ) : null}
+              {hasTour ? (
+                <Badge
+                  variant="tour"
+                  text={UI_CONFIG.common.tourBadge}
+                />
+              ) : null}
+            </div>
           ) : null}
         </div>
 
@@ -102,6 +113,14 @@ function CatalogCard({
           >
             {object.name}
           </Typography>
+          {object.seo.description.trim() ? (
+            <Typography
+              variant="caption"
+              className="mt-1.5 line-clamp-2 text-[12px] leading-snug text-[#6B635A] md:text-[12px]"
+            >
+              {object.seo.description.trim()}
+            </Typography>
+          ) : null}
           {priceLabel ? (
             <Typography
               variant="caption"

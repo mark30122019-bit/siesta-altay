@@ -10,6 +10,7 @@ import { UI_CONFIG } from "@/config/uiConfig";
 import { assetPath } from "@/config/site";
 import { formatObjectPrice } from "@/lib/object-price";
 import { hasAmenityFlag } from "@/lib/object-flags";
+import { hasAerialPanorama } from "@/lib/object-events";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -61,6 +62,7 @@ export function CatalogListingCard({
 }) {
   const src = coverSrc(object);
   const hasTour = Boolean(object.tour?.url);
+  const aerial = hasAerialPanorama(object);
   const amenities = AMENITY_ICONS.filter((item) =>
     hasAmenityFlag(object.amenities[item.key] as boolean | null)
   ).slice(0, 5);
@@ -124,29 +126,36 @@ export function CatalogListingCard({
             )}
           </Link>
 
-          {hasTour ? (
-            isMap ? (
-              tourOpen ? null : (
-                <button
-                  type="button"
-                  onClick={handleTourClick}
-                  className="tour-badge-glow absolute bottom-2.5 right-2.5 z-10 cursor-pointer rounded-md transition-transform active:scale-95"
-                  aria-label={UI_CONFIG.catalog.openTour}
-                >
+          {aerial || (hasTour && !(isMap && tourOpen)) ? (
+            <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1.5">
+              {aerial ? (
+                <Badge
+                  variant="tour"
+                  text={UI_CONFIG.common.aerialBadge}
+                />
+              ) : null}
+              {hasTour && !(isMap && tourOpen) ? (
+                isMap && onTourToggle ? (
+                  <button
+                    type="button"
+                    onClick={handleTourClick}
+                    className="tour-badge-glow cursor-pointer rounded-md transition-transform active:scale-95"
+                    aria-label={UI_CONFIG.catalog.openTour}
+                  >
+                    <Badge
+                      variant="tour"
+                      text={UI_CONFIG.common.tourBadge}
+                      className="pointer-events-none bg-gradient-to-b from-[#d07050] to-[#a8482c] text-[11px] font-semibold tracking-wide shadow-none"
+                    />
+                  </button>
+                ) : (
                   <Badge
                     variant="tour"
                     text={UI_CONFIG.common.tourBadge}
-                    className="pointer-events-none bg-gradient-to-b from-[#d07050] to-[#a8482c] text-[11px] font-semibold tracking-wide shadow-none"
                   />
-                </button>
-              )
-            ) : (
-              <Badge
-                variant="tour"
-                text={UI_CONFIG.common.tourBadge}
-                className="absolute bottom-2.5 right-2.5 z-10"
-              />
-            )
+                )
+              ) : null}
+            </div>
           ) : null}
         </div>
       </div>

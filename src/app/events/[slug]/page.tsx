@@ -9,7 +9,7 @@ import { UI_CONFIG } from "@/config/uiConfig";
 import { SITE_SEO, absoluteAssetUrl, absoluteUrl } from "@/config/site";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { lodgingJsonLd } from "@/lib/seo";
-import { isObjectListedForEvents } from "@/lib/object-events";
+import { isObjectListedForEvents, isObjectIndexedForEvents } from "@/lib/object-events";
 
 type EventsDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -57,10 +57,12 @@ export async function generateMetadata({
   const description =
     object.seo.description ||
     `Площадка для корпоратива и мероприятий: ${object.name}. Залы, рассадка, кейтеринг и заявка.`;
+  const indexable = isObjectIndexedForEvents(object);
 
   return {
     title,
     description,
+    robots: indexable ? undefined : { index: false, follow: true },
     alternates: {
       canonical: url,
     },

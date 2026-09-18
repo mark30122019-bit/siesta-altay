@@ -5,7 +5,10 @@ import { Icon, type IconName } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
 import { BasePageFooter, BasePageHeader } from "@/components/base/base-page-chrome";
 import { BookingForm } from "@/components/base/booking-form";
-import { EventsDetailSections } from "@/components/base/events-detail-sections";
+import {
+  EventsDetailSections,
+  EventsSummaryBar,
+} from "@/components/base/events-detail-sections";
 import { TourPlayer } from "@/components/base/tour-player";
 import { UI_CONFIG } from "@/config/uiConfig";
 import {
@@ -489,46 +492,64 @@ export function BasePageCanvas({
             >
               {object.name}
             </Typography>
-            {eventsMode ? (
-              <Typography
-                variant="caption"
-                className="mt-3 block font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-[#6B635A]"
-              >
-                {mode === "weddings"
-                  ? UI_CONFIG.routing.weddings.label
-                  : UI_CONFIG.routing.corporate.label}
-              </Typography>
-            ) : null}
-          </section>
-
-          <section>
-            <TourPlayer
-              object={object}
-              locationLine={locationLine}
-              preferAerial={eventsMode}
-            />
-            {tourMeta ? (
-              <Typography
-                variant="caption"
-                className="mt-3 block text-[16px] leading-relaxed text-[#8A8278]"
-              >
-                {tourMeta}
-              </Typography>
+            <p className="mt-2 font-serif text-[1.125rem] font-normal italic leading-snug tracking-[0.01em] text-[#6B635A] md:mt-3 md:text-[1.35rem] md:leading-snug">
+              {mode === "weddings"
+                ? UI_CONFIG.weddings.page.purposeLine
+                : mode === "events"
+                  ? UI_CONFIG.corporate.page.purposeLine
+                  : UI_CONFIG.base.purposeLine}
+            </p>
+            {locationLine ? (
+              <p className="mt-3 inline-flex min-w-0 items-center gap-2 font-sans text-[14px] leading-snug text-[#6B635A] md:text-[15px]">
+                <Icon name="map" size={16} className="shrink-0 text-[#8A8278]" />
+                <span className="min-w-0">{locationLine}</span>
+              </p>
             ) : null}
           </section>
 
           {eventsMode ? (
             <>
-              <section>
-                <AuthorVerdict text={object.author.verdict} />
-              </section>
+              <EventsSummaryBar object={object} />
               <EventsDetailSections
                 object={object}
                 showWedding={mode === "weddings"}
+                afterVenues={
+                  <>
+                    {object.author.verdict.trim() ? (
+                      <section>
+                        <AuthorVerdict text={object.author.verdict} />
+                      </section>
+                    ) : null}
+                    <section>
+                      <TourPlayer object={object} preferAerial />
+                      {tourMeta ? (
+                        <Typography
+                          variant="caption"
+                          className="mt-3 block text-[16px] leading-relaxed text-[#8A8278]"
+                        >
+                          {tourMeta}
+                        </Typography>
+                      ) : null}
+                    </section>
+                  </>
+                }
               />
             </>
           ) : (
-            <LeisureBody object={object} />
+            <>
+              <section>
+                <TourPlayer object={object} />
+                {tourMeta ? (
+                  <Typography
+                    variant="caption"
+                    className="mt-3 block text-[16px] leading-relaxed text-[#8A8278]"
+                  >
+                    {tourMeta}
+                  </Typography>
+                ) : null}
+              </section>
+              <LeisureBody object={object} />
+            </>
           )}
         </div>
 
