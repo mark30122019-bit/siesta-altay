@@ -27,12 +27,7 @@ export default function PolitikaPage() {
         backLabel={UI_CONFIG.politika.backLabel}
       />
       <PolitikaCanvas />
-      <SiteFooter
-        sideLink={{
-          href: UI_CONFIG.routing.home.href,
-          label: UI_CONFIG.routing.home.label,
-        }}
-      />
+      <SiteFooter />
     </main>
   );
 }

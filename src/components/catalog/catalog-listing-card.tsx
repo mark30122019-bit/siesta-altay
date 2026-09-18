@@ -215,7 +215,7 @@ export function CatalogListingCard({
               isMap ? "" : "btn-tactile"
             )}
           >
-            {UI_CONFIG.common.bookCta}
+            {UI_CONFIG.common.openObject}
           </Link>
         </div>
       </div>

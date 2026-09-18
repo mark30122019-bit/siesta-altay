@@ -7,16 +7,25 @@ import { cn } from "@/lib/utils";
 
 export type SiteFooterProps = {
   tone?: "plain" | "chrome";
-  /** Опциональная ссылка слева (десктоп), напр. «В каталог» */
-  sideLink?: { href: string; label: string };
   className?: string;
 };
 
-export function SiteFooter({
-  tone = "chrome",
-  sideLink,
-  className,
-}: SiteFooterProps) {
+const FOOTER_NAV = [
+  {
+    href: UI_CONFIG.routing.catalog.href,
+    label: UI_CONFIG.routing.catalog.label,
+  },
+  {
+    href: UI_CONFIG.routing.corporate.href,
+    label: UI_CONFIG.routing.corporate.label,
+  },
+  {
+    href: "/politika",
+    label: UI_CONFIG.politika.footerLink,
+  },
+] as const;
+
+export function SiteFooter({ tone = "chrome", className }: SiteFooterProps) {
   const year = new Date().getFullYear();
 
   return (
@@ -30,63 +39,58 @@ export function SiteFooter({
     >
       <div
         className={cn(
-          "relative mx-auto flex min-h-[140px] w-full items-center justify-center px-6 py-6 text-center",
-          sideLink ? "md:px-[10vw]" : "max-w-[1440px] lg:px-10 xl:px-12"
+          "mx-auto flex min-h-[140px] w-full flex-col items-center justify-center gap-4 px-6 py-8 text-center",
+          "md:px-[10vw]"
         )}
       >
-        {sideLink ? (
-          <Link
-            href={sideLink.href}
-            className="absolute left-6 top-1/2 hidden -translate-y-1/2 font-sans text-sm font-medium tracking-wide text-[#F5EFE0]/80 transition-colors hover:text-[#D4A24A] md:left-[10vw] md:inline md:text-base"
-          >
-            {sideLink.label}
-          </Link>
-        ) : null}
-
-        <div className="flex flex-col items-center gap-3">
-          <Typography
-            variant="caption"
-            className={cn(
-              "text-xl tracking-wide",
-              tone === "chrome" ? "text-[#F5EFE0]" : "text-[#1A241C]"
-            )}
-          >
-            <span>{GLOBAL_CONFIG.companyName}</span>{" "}
-            <span
-              className={
-                tone === "chrome" ? "font-medium text-[#D4A24A]" : undefined
-              }
-            >
-              {UI_CONFIG.common.copyright} {year}
+        <nav
+          aria-label="Навигация"
+          className="flex flex-wrap items-center justify-center gap-x-1 gap-y-2"
+        >
+          {FOOTER_NAV.map((item, index) => (
+            <span key={item.href} className="flex items-center gap-x-1">
+              {index > 0 ? (
+                <span
+                  aria-hidden
+                  className={cn(
+                    "px-2 select-none",
+                    tone === "chrome" ? "text-[#F5EFE0]/25" : "text-[#1A241C]/20"
+                  )}
+                >
+                  ·
+                </span>
+              ) : null}
+              <Link
+                href={item.href}
+                className={cn(
+                  "font-sans text-sm tracking-wide transition-colors",
+                  tone === "chrome"
+                    ? "text-[#F5EFE0]/70 hover:text-[#D4A24A]"
+                    : "text-[#6B635A] hover:text-[#BC5434]"
+                )}
+              >
+                {item.label}
+              </Link>
             </span>
-          </Typography>
+          ))}
+        </nav>
 
-        <div className="flex flex-col items-center gap-2.5 sm:flex-row sm:gap-5">
-          <Link
-            href="/politika"
-            className={cn(
-              "font-sans text-sm tracking-wide transition-colors",
-              tone === "chrome"
-                ? "text-[#F5EFE0]/65 hover:text-[#D4A24A]"
-                : "text-[#6B635A] hover:text-[#BC5434]"
-            )}
+        <Typography
+          variant="caption"
+          className={cn(
+            "text-base tracking-wide md:text-lg",
+            tone === "chrome" ? "text-[#F5EFE0]/85" : "text-[#1A241C]"
+          )}
+        >
+          <span>{GLOBAL_CONFIG.companyName}</span>{" "}
+          <span
+            className={
+              tone === "chrome" ? "font-medium text-[#D4A24A]" : undefined
+            }
           >
-            {UI_CONFIG.politika.footerLink}
-          </Link>
-
-          <Link
-            href={UI_CONFIG.routing.corporate.href}
-            className={cn(
-              "font-sans text-sm tracking-wide transition-colors",
-              tone === "chrome"
-                ? "text-[#F5EFE0]/65 hover:text-[#D4A24A]"
-                : "text-[#6B635A] hover:text-[#BC5434]"
-            )}
-          >
-            {UI_CONFIG.routing.corporate.label}
-          </Link>
-        </div>
-        </div>
+            {UI_CONFIG.common.copyright} {year}
+          </span>
+        </Typography>
       </div>
     </footer>
   );

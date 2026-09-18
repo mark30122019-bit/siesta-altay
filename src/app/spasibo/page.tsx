@@ -22,12 +22,7 @@ export default function SpasiboPage() {
         backLabel={UI_CONFIG.routing.catalog.backLabel}
       />
       <SpasiboCanvas />
-      <SiteFooter
-        sideLink={{
-          href: UI_CONFIG.routing.catalog.href,
-          label: UI_CONFIG.routing.catalog.ctaLabel,
-        }}
-      />
+      <SiteFooter />
     </main>
   );
 }

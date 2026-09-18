@@ -17,14 +17,5 @@ export function BasePageHeader() {
 }
 
 export function BasePageFooter() {
-  const backHref = useCatalogReturnHref();
-
-  return (
-    <SiteFooter
-      sideLink={{
-        href: backHref,
-        label: UI_CONFIG.routing.catalog.backLabel,
-      }}
-    />
-  );
+  return <SiteFooter />;
 }

@@ -111,7 +111,7 @@ function CatalogCard({
             </Typography>
           ) : null}
           <span className="btn-tactile mt-2.5 inline-flex h-8 w-fit items-center justify-center rounded-xl border border-[#BC5434]/20 bg-gradient-to-b from-[#c86648] to-[#a8482c] px-4 text-[11px] leading-none text-white shadow-[0_3px_12px_rgba(188,84,52,0.24)] md:text-xs">
-            {UI_CONFIG.common.bookCta}
+            {UI_CONFIG.common.openObject}
           </span>
         </div>
       </Card>

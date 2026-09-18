@@ -30,18 +30,15 @@ export default function CatalogPage() {
   return (
     <main className="min-h-screen bg-[#F4F0E8]">
       <SiteHeader
+        showNav
+        activeNav="catalog"
         backHref={UI_CONFIG.routing.home.href}
         backLabel={UI_CONFIG.routing.home.backLabel}
       />
       <Suspense fallback={<div className="min-h-[50vh]" aria-hidden />}>
         <CatalogCanvas objects={objects} />
       </Suspense>
-      <SiteFooter
-        sideLink={{
-          href: UI_CONFIG.routing.corporate.href,
-          label: UI_CONFIG.routing.corporate.ctaLabel,
-        }}
-      />
+      <SiteFooter />
     </main>
   );
 }

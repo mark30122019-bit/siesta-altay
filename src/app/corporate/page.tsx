@@ -26,20 +26,15 @@ export default function CorporatePage() {
   const objects = GLOBAL_CONFIG.objects.filter(isObjectListedForEvents);
 
   return (
-    <main className="min-h-screen bg-[#0E1210]">
+    <main className="min-h-screen bg-[#F4F0E8]">
       <SiteHeader
+        showNav
+        activeNav="corporate"
         backHref={UI_CONFIG.routing.home.href}
         backLabel={UI_CONFIG.routing.home.backLabel}
-        className="border-b border-white/10 bg-[#0E1210]/85"
-        hideCorporateLink
       />
       <CorporateCanvas objects={objects} />
-      <SiteFooter
-        sideLink={{
-          href: UI_CONFIG.routing.catalog.href,
-          label: UI_CONFIG.routing.catalog.ctaLabel,
-        }}
-      />
+      <SiteFooter />
     </main>
   );
 }

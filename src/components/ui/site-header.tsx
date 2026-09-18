@@ -10,19 +10,40 @@ import { cn } from "@/lib/utils";
 
 const DESKTOP_INSET = "md:px-[10vw]";
 
+export type SiteHeaderNavId = "catalog" | "corporate";
+
 export type SiteHeaderProps = {
-  backHref: string;
-  backLabel: string;
   className?: string;
-  /** Скрыть ссылку «Мероприятия» (на самой странице /corporate) */
-  hideCorporateLink?: boolean;
+  /** Режим «назад» (страница базы, политика и т.п.) */
+  backHref?: string;
+  backLabel?: string;
+  /**
+   * Обычная навигация: Каталог + Мероприятия под брендом
+   * (каталог / мероприятия).
+   */
+  showNav?: boolean;
+  activeNav?: SiteHeaderNavId;
 };
+
+const NAV_ITEMS: { id: SiteHeaderNavId; href: string; label: string }[] = [
+  {
+    id: "catalog",
+    href: UI_CONFIG.routing.catalog.href,
+    label: UI_CONFIG.routing.catalog.label,
+  },
+  {
+    id: "corporate",
+    href: UI_CONFIG.routing.corporate.href,
+    label: UI_CONFIG.routing.corporate.label,
+  },
+];
 
 export function SiteHeader({
   backHref,
   backLabel,
   className,
-  hideCorporateLink = false,
+  showNav = false,
+  activeNav,
 }: SiteHeaderProps) {
   const [isHidden, setIsHidden] = useState(false);
   const isHiddenRef = useRef(isHidden);
@@ -56,18 +77,11 @@ export function SiteHeader({
           return;
         }
 
-        // Анти-дерганье:
-        // - вниз копим расстояние до скрытия
-        // - вверх копим до показа (микрошаги вверх не вернут header мгновенно)
         const START_HIDE_AFTER_PX = 40;
         const SHOW_AFTER_UP_PX = 14;
-        // Показываем header только в верхней зоне страницы,
-        // чтобы он не "вылезал" в середине из-за микродвижений/инерции.
         const SHOW_ONLY_NEAR_TOP_PX = 160;
         const isNearTop = currentY <= SHOW_ONLY_NEAR_TOP_PX;
 
-        // Дополнительно: при приближении к футеру точно скрываем,
-        // но обратно показываем ТОЛЬКО по порогу вверх.
         const footerEl = document.querySelector("footer");
         const footerTop = footerEl
           ? footerEl.getBoundingClientRect().top + currentY
@@ -123,34 +137,66 @@ export function SiteHeader({
     >
       <div
         className={cn(
-          "mx-auto flex w-full items-center justify-between gap-4 px-6 py-5 md:py-6",
+          "mx-auto flex w-full items-center px-6 py-5 md:py-6",
           DESKTOP_INSET
         )}
       >
-        <div className="flex min-w-0 flex-col gap-2">
+        <div className="flex min-w-0 flex-col gap-2.5">
           <Link
             href="/"
             className="cursor-pointer font-serif text-lg font-normal tracking-[0.06em] text-[#F5EFE0] transition-colors hover:text-white md:text-xl"
           >
             {GLOBAL_CONFIG.brandName}
           </Link>
-          <Button
-            variant="ghost"
-            href={backHref}
-            className="w-fit px-0 py-0 font-sans text-[13px] font-medium tracking-wide text-white/80 hover:bg-transparent hover:text-white md:text-sm"
-          >
-            {backLabel}
-          </Button>
-        </div>
 
-        {!hideCorporateLink ? (
-          <Link
-            href={UI_CONFIG.routing.corporate.href}
-            className="shrink-0 font-sans text-[13px] font-medium tracking-wide text-white/80 transition-colors hover:text-[#D4A24A] md:text-sm"
-          >
-            {UI_CONFIG.routing.corporate.label}
-          </Link>
-        ) : null}
+          {(backHref && backLabel) || showNav ? (
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+              {backHref && backLabel ? (
+                <Button
+                  variant="ghost"
+                  href={backHref}
+                  className="w-fit px-0 py-0 font-sans text-[13px] font-medium tracking-wide text-white/80 hover:bg-transparent hover:text-white md:text-sm"
+                >
+                  {backLabel}
+                </Button>
+              ) : null}
+
+              {showNav ? (
+                <>
+                  {backHref && backLabel ? (
+                    <span
+                      aria-hidden
+                      className="hidden h-3 w-px bg-white/25 sm:block"
+                    />
+                  ) : null}
+                  <nav
+                    aria-label="Разделы сайта"
+                    className="flex flex-wrap items-center gap-x-4 gap-y-1"
+                  >
+                    {NAV_ITEMS.map((item) => {
+                      const active = activeNav === item.id;
+                      return (
+                        <Link
+                          key={item.id}
+                          href={item.href}
+                          aria-current={active ? "page" : undefined}
+                          className={cn(
+                            "font-sans text-[13px] font-medium tracking-wide transition-colors md:text-sm",
+                            active
+                              ? "text-white"
+                              : "text-white/70 hover:text-white"
+                          )}
+                        >
+                          {item.label}
+                        </Link>
+                      );
+                    })}
+                  </nav>
+                </>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
       </div>
     </header>
   );

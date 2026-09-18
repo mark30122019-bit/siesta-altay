@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+import { CatalogMap } from "@/components/catalog/catalog-map";
 import { CorporateListingCard } from "@/components/corporate/corporate-listing-card";
 import { Typography } from "@/components/ui/typography";
 import { UI_CONFIG } from "@/config/uiConfig";
@@ -23,9 +24,11 @@ const cardMotion = {
 };
 
 type CapacitySelection = EventsCapacityFilterSlug | "all";
+type ViewMode = "list" | "map";
 
 export function CorporateCanvas({ objects }: { objects: BaseObject[] }) {
   const [capacity, setCapacity] = useState<CapacitySelection>("all");
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
   const copy = UI_CONFIG.corporate;
 
   const filtered = useMemo(() => {
@@ -36,84 +39,87 @@ export function CorporateCanvas({ objects }: { objects: BaseObject[] }) {
   }, [objects, capacity]);
 
   return (
-    <div className="mx-auto w-full max-w-[1440px] px-6 pb-16 pt-10 md:px-[10vw] md:pb-20 md:pt-12">
-      <header className="mb-8 max-w-2xl md:mb-10">
-        <Typography
-          variant="caption"
-          className="mb-3 block font-sans text-[11px] font-semibold uppercase tracking-[0.14em] text-[#D4A24A]"
-        >
-          {UI_CONFIG.routing.corporate.label}
-        </Typography>
-        <Typography
-          variant="h1"
-          className="font-sans text-[1.75rem] font-semibold tracking-wide text-[#F2F0EA] sm:text-3xl md:text-4xl"
-        >
-          {copy.title}
-        </Typography>
-        <Typography
-          variant="body"
-          className="mt-3 text-[15px] leading-relaxed text-[#A8A49A] md:text-base"
-        >
-          {copy.subtitle}
-        </Typography>
-        <Typography
-          variant="caption"
-          className="mt-4 block text-[13px] leading-relaxed text-[#7A766C]"
-        >
-          {copy.lead}
-        </Typography>
-      </header>
-
-      <div className="mb-8 flex flex-col gap-3 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
-        <Typography
-          variant="caption"
-          className="font-sans text-[12px] font-semibold uppercase tracking-[0.1em] text-[#8A867C]"
-        >
-          {copy.capacityFilter}
-        </Typography>
-        <div
-          className="flex flex-wrap gap-2"
-          role="group"
-          aria-label={copy.capacityFilter}
-        >
-          <CapacityChip
-            label={copy.capacityAll}
-            active={capacity === "all"}
-            onClick={() => setCapacity("all")}
-          />
-          {EVENTS_CAPACITY_FILTERS.map((item) => (
+    <div
+      className={cn(
+        "mx-auto w-full px-4 pt-8 md:px-[5vw] md:pt-10",
+        viewMode === "map" ? "pb-0" : "pb-16 md:pb-20"
+      )}
+    >
+      <div className="mb-8 flex flex-col gap-4 border-b border-[#1A241C]/10 pb-6 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <Typography
+            variant="caption"
+            className="font-sans text-[12px] font-semibold uppercase tracking-[0.1em] text-[#5A635C]"
+          >
+            {copy.capacityFilter}
+          </Typography>
+          <div
+            className="flex flex-wrap gap-2"
+            role="group"
+            aria-label={copy.capacityFilter}
+          >
             <CapacityChip
-              key={item.slug}
-              label={item.label}
-              active={capacity === item.slug}
-              onClick={() => setCapacity(item.slug)}
+              label={copy.capacityAll}
+              active={capacity === "all"}
+              onClick={() => setCapacity("all")}
             />
-          ))}
+            {EVENTS_CAPACITY_FILTERS.map((item) => (
+              <CapacityChip
+                key={item.slug}
+                label={item.label}
+                active={capacity === item.slug}
+                onClick={() => setCapacity(item.slug)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 self-start lg:self-auto">
+          <Typography
+            variant="caption"
+            className="font-sans text-[12px] font-medium tracking-wide text-[#5A635C]"
+          >
+            {viewMode === "list"
+              ? UI_CONFIG.filters.list
+              : UI_CONFIG.filters.map}
+          </Typography>
+          <ViewToggle
+            checked={viewMode === "map"}
+            onChange={() =>
+              setViewMode((prev) => (prev === "list" ? "map" : "list"))
+            }
+            label={UI_CONFIG.filters.viewMode}
+          />
         </div>
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-white/15 bg-[#151A17] px-6 py-14 text-center">
+        <div className="rounded-xl border border-dashed border-[#1A241C]/15 bg-white/60 px-6 py-14 text-center">
           <Typography
             variant="h3"
-            className="font-sans text-lg font-semibold text-[#E8E6E1]"
+            className="font-sans text-lg font-semibold text-[#1A241C]"
           >
             {copy.empty}
           </Typography>
           <Typography
             variant="body"
-            className="mx-auto mt-2 max-w-md text-[14px] text-[#9A968C]"
+            className="mx-auto mt-2 max-w-md text-[14px] text-[#5A635C]"
           >
             {copy.emptySubtitle}
           </Typography>
           <button
             type="button"
             onClick={() => setCapacity("all")}
-            className="mt-6 font-sans text-[13px] font-semibold uppercase tracking-[0.08em] text-[#D4A24A] transition-colors hover:text-[#E8C06A]"
+            className="mt-6 font-sans text-[13px] font-semibold uppercase tracking-[0.08em] text-[#8A6A2E] transition-colors hover:text-[#6B5220]"
           >
             {copy.emptyReset}
           </button>
         </div>
+      ) : viewMode === "map" ? (
+        <>
+          <CatalogMap objects={filtered} variant="corporate" />
+          <div className="h-[15vh] md:h-[17vh]" aria-hidden />
+        </>
       ) : (
         <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           <AnimatePresence mode="popLayout">
@@ -151,11 +157,42 @@ function CapacityChip({
       className={cn(
         "rounded-md border px-3.5 py-2 font-sans text-[13px] font-medium tracking-wide transition-colors",
         active
-          ? "border-[#D4A24A]/70 bg-[#D4A24A]/15 text-[#F2F0EA]"
-          : "border-white/15 bg-transparent text-[#B8B3A8] hover:border-white/30 hover:text-[#E8E6E1]"
+          ? "border-[#1A241C] bg-[#1A241C] text-[#F5F6F4]"
+          : "border-transparent bg-[#F0EBE3] text-[#6B635A] hover:bg-[#E8E0D4]"
       )}
     >
       {label}
+    </button>
+  );
+}
+
+function ViewToggle({
+  checked,
+  onChange,
+  label,
+}: {
+  checked: boolean;
+  onChange: () => void;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      onClick={onChange}
+      className={cn(
+        "relative h-5 w-9 shrink-0 rounded-full transition-colors",
+        checked ? "bg-[#1A241C]" : "bg-[#C5CBC5]"
+      )}
+    >
+      <span
+        className={cn(
+          "absolute top-0.5 size-4 rounded-full bg-white shadow-sm transition-transform",
+          checked ? "left-[1.125rem]" : "left-0.5"
+        )}
+      />
     </button>
   );
 }

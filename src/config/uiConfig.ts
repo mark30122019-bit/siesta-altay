@@ -9,6 +9,7 @@ export const UI_CONFIG = {
     catalog: {
       href: "/catalog",
       backLabel: "← К каталогу объектов",
+      label: "Отдых",
       /** CTA / короткая ссылка «в каталог» */
       ctaLabel: "В каталог",
     },
@@ -22,6 +23,7 @@ export const UI_CONFIG = {
   common: {
     copyright: "©",
     bookCta: "Забронировать",
+    openObject: "Оставить заявку",
     tourBadge: "3D-тур",
   },
   home: {
@@ -187,15 +189,15 @@ export const UI_CONFIG = {
     emptySubtitle:
       "Данные по залам ещё собираем с базами. Сбросьте фильтр или напишите нам — подберём вручную.",
     emptyReset: "Сбросить фильтр",
-    buyoutYes: "Выкуп целиком",
-    buyoutNo: "Выкуп уточняется",
+    buyoutYes: "Да",
+    buyoutNo: "Уточняется",
+    buyoutUnavailable: "Нет",
     cashless: "Безнал",
-    legalEntity: "Работа с юрлицом",
+    legalEntity: "Юрлицо",
     venuesLabel: "Залы",
+    venuesUnknown: "Уточняется",
     sleepingLabel: "Спальных мест",
     aerialBadge: "Есть аэропанорама",
-    openObject: "Смотреть объект",
-    lead: "Для организаторов: вместимость, залы, выкуп и условия — без туристической «обёртки».",
   },
   spasibo: {
     title: "Заявка принята",
