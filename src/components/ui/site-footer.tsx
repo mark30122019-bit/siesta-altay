@@ -20,6 +20,10 @@ const FOOTER_NAV = [
     label: UI_CONFIG.routing.corporate.label,
   },
   {
+    href: UI_CONFIG.routing.weddings.href,
+    label: UI_CONFIG.routing.weddings.label,
+  },
+  {
     href: "/politika",
     label: UI_CONFIG.politika.footerLink,
   },

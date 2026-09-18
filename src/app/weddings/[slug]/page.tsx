@@ -9,20 +9,20 @@ import { UI_CONFIG } from "@/config/uiConfig";
 import { SITE_SEO, absoluteAssetUrl, absoluteUrl } from "@/config/site";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { lodgingJsonLd } from "@/lib/seo";
-import { isObjectListed } from "@/lib/object-flags";
+import { isObjectListedForWeddings } from "@/lib/object-events";
 
-type BaseDetailPageProps = {
+type WeddingsDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-function findListedObject(slug: string) {
+function findWeddingsObject(slug: string) {
   return GLOBAL_CONFIG.objects.find(
-    (object) => object.slug === slug && isObjectListed(object)
+    (object) => object.slug === slug && isObjectListedForWeddings(object)
   );
 }
 
 function objectOgImage(slug: string) {
-  const object = findListedObject(slug);
+  const object = findWeddingsObject(slug);
   if (!object) return SITE_SEO.ogImage;
   return (
     object.seo.og_image ||
@@ -34,15 +34,15 @@ function objectOgImage(slug: string) {
 
 export function generateStaticParams() {
   return GLOBAL_CONFIG.objects
-    .filter(isObjectListed)
+    .filter(isObjectListedForWeddings)
     .map((object) => ({ slug: object.slug }));
 }
 
 export async function generateMetadata({
   params,
-}: BaseDetailPageProps): Promise<Metadata> {
+}: WeddingsDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const object = findListedObject(slug);
+  const object = findWeddingsObject(slug);
 
   if (!object) {
     return {
@@ -51,10 +51,12 @@ export async function generateMetadata({
     };
   }
 
-  const url = absoluteUrl(`/base/${object.slug}`);
+  const url = absoluteUrl(`/weddings/${object.slug}`);
   const image = absoluteAssetUrl(objectOgImage(slug));
-  const title = object.seo.title;
-  const description = object.seo.description;
+  const title = `${object.name} — свадьба`;
+  const description =
+    object.seo.description ||
+    `Площадка для свадьбы: ${object.name}. Церемония, банкет, выкуп и заявка.`;
 
   return {
     title,
@@ -67,12 +69,7 @@ export async function generateMetadata({
       title,
       description,
       url,
-      images: [
-        {
-          url: image,
-          alt: object.name,
-        },
-      ],
+      images: [{ url: image, alt: object.name }],
     },
     twitter: {
       card: "summary_large_image",
@@ -83,16 +80,18 @@ export async function generateMetadata({
   };
 }
 
-export default async function BaseDetailPage({ params }: BaseDetailPageProps) {
+export default async function WeddingsDetailPage({
+  params,
+}: WeddingsDetailPageProps) {
   const { slug } = await params;
-  const object = findListedObject(slug);
+  const object = findWeddingsObject(slug);
 
   if (!object) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-4">
         <Typography variant="h2">{UI_CONFIG.base.notFoundTitle}</Typography>
-        <Button variant="outline" href={UI_CONFIG.routing.home.href}>
-          {UI_CONFIG.routing.home.label}
+        <Button variant="outline" href={UI_CONFIG.routing.weddings.href}>
+          {UI_CONFIG.routing.weddings.label}
         </Button>
       </main>
     );
@@ -102,7 +101,7 @@ export default async function BaseDetailPage({ params }: BaseDetailPageProps) {
     <>
       <JsonLdScript data={lodgingJsonLd(object)} />
       <Suspense fallback={<div className="min-h-screen bg-[#F4F0E8]" aria-hidden />}>
-        <BasePageModeGate object={object} defaultMode="leisure" />
+        <BasePageModeGate object={object} defaultMode="weddings" />
       </Suspense>
     </>
   );

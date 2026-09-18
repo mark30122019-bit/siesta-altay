@@ -14,6 +14,7 @@ const MAX_NAME = 80;
 const MAX_PHONE = 32;
 const MAX_DATES = 120;
 const MAX_OBJECT = 160;
+const MAX_INTENT = 80;
 const MAX_URL = 500;
 
 const DEFAULT_ORIGINS = [
@@ -70,8 +71,10 @@ function isValidPayload(body) {
 }
 
 function buildMessage(body) {
+  const intent = clip(body.intent, MAX_INTENT);
   const lines = [
     "⚡️ Новая заявка с сайта «Алтай изнутри»",
+    ...(intent ? [`🏷 ${intent}`] : []),
     "",
     `👤 Имя: ${clip(body.name, MAX_NAME)}`,
     `📞 Телефон: ${clip(body.phone, MAX_PHONE)}`,
@@ -84,9 +87,11 @@ function buildMessage(body) {
 
   const slug = clip(body.objectSlug, 80);
   const pageUrl = clip(body.pageUrl, MAX_URL);
-  const objectUrl = slug
-    ? `https://mark30122019-bit.github.io/siesta-altay/base/${slug}`
-    : pageUrl;
+  const objectUrl =
+    pageUrl ||
+    (slug
+      ? `https://mark30122019-bit.github.io/siesta-altay/base/${slug}`
+      : "");
 
   if (objectUrl) {
     lines.push(`🔗 ${objectUrl}`);

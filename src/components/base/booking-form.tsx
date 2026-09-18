@@ -23,9 +23,15 @@ import { sendBookingToTelegram } from "@/lib/send-booking-telegram";
 type BookingFormProps = {
   objectName?: string;
   objectSlug?: string;
+  /** Пометка в Telegram: корпоратив / свадьба и т.п. */
+  intent?: string;
 };
 
-export function BookingForm({ objectName, objectSlug }: BookingFormProps) {
+export function BookingForm({
+  objectName,
+  objectSlug,
+  intent,
+}: BookingFormProps) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -57,6 +63,7 @@ export function BookingForm({ objectName, objectSlug }: BookingFormProps) {
       dates: formatDateRangeLabel(dates),
       objectName,
       objectSlug,
+      intent,
       pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
     });
 

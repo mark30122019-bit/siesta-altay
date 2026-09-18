@@ -358,6 +358,534 @@ const icons = {
       <path d="M3 21l7-7" />
     </svg>
   ),
+  /** Свадьба: площадка церемонии */
+  ceremony: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 20V10l8-6 8 6v10" />
+      <path d="M9 20v-6h6v6" />
+      <circle cx="12" cy="11" r="1.25" />
+    </svg>
+  ),
+  /** Свадьба: план на дождь */
+  umbrella: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 12v8" />
+      <path d="M12 4a8 8 0 0 1 8 8H4a8 8 0 0 1 8-8Z" />
+      <path d="M12 20c1.2 0 2-.8 2-1.8" />
+    </svg>
+  ),
+  /** Свадьба: комната невесты */
+  door: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16" />
+      <path d="M3 21h18" />
+      <path d="M14 12h.01" />
+    </svg>
+  ),
+  /** Свадьба: свои подрядчики */
+  vendors: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+      <path d="M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+      <path d="M3 20v-1a4 4 0 0 1 4-4h2" />
+      <path d="M15 15h2a4 4 0 0 1 4 4v1" />
+    </svg>
+  ),
+  /** Свадьба: фотозоны */
+  camera: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" />
+      <circle cx="12" cy="14" r="3.5" />
+    </svg>
+  ),
+  /** Рубль — Lucide russian-ruble */
+  ruble: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 11h8a4 4 0 0 0 0-8H9v18" />
+      <path d="M6 15h8" />
+    </svg>
+  ),
+  /** Несколько домов — Lucide houses */
+  houses: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m12.681 4.24.834-.715a1.45 1.45 0 0 1 1.88 0l5.09 4.364A1.45 1.45 0 0 1 21 9v6.546a1.45 1.45 0 0 1-1 1.381" />
+      <path d="M15.485 11.889A1.45 1.45 0 0 1 16 13v6.546A1.454 1.454 0 0 1 14.546 21H4.364a1.454 1.454 0 0 1-1.454-1.454V13a1.45 1.45 0 0 1 .515-1.111l5.09-4.364a1.45 1.45 0 0 1 1.88 0z" />
+      <path d="M7.41 20.546v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4" />
+    </svg>
+  ),
+  /** Своя кухня — Lucide apple */
+  apple: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z" />
+      <path d="M10 2c1 .5 2 2 2 5" />
+    </svg>
+  ),
+  /** Банкетное меню — Lucide ice-cream-cone */
+  iceCream: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m7 11 4.08 10.35a1 1 0 0 0 1.84 0L17 11" />
+      <path d="M17 7A5 5 0 0 0 7 7" />
+      <path d="M17 7a2 2 0 0 1 0 4H7a2 2 0 0 1 0-4" />
+    </svg>
+  ),
+  /** Кейтеринг: нож и вилка */
+  utensils: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
+      <path d="M7 2v20" />
+      <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
+    </svg>
+  ),
+  /** Один человек */
+  user: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  ),
+  /** Суммирование */
+  sigma: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M18 7H6l6 5-6 5h12" />
+    </svg>
+  ),
+  /** Колонка / звук */
+  speaker: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" />
+      <path d="M16 9a5 5 0 0 1 0 6" />
+      <path d="M19.364 18.364a9 9 0 0 0 0-12.728" />
+    </svg>
+  ),
+  /** Подъезд: стрелка справа налево */
+  arrowLeft: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m12 19-7-7 7-7" />
+      <path d="M19 12H5" />
+    </svg>
+  ),
+  /** Разворот: поворачивающая стрелка */
+  uTurn: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M9 14 4 9l5-5" />
+      <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11" />
+    </svg>
+  ),
+  /** Город */
+  city: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+      <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+      <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+      <path d="M10 6h4M10 10h4M10 14h4M10 18h4" />
+    </svg>
+  ),
+  /** Земной шар */
+  globe: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+      <path d="M2 12h20" />
+    </svg>
+  ),
+  /** Снежинка */
+  snowflake: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m10 20-1.25-2.5L6 18" />
+      <path d="M10 4 8.75 6.5 6 6" />
+      <path d="m14 20 1.25-2.5L18 18" />
+      <path d="m14 4 1.25 2.5L18 6" />
+      <path d="m17 21-3-6h-4" />
+      <path d="m17 3-3 6 1.5 3" />
+      <path d="M2 12h6.5L10 9" />
+      <path d="m20 10-1.5 2 1.5 2" />
+      <path d="M22 12h-6.5L14 15" />
+      <path d="m4 10 1.5 2L4 14" />
+      <path d="m7 21 3-6-1.5-3" />
+      <path d="m7 3 3 6h4" />
+    </svg>
+  ),
+  /** Термометр */
+  thermometer: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" />
+    </svg>
+  ),
+  /** Свадьба: сердце */
+  heart: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+    </svg>
+  ),
+  /** Прокат лодок — Lucide sailboat */
+  boat: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M10 2v15" />
+      <path d="M7 22a4 4 0 0 1-4-4 1 1 0 0 1 1-1h16a1 1 0 0 1 1 1 4 4 0 0 1-4 4z" />
+      <path d="M9.159 2.46a1 1 0 0 1 1.521-.193l9.977 8.98A1 1 0 0 1 20 13H4a1 1 0 0 1-.824-1.567z" />
+    </svg>
+  ),
+  /** Сезон — Lucide leaf */
+  leaf: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M11 20a10 10 0 0 0 10-10 25.9 25.9 0 0 0-1.04-7.281 1 1 0 0 0-1.755-.325C15.833 5.5 13 5.5 9.8 6.1A7 7 0 0 0 11 20" />
+      <path d="M2 21a5 5 0 0 1 2.911-4.544C7.613 15.212 8.351 15.24 11 13" />
+    </svg>
+  ),
+  /** Квадроциклы */
+  bike: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="18.5" cy="17.5" r="3.5" />
+      <circle cx="5.5" cy="17.5" r="3.5" />
+      <circle cx="15" cy="5" r="1" />
+      <path d="M12 17.5V14l-3-3 4-3 2 3h3" />
+    </svg>
+  ),
+  /** Беговые дорожки */
+  footprints: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z" />
+      <path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z" />
+      <path d="M16 17h4M4 13h4" />
+    </svg>
+  ),
+  /** Техника — Tabler user-screen */
+  userScreen: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M19.03 17.818a3 3 0 0 0 1.97-2.818v-8a3 3 0 0 0-3-3h-12a3 3 0 0 0-3 3v8c0 1.317.85 2.436 2.03 2.84" />
+      <path d="M10 14a2 2 0 1 0 4 0a2 2 0 0 0-4 0" />
+      <path d="M8 21a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2" />
+    </svg>
+  ),
+  /** Официант / внешний кейтеринг — Lucide hand-platter */
+  waiter: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 3V2" />
+      <path d="m15.4 17.4 3.2-2.8a2 2 0 1 1 2.8 2.9l-3.6 3.3c-.7.8-1.7 1.2-2.8 1.2h-4c-1.1 0-2.1-.4-2.8-1.2l-1.302-1.464A1 1 0 0 0 6.151 19H5" />
+      <path d="M2 14h12a2 2 0 0 1 0 4h-2" />
+      <path d="M4 10h16" />
+      <path d="M5 10a7 7 0 0 1 14 0" />
+      <path d="M5 14v6a1 1 0 0 1-1 1H2" />
+    </svg>
+  ),
+  projector: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5 7V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" />
+      <path d="M2 10h20" />
+      <rect width="20" height="9" x="2" y="10" rx="1" />
+      <path d="M8 19v2M16 19v2" />
+      <circle cx="12" cy="14.5" r="1.5" />
+    </svg>
+  ),
+  screen: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect width="20" height="14" x="2" y="3" rx="2" />
+      <path d="M8 21h8M12 17v4" />
+    </svg>
+  ),
+  mic: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 19v3" />
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+      <rect width="6" height="13" x="9" y="2" rx="3" />
+    </svg>
+  ),
+  bus: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M8 6v6M15 6v6M2 12h19.6" />
+      <path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3" />
+      <circle cx="7" cy="18" r="2" />
+      <path d="M9 18h5" />
+      <circle cx="16" cy="18" r="2" />
+    </svg>
+  ),
+  bed: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M2 4v16" />
+      <path d="M2 8h18a2 2 0 0 1 2 2v10" />
+      <path d="M2 17h20" />
+      <path d="M6 8v9" />
+    </svg>
+  ),
+  document: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+      <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+      <path d="M10 9H8M16 13H8M16 17H8" />
+    </svg>
+  ),
+  plug: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 22v-5" />
+      <path d="M9 8V2" />
+      <path d="M15 8V2" />
+      <path d="M18 8v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V8Z" />
+    </svg>
+  ),
 } as const;
 
 export type IconName = keyof typeof icons;
@@ -370,7 +898,7 @@ export interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 /**
  * Локальный SSR-компонент иконок (инлайн SVG, без CDN).
- * name: bath | pool | water | wifi | fog | mountains | tree | dog | map | chevron | chevronLeft | chevronDown | calendar | phone | quote | star | home | users | parking | food | check | plus | close | expand | compress
+ * name: bath | pool | water | wifi | fog | mountains | tree | dog | map | chevron | chevronLeft | chevronDown | calendar | phone | quote | star | home | users | parking | food | check | plus | close | expand | compress | ceremony | umbrella | door | vendors | camera | ruble | houses | apple | iceCream | utensils | user | sigma | speaker | arrowLeft | uTurn | city | globe | snowflake | thermometer | heart | boat | leaf | bike | footprints | userScreen | waiter | projector | screen | mic | bus | bed | document | plug
  */
 function Icon({ name, size = 24, className, title, ...props }: IconProps) {
   const svg = icons[name];

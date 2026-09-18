@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 const DESKTOP_INSET = "md:px-[10vw]";
 
-export type SiteHeaderNavId = "catalog" | "corporate";
+export type SiteHeaderNavId = "catalog" | "corporate" | "weddings";
 
 export type SiteHeaderProps = {
   className?: string;
@@ -18,8 +18,7 @@ export type SiteHeaderProps = {
   backHref?: string;
   backLabel?: string;
   /**
-   * Обычная навигация: Каталог + Мероприятия под брендом
-   * (каталог / мероприятия).
+   * Обычная навигация: Отдых / Мероприятия / Свадьбы
    */
   showNav?: boolean;
   activeNav?: SiteHeaderNavId;
@@ -35,6 +34,11 @@ const NAV_ITEMS: { id: SiteHeaderNavId; href: string; label: string }[] = [
     id: "corporate",
     href: UI_CONFIG.routing.corporate.href,
     label: UI_CONFIG.routing.corporate.label,
+  },
+  {
+    id: "weddings",
+    href: UI_CONFIG.routing.weddings.href,
+    label: UI_CONFIG.routing.weddings.label,
   },
 ];
 

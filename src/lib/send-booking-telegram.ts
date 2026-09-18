@@ -6,6 +6,8 @@ export type BookingTelegramPayload = {
   dates: string;
   objectName?: string;
   objectSlug?: string;
+  /** Пометка заявки: «корпоратив / мероприятие», «свадьба» */
+  intent?: string;
   pageUrl?: string;
 };
 

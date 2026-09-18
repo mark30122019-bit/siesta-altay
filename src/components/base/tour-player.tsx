@@ -6,19 +6,23 @@ import { TourIframe } from "@/components/base/tour-iframe";
 import { Icon } from "@/components/ui/icon";
 import { UI_CONFIG } from "@/config/uiConfig";
 import { assetPath } from "@/config/site";
+import { hasAerialPanorama } from "@/lib/object-events";
 import type { BaseObject } from "@/types";
 import { cn } from "@/lib/utils";
 
 export function TourPlayer({
   object,
   locationLine,
+  preferAerial = false,
 }: {
   object: BaseObject;
   locationLine?: string;
+  preferAerial?: boolean;
 }) {
   const tourUrl = object.tour.url;
   const cover = object.tour.preview || object.photos[0]?.src || "";
   const title = `${object.name} — ${UI_CONFIG.common.tourBadge}`;
+  const showAerialPriority = preferAerial && hasAerialPanorama(object);
 
   const stageRef = useRef<HTMLDivElement>(null);
   const [started, setStarted] = useState(false);
@@ -95,13 +99,19 @@ export function TourPlayer({
 
   return (
     <div className="space-y-3">
-            {locationLine ? (
+      {locationLine ? (
         <div className="flex items-center justify-start gap-4 py-2 px-8">
           <p className="inline-flex min-w-0 items-center gap-2 font-sans text-[20px] leading-snug tracking-wide text-[#6B635A]">
             <Icon name="map" size={16} className="shrink-0 text-[#8A8278]" />
             <span className="min-w-0">{locationLine}</span>
           </p>
         </div>
+      ) : null}
+
+      {showAerialPriority ? (
+        <p className="font-sans text-[13px] leading-relaxed text-[#6B635A] md:text-[14px]">
+          {UI_CONFIG.corporate.page.aerialHint}
+        </p>
       ) : null}
 
       <div
@@ -130,13 +140,20 @@ export function TourPlayer({
               />
             )}
             <div className="absolute inset-0 bg-black/20" aria-hidden />
+            {showAerialPriority ? (
+              <span className="absolute left-3 top-3 z-10 rounded-lg bg-black/55 px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wide text-white md:text-[12px]">
+                {UI_CONFIG.corporate.aerialBadge}
+              </span>
+            ) : null}
             <div className="absolute inset-0 flex items-center justify-center p-4">
               <button
                 type="button"
                 onClick={() => setStarted(true)}
                 className="btn-tactile inline-flex items-center justify-center rounded-xl border border-white/40 bg-[#1A241C]/92 px-5 py-3 font-sans text-[13px] font-semibold tracking-[0.06em] text-white shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-colors hover:bg-[#1A241C] md:text-sm"
               >
-                {UI_CONFIG.base.enter360}
+                {showAerialPriority
+                  ? UI_CONFIG.corporate.page.enterAerial
+                  : UI_CONFIG.base.enter360}
               </button>
             </div>
           </>
@@ -167,8 +184,6 @@ export function TourPlayer({
           </div>
         ) : null}
       </div>
-
-
     </div>
   );
 }

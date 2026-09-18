@@ -4,7 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { TourIframe } from "@/components/base/tour-iframe";
 import { CatalogListingCard } from "@/components/catalog/catalog-listing-card";
-import { CorporateListingCard } from "@/components/corporate/corporate-listing-card";
+import { EventsListingCard } from "@/components/events/events-listing-card";
+import type { EventsSectionVariant } from "@/components/events/events-listing-card";
 import { Icon } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
 import { YANDEX_MAPS_API_KEY } from "@/config/maps";
@@ -33,7 +34,7 @@ type CatalogMapProps = {
   objects: BaseObject[];
   className?: string;
   /** Карточка на оверлее и подсказка маркера */
-  variant?: "catalog" | "corporate";
+  variant?: "catalog" | EventsSectionVariant;
 };
 
 type YMapWithContainer = {
@@ -372,7 +373,8 @@ export function CatalogMap({
           }
 
           const detail =
-            variantRef.current === "corporate"
+            variantRef.current === "corporate" ||
+            variantRef.current === "weddings"
               ? formatEventsCapacityLabel(getEventsCapacityMax(object)) ??
                 UI_CONFIG.corporate.capacityUnknown
               : formatObjectPrice(object);
@@ -459,11 +461,12 @@ export function CatalogMap({
             )}
           >
             <div className="catalog-map-card-scroll max-h-[min(70dvh,calc(100dvh-7.5rem))] overflow-x-hidden overflow-y-auto overscroll-contain rounded-xl shadow-[0_20px_50px_rgba(42,36,28,0.18)] sm:max-h-full">
-              {variant === "corporate" ? (
-                <CorporateListingCard
+              {variant === "corporate" || variant === "weddings" ? (
+                <EventsListingCard
                   key={selected.slug}
                   object={selected}
                   mode="map"
+                  variant={variant}
                   onClose={closeSelected}
                   className="shadow-none"
                 />

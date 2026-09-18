@@ -120,3 +120,77 @@ export function formatEventsCapacityLabel(capacity: number | null): string | nul
   if (capacity == null) return null;
   return `до ${capacity} гостей`;
 }
+
+/** Свадебные фильтры (мультивыбор, AND по явно true). */
+export const WEDDING_FEATURE_FILTERS = [
+  { slug: "ceremony_spot", label: "Площадка церемонии", field: "ceremony_spot" },
+  { slug: "ceremony_rain_plan", label: "План на дождь", field: "ceremony_rain_plan" },
+  { slug: "bride_room", label: "Комната невесты", field: "bride_room" },
+  {
+    slug: "external_vendors",
+    label: "Свои подрядчики",
+    field: "external_vendors_allowed",
+  },
+  { slug: "exclusive_date", label: "Эксклюзивная дата", field: "exclusive_date" },
+] as const;
+
+export type WeddingFeatureFilterSlug =
+  (typeof WEDDING_FEATURE_FILTERS)[number]["slug"];
+
+/** Есть ли зачаток wedding-данных. */
+export function hasWeddingPreviewSignal(
+  events: EventsConfig | undefined
+): boolean {
+  if (!events) return false;
+  const w = events.wedding;
+  if (w.ceremony_spot === true) return true;
+  if (w.ceremony_rain_plan === true) return true;
+  if (w.bride_room === true) return true;
+  if (w.external_vendors_allowed === true) return true;
+  if (w.exclusive_date === true) return true;
+  if (w.photo_spots.trim().length > 0) return true;
+  if ((w.noise_curfew ?? "").trim().length > 0) return true;
+  return false;
+}
+
+/**
+ * Витрина «Свадьбы».
+ * - suitable === false → скрыть
+ * - wedding-сигнал → показать
+ * - MVP: иначе как events-витрина (пока wedding почти пустой)
+ */
+export function isObjectListedForWeddings(
+  object: Pick<BaseObject, "status" | "events">
+): boolean {
+  if (!isObjectListed(object)) return false;
+  const suitable = object.events?.suitable;
+  if (suitable === false) return false;
+  if (hasWeddingPreviewSignal(object.events)) return true;
+  return hasEventsPreviewSignal(object.events);
+}
+
+export function matchesWeddingFeatureFilters(
+  object: Pick<BaseObject, "events">,
+  slugs: readonly WeddingFeatureFilterSlug[]
+): boolean {
+  if (slugs.length === 0) return true;
+  const wedding = object.events?.wedding;
+  if (!wedding) return false;
+
+  for (const slug of slugs) {
+    const filter = WEDDING_FEATURE_FILTERS.find((item) => item.slug === slug);
+    if (!filter) return false;
+    if (wedding[filter.field] !== true) return false;
+  }
+  return true;
+}
+
+export function formatWeddingBool(
+  value: boolean | null,
+  unknownLabel = "Уточняется"
+): string {
+  if (value === true) return "Да";
+  if (value === false) return "Нет";
+  return unknownLabel;
+}
+

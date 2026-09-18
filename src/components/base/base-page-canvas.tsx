@@ -5,8 +5,13 @@ import { Icon, type IconName } from "@/components/ui/icon";
 import { Typography } from "@/components/ui/typography";
 import { BasePageFooter, BasePageHeader } from "@/components/base/base-page-chrome";
 import { BookingForm } from "@/components/base/booking-form";
+import { EventsDetailSections } from "@/components/base/events-detail-sections";
 import { TourPlayer } from "@/components/base/tour-player";
 import { UI_CONFIG } from "@/config/uiConfig";
+import {
+  isEventsLikeMode,
+  type BasePageMode,
+} from "@/lib/base-page-mode";
 import { hasObjectPrice } from "@/lib/object-price";
 import { hasAmenityFlag } from "@/lib/object-flags";
 import { splitProseParagraphs } from "@/lib/format-prose";
@@ -355,8 +360,96 @@ function DetailColumns({ object }: { object: BaseObject }) {
   );
 }
 
-export function BasePageCanvas({ object }: { object: BaseObject }) {
-  const bookingTerms = bookingTermItems(object);
+function LeisureBody({ object }: { object: BaseObject }) {
+  const notForItems =
+    object.author.not_for.length > 0
+      ? object.author.not_for
+      : [object.suitability.family_kids.note];
+
+  const goodForItems =
+    object.author.good_for.length > 0
+      ? object.author.good_for
+      : Object.values(object.suitability)
+          .filter((item) => item.fit === true)
+          .map((item) => item.note);
+
+  return (
+    <>
+      <section>
+        <AuthorVerdict text={object.author.verdict} />
+      </section>
+
+      <section className="my-12 mx-auto max-w-xl space-y-5 text-center">
+        <Typography
+          variant="h2"
+          className="font-sans text-lg font-bold uppercase tracking-[0.08em] text-[#1A241C] md:text-xl"
+        >
+          {UI_CONFIG.base.honestNoteTitle}
+        </Typography>
+        <Typography
+          variant="body"
+          className="text-[15px] leading-[1.75] text-[#6B635A] md:text-base"
+        >
+          {object.author.honest_note}
+        </Typography>
+      </section>
+
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+        <AlertBox
+          variant="info"
+          title={UI_CONFIG.base.goodForTitle}
+          className="h-full"
+        >
+          <ul className="mt-1 list-disc space-y-2.5 pl-5">
+            {goodForItems.map((item) => (
+              <li
+                key={item}
+                className="text-sm leading-relaxed text-[#F7F3ED]/88 md:text-[15px]"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </AlertBox>
+
+        <AlertBox
+          variant="danger"
+          title={UI_CONFIG.base.notSuitableTitle}
+          className="h-full"
+        >
+          <ul className="mt-1 list-disc space-y-2.5 pl-5">
+            {notForItems.map((item) => (
+              <li
+                key={item}
+                className="text-sm leading-relaxed text-[#3D3832]/85 md:text-[15px]"
+              >
+                {item}
+              </li>
+            ))}
+            {object.suitability.family_kids.note &&
+            !notForItems.includes(object.suitability.family_kids.note) ? (
+              <li className="text-sm leading-relaxed text-[#3D3832]/85 md:text-[15px]">
+                {object.suitability.family_kids.note}
+              </li>
+            ) : null}
+          </ul>
+        </AlertBox>
+      </div>
+
+      <DetailColumns object={object} />
+    </>
+  );
+}
+
+export function BasePageCanvas({
+  object,
+  mode = "leisure",
+}: {
+  object: BaseObject;
+  mode?: BasePageMode;
+}) {
+  const eventsMode = isEventsLikeMode(mode);
+  const bookingTerms = eventsMode ? [] : bookingTermItems(object);
   const tourMeta = tourMetaLine(object);
   const locationLine = [
     object.location.region,
@@ -371,21 +464,16 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
     .filter(Boolean)
     .join(" · ");
 
-  const notForItems =
-    object.author.not_for.length > 0
-      ? object.author.not_for
-      : [object.suitability.family_kids.note];
-
-  const goodForItems =
-    object.author.good_for.length > 0
-      ? object.author.good_for
-      : Object.values(object.suitability)
-          .filter((item) => item.fit === true)
-          .map((item) => item.note);
+  const bookingIntent =
+    mode === "weddings"
+      ? UI_CONFIG.weddings.page.bookingIntent
+      : mode === "events"
+        ? UI_CONFIG.corporate.page.bookingIntent
+        : undefined;
 
   return (
     <main className="min-h-screen bg-[#F4F0E8]">
-      <BasePageHeader />
+      <BasePageHeader mode={mode} />
 
       <div
         className={cn(
@@ -401,10 +489,24 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
             >
               {object.name}
             </Typography>
+            {eventsMode ? (
+              <Typography
+                variant="caption"
+                className="mt-3 block font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-[#6B635A]"
+              >
+                {mode === "weddings"
+                  ? UI_CONFIG.routing.weddings.label
+                  : UI_CONFIG.routing.corporate.label}
+              </Typography>
+            ) : null}
           </section>
 
           <section>
-            <TourPlayer object={object} locationLine={locationLine} />
+            <TourPlayer
+              object={object}
+              locationLine={locationLine}
+              preferAerial={eventsMode}
+            />
             {tourMeta ? (
               <Typography
                 variant="caption"
@@ -415,68 +517,19 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
             ) : null}
           </section>
 
-          <section>
-            <AuthorVerdict text={object.author.verdict} />
-          </section>
-          
-          <section className="my-12 mx-auto max-w-xl space-y-5 text-center">
-            <Typography
-              variant="h2"
-              className="font-sans text-lg font-bold uppercase tracking-[0.08em] text-[#1A241C] md:text-xl"
-            >
-              {UI_CONFIG.base.honestNoteTitle}
-            </Typography>
-            <Typography
-              variant="body"
-              className="text-[15px] leading-[1.75] text-[#6B635A] md:text-base"
-            >
-              {object.author.honest_note}
-            </Typography>
-          </section>
-
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
-            <AlertBox
-              variant="info"
-              title={UI_CONFIG.base.goodForTitle}
-              className="h-full"
-            >
-              <ul className="mt-1 list-disc space-y-2.5 pl-5">
-                {goodForItems.map((item) => (
-                  <li
-                    key={item}
-                    className="text-sm leading-relaxed text-[#F7F3ED]/88 md:text-[15px]"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </AlertBox>
-
-            <AlertBox
-              variant="danger"
-              title={UI_CONFIG.base.notSuitableTitle}
-              className="h-full"
-            >
-              <ul className="mt-1 list-disc space-y-2.5 pl-5">
-                {notForItems.map((item) => (
-                  <li
-                    key={item}
-                    className="text-sm leading-relaxed text-[#3D3832]/85 md:text-[15px]"
-                  >
-                    {item}
-                  </li>
-                ))}
-                {object.suitability.family_kids.note &&
-                !notForItems.includes(object.suitability.family_kids.note) ? (
-                  <li className="text-sm leading-relaxed text-[#3D3832]/85 md:text-[15px]">
-                    {object.suitability.family_kids.note}
-                  </li>
-                ) : null}
-              </ul>
-            </AlertBox>
-          </div>
-
-          <DetailColumns object={object} />
+          {eventsMode ? (
+            <>
+              <section>
+                <AuthorVerdict text={object.author.verdict} />
+              </section>
+              <EventsDetailSections
+                object={object}
+                showWedding={mode === "weddings"}
+              />
+            </>
+          ) : (
+            <LeisureBody object={object} />
+          )}
         </div>
 
         <aside className="space-y-5 md:sticky md:top-10 md:self-start" id="booking">
@@ -505,7 +558,11 @@ export function BasePageCanvas({ object }: { object: BaseObject }) {
               </dl>
             </div>
           ) : null}
-          <BookingForm objectName={object.name} objectSlug={object.slug} />
+          <BookingForm
+            objectName={object.name}
+            objectSlug={object.slug}
+            intent={bookingIntent}
+          />
         </aside>
       </div>
 

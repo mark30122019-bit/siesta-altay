@@ -17,6 +17,8 @@ export function isSuitableFit(fit: boolean | null): boolean {
 
 export {
   isObjectListedForEvents,
+  isObjectListedForWeddings,
   hasEventsPreviewSignal,
+  hasWeddingPreviewSignal,
 } from "@/lib/object-events";
 
