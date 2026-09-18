@@ -61,6 +61,7 @@ export function SiteFooter({
             </span>
           </Typography>
 
+        <div className="flex flex-col items-center gap-2.5 sm:flex-row sm:gap-5">
           <Link
             href="/politika"
             className={cn(
@@ -72,6 +73,19 @@ export function SiteFooter({
           >
             {UI_CONFIG.politika.footerLink}
           </Link>
+
+          <Link
+            href={UI_CONFIG.routing.corporate.href}
+            className={cn(
+              "font-sans text-sm tracking-wide transition-colors",
+              tone === "chrome"
+                ? "text-[#F5EFE0]/65 hover:text-[#D4A24A]"
+                : "text-[#6B635A] hover:text-[#BC5434]"
+            )}
+          >
+            {UI_CONFIG.routing.corporate.label}
+          </Link>
+        </div>
         </div>
       </div>
     </footer>

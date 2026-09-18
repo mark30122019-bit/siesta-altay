@@ -31,13 +31,22 @@ export function HeroSection() {
           {UI_CONFIG.home.heroTitle}
         </Typography>
 
-        <Button
-          variant="ghost"
-          href={UI_CONFIG.routing.catalog.href}
-          className="btn-tactile rounded-full border border-white/60 bg-white/10 px-8 py-3 text-sm font-normal tracking-wide text-white shadow-[0_4px_20px_rgba(0,0,0,0.18)] backdrop-blur-sm transition-all duration-300 hover:border-white hover:bg-white hover:text-[#1A241C] hover:shadow-[0_8px_28px_rgba(0,0,0,0.22)]"
-        >
-          {UI_CONFIG.routing.catalog.ctaLabel}
-        </Button>
+        <div className="flex flex-col items-center gap-3">
+          <Button
+            variant="ghost"
+            href={UI_CONFIG.routing.catalog.href}
+            className="btn-tactile rounded-full border border-white/60 bg-white/10 px-8 py-3 text-sm font-normal tracking-wide text-white shadow-[0_4px_20px_rgba(0,0,0,0.18)] backdrop-blur-sm transition-all duration-300 hover:border-white hover:bg-white hover:text-[#1A241C] hover:shadow-[0_8px_28px_rgba(0,0,0,0.22)]"
+          >
+            {UI_CONFIG.routing.catalog.ctaLabel}
+          </Button>
+          <Button
+            variant="ghost"
+            href={UI_CONFIG.routing.corporate.href}
+            className="px-0 py-0 font-sans text-[13px] font-medium tracking-wide text-white/75 hover:bg-transparent hover:text-white"
+          >
+            {UI_CONFIG.routing.corporate.ctaLabel}
+          </Button>
+        </div>
       </div>
 
       <HeroScrollDown />

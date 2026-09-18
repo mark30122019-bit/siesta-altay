@@ -36,7 +36,12 @@ export default function CatalogPage() {
       <Suspense fallback={<div className="min-h-[50vh]" aria-hidden />}>
         <CatalogCanvas objects={objects} />
       </Suspense>
-      <SiteFooter />
+      <SiteFooter
+        sideLink={{
+          href: UI_CONFIG.routing.corporate.href,
+          label: UI_CONFIG.routing.corporate.ctaLabel,
+        }}
+      />
     </main>
   );
 }

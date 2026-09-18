@@ -12,6 +12,12 @@ export const UI_CONFIG = {
       /** CTA / короткая ссылка «в каталог» */
       ctaLabel: "В каталог",
     },
+    corporate: {
+      href: "/corporate",
+      backLabel: "← К мероприятиям",
+      label: "Мероприятия",
+      ctaLabel: "Мероприятия",
+    },
   },
   common: {
     copyright: "©",
@@ -169,6 +175,27 @@ export const UI_CONFIG = {
       year_round: "Круглый год",
     },
     notFoundTitle: "Объект не найден",
+  },
+  corporate: {
+    title: "Мероприятия на Алтае",
+    subtitle:
+      "Площадки под корпоративы, тренинги и выездные сессии — с 3D-туром и фактами для организатора.",
+    capacityFilter: "Вместимость",
+    capacityAll: "Все",
+    capacityUnknown: "Уточняется",
+    empty: "По выбранной вместимости пока нет площадок",
+    emptySubtitle:
+      "Данные по залам ещё собираем с базами. Сбросьте фильтр или напишите нам — подберём вручную.",
+    emptyReset: "Сбросить фильтр",
+    buyoutYes: "Выкуп целиком",
+    buyoutNo: "Выкуп уточняется",
+    cashless: "Безнал",
+    legalEntity: "Работа с юрлицом",
+    venuesLabel: "Залы",
+    sleepingLabel: "Спальных мест",
+    aerialBadge: "Есть аэропанорама",
+    openObject: "Смотреть объект",
+    lead: "Для организаторов: вместимость, залы, выкуп и условия — без туристической «обёртки».",
   },
   spasibo: {
     title: "Заявка принята",

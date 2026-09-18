@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { GLOBAL_CONFIG } from "@/config/global";
+import { UI_CONFIG } from "@/config/uiConfig";
 import { cn } from "@/lib/utils";
 
 const DESKTOP_INSET = "md:px-[10vw]";
@@ -13,12 +14,15 @@ export type SiteHeaderProps = {
   backHref: string;
   backLabel: string;
   className?: string;
+  /** Скрыть ссылку «Мероприятия» (на самой странице /corporate) */
+  hideCorporateLink?: boolean;
 };
 
 export function SiteHeader({
   backHref,
   backLabel,
   className,
+  hideCorporateLink = false,
 }: SiteHeaderProps) {
   const [isHidden, setIsHidden] = useState(false);
   const isHiddenRef = useRef(isHidden);
@@ -138,6 +142,15 @@ export function SiteHeader({
             {backLabel}
           </Button>
         </div>
+
+        {!hideCorporateLink ? (
+          <Link
+            href={UI_CONFIG.routing.corporate.href}
+            className="shrink-0 font-sans text-[13px] font-medium tracking-wide text-white/80 transition-colors hover:text-[#D4A24A] md:text-sm"
+          >
+            {UI_CONFIG.routing.corporate.label}
+          </Link>
+        ) : null}
       </div>
     </header>
   );
